@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * CreateTime  : 2023/09/24 16:42
+ * file name : Article.php
+ * User: asusa
+ * Author: Hyy-Cary
+ * Contact QQ  : 373889161(.)
+ * email: 373889161@qq.com
+ * WeChat: 18319021313
+ */
+
+
+namespace app\index\controller;
+
+
+use app\BaseController;
+use think\facade\View;
+
+class Article extends BaseController
+{
+    public function index(){
+        $id = request()->param('id');
+        $data = FindTable('category',[['id','=',$id],['isShow','=',1]]);
+        if(!$data){
+            return redirect('/');
+        }
+        View::assign('cate',$data);
+        return View::fetch();
+    }
+}

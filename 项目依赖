@@ -1,0 +1,32 @@
+######## 官方扩展库 ########
+#多应用模式扩展（安装后自动部署多应用）
+composer require topthink/think-multi-app
+#模板引擎依赖库
+composer require topthink/think-view
+#验证码扩展
+composer require topthink/think-captcha
+#文件上传扩展
+composer require topthink/think-filesystem
+######### 第三方扩展库  ########
+#ip库扩展（用于获取ip所属区域）
+composer require zoujingli/ip2region
+#邮件发送扩展
+composer require phpmailer/phpmailer
+#workerman扩展
+composer require workerman/phpsocket.io
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

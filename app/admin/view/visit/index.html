@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$Think.lang.admin}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {include file="public/file_css"}
+    <style type="text/css">
+        .layui-table-cell{
+            text-align:center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .layui-table img{
+            max-width:100%
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset style="display: none;" id="inputSearch" class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">{$Think.lang.ip}</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="ip" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <div class="layui-btn-group">
+            <a href="#" class="layui-btn layui-btn-sm" id="emptyData"><i class="fa fa-hourglass"></i> {$Think.lang.emptyData}</a>
+        </div>
+        <!--头部工具栏-->
+        <div id="toolbarDemo" style="display: none;background: #fff;">
+            <span id="FieldUrl" alt="link/updateField" style="display: none"></span>
+            <span id="SwitchUrl" alt="link/switchAt" style="display: none"></span>
+            <span id="AddUrl" alt="link/add" style="display: none"></span>
+            <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> {$Think.lang.batchDel} </button>
+			<span class="layui-btn layui-btn-sm layui-btn-radius layui-btn-primary">
+                访问总数：{$views}--今日访问：{$today}
+            </span>
+        </div>
+        <!--数据-->
+        <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
+        <!--操作-->
+        <script type="text/html" id="toolBar">
+            <span id="DelUrl" alt="visit/delAll" style="display: none"></span>
+            <span id="ActionUrl" alt="link/add" style="display: none"></span>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>
+        </script>
+
+    </div>
+</div>
+{include file="public/file_js"}
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        table.render({
+            elem: '#DataDemos',
+            url: '/admin/visit/dataList',
+            toolbar: '#toolbarDemo',
+            method: 'get',
+            page: true,  //开启分页
+            limit: 10,  //默认10条
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '搜索',
+                layEvent: 'laySearch',
+                icon: 'layui-icon layui-icon-search'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'id', align:"center", width: 80, title: 'ID', sort: true},
+                {field: 'ip', align: 'center',width:136,title: '{$Think.lang.ip}'},
+
+                {field:'from_url', align: 'center',title: '{$Think.lang.from_url}',templet:function (d) {
+                        if(d.from_url){
+                            return '<a href="'+d.from_url+'" target="_blank">'+d.from_url+'</a>';
+                        }else{
+                            return '';
+                        }
+                    }},
+                {field: 'to_url', align: 'center',title: '{$Think.lang.to_url}',templet:function (d) {
+                        if(d.to_url){
+                            return '<a href="'+d.to_url+'" target="_blank">'+d.to_url+'</a>';
+                        }else{
+                            return '';
+                        }
+                    }},
+                {field: 'region', align: 'center',title: '{$Think.lang.region}'},
+                {field: 'clientInfo', align: 'center',width:130,title: '{$Think.lang.clientInfo}'},
+                <!--{field: 'count', align: 'center',width:100,title: '{$Think.lang.count}'},-->
+                {field: 'createTime',width:160, align: 'center',title: '{$Think.lang.createTime}'},
+                {title: '操作', width: 80, toolbar: '#toolBar', align: "center"}
+            ]],
+        });
+        //清空数据
+        $('#emptyData').click(function () {
+            layer.confirm('确定清空访客记录吗？',function (index) {
+                table.reload('DataDemos', {
+                    url: '/admin/visit/emptyData',
+                    done:function (res) {
+                        //console.log(res.code);
+                        if(res.code == 200){
+                            layer.msg(res.msg,{icon:6,time:3000,shade:0.3});
+                        }else{
+                            layer.msg(res.msg,{icon:6,time:3000,shade:0.3});
+                        }
+                    }
+                });
+            })
+        });
+    });
+</script>
+
+</body>
+</html>

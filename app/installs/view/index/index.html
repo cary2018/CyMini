@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>程序安装</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/hyy1.0.0/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/hyy1.0.0/css/public.css" media="all">
+    <script src="/hyy1.0.0/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="/hyy1.0.0/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <!--<script src="/v1.0.0/js/public.js" charset="utf-8"></script>-->
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding-top: 40px;">
+                    <div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+                        <div carousel-item>
+                            <div>
+                                <form class="layui-form" style="margin: 0 auto;max-width: 600px;">
+                                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                                        <legend>运行环境检测</legend>
+                                    </fieldset>
+                                    <div class="layui-form">
+                                        <table class="layui-table">
+                                            <thead>
+                                            <tr>
+                                                <th>环境名称</th>
+                                                <th>所需配置</th>
+                                                <th>当前配置</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>操作系统</td>
+                                                <td>Windows/Linux</td>
+                                                <td>{$config.os}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>php版本</td>
+                                                <td>7.1+</td>
+                                                <td>{$config.php}</td>
+                                            </tr>
+                                            </tbody>
+                                            <thead>
+                                            <tr>
+                                                <th>目录/文件</th>
+                                                <th>所需权限</th>
+                                                <th>当前权限</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {volist name="dir" id="item"}
+                                            <tr>
+                                                <td>{$item.0}</td>
+                                                <td>{$item.1}</td>
+                                                <td>{$item.2}</td>
+                                            </tr>
+                                            {/volist}
+                                            </tbody>
+                                            <thead>
+                                            <tr>
+                                                <th>函数/扩展</th>
+                                                <th>类型</th>
+                                                <th>结果</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {volist name="fun" id="item"}
+                                            <tr>
+                                                <td>{$item.0}</td>
+                                                <td>{$item.1}</td>
+                                                <td>{$item.2}</td>
+                                            </tr>
+                                            {/volist}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn" lay-submit lay-filter="formStep">
+                                                &emsp;下一步&emsp;
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <form id="DataForm" lay-filter="myForm" action="" method="post" onsubmit="return false" class="layui-form layuimini-form" style="margin: 0 auto;max-width:600px;">
+                                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                                        <legend>数据库配置</legend>
+                                    </fieldset>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">服务器地址</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="service" placeholder="服务器地址" value="127.0.0.1" class="layui-input" lay-verify="text" required />
+                                            <tip>数据库服务器地址，一般为127.0.0.1</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">数据库端口</label>
+                                        <div class="layui-input-block">
+                                            <input type="number" name="hostport" placeholder="数据库端口" value="3306" class="layui-input" lay-verify="number" required>
+                                            <tip>系统数据库端口，一般为3306</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">数据库名称</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="database" placeholder="数据库名称" value="" class="layui-input" lay-verify="required" required>
+                                            <tip>系统数据库名,必须包含字母</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">数据库账号</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="username" placeholder="数据库账号" value="" class="layui-input" lay-verify="required" required>
+                                            <tip>连接数据库的用户名</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">数据库密码</label>
+                                        <div class="layui-input-block">
+                                            <input type="password" name="password" placeholder="数据库密码" value="" class="layui-input" lay-verify="required" required>
+                                            <tip>连接数据库的密码</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">数据库前缀</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="prefix" placeholder="数据库前缀" value="cy_" class="layui-input" lay-verify="required" required>
+                                            <tip>建议使用默认,数据库前缀必须带_</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">单选框</label>
+                                        <div class="layui-input-block">
+                                            <input type="radio" name="cover" value="1" title="覆盖" >
+                                            <input type="radio" name="cover" value="0" title="不覆盖" checked="">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn" lay-submit lay-filter="checkLink">
+                                                测试数据连接
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form id="DataForms" class="layui-form layuimini-form" style="margin: 0 auto;max-width:600px;">
+                                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                                        <legend>其他设置</legend>
+                                    </fieldset>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">管理员账号</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="username" placeholder="管理员账号" value="" class="layui-input" lay-verify="required" required>
+                                            <tip>管理员账号最少4位</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">管理员密码</label>
+                                        <div class="layui-input-block">
+                                            <input type="password" name="password" placeholder="管理员密码" value="" class="layui-input" lay-verify="required" required>
+                                            <tip>管理员密码</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button type="button" class="layui-btn layui-btn-primary pre">上一步</button>
+                                            <button class="layui-btn" lay-submit lay-filter="formStep2">
+                                                &emsp;确认安装&emsp;
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <div style="text-align: center;margin-top: 90px;">
+                                    <i class="layui-icon layui-circle"
+                                       style="color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;">&#xe605;</i>
+                                    <div style="font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;">
+                                        安装完成
+                                    </div>
+                                </div>
+                                <div style="text-align: center;margin-top: 50px;">
+                                    <button class="layui-btn next">前往后台</button>
+                                    <button class="layui-btn layui-btn-primary home">前往首页</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    layui.use([ 'form','step'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            step = layui.step;
+
+        step.render({
+            elem: '#stepForm',
+            filter: 'stepForm',
+            width: '100%', //设置容器宽度
+            stepWidth: '750px',
+            height: '1000px',
+            currentStep: 2,
+            initStep: 2,
+            stepItems: [{
+                title: '权限检测'
+            }, {
+                title: '配置信息'
+            }, {
+                title: '安装完成'
+            }]
+        });
+
+        form.on('submit(formStep)', function (data) {
+            step.next('#stepForm');
+            return false;
+        });
+        //保存数据
+        form.on('submit(checkLink)',function(obj){
+            let formData =  new FormData($('#DataForm')[0]); //获取整个表单数据
+            let wait = 2000;
+            //console.log(formData);
+            //异步发送，把数据提交给后台
+            $.ajax({
+                url: '/installs/index/dataService',
+                type: "POST",
+                data:formData,
+                async:true,  //true发送异步请求,false发送同步请求
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                beforeSend: function(){
+                    var loading = layer.load(1,
+                        {
+                            shade:[0.3,'#000'],
+                            content:'<span class="loadtip">0%</span>',
+                            success: function (layer) {
+                                layer.find('.layui-layer-content').css({
+                                    'padding-top': '40px',
+                                    'width': '100px',
+                                });
+                                layer.find('.loadtip').css({
+                                    'font-size':'20px',
+                                    'margin-left':'0px'
+                                });
+                            }
+                        }
+                    );
+                },
+                xhr: function() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(event) {
+                        if (event.lengthComputable) {
+                            //通过设置进度条的宽度达到效果
+                            var percent = Math.round((event.loaded / event.total) * 100);
+                            $('.loadtip').html(percent + '%');//完成进度（文字）
+                            //console.log('loading:'+percent);
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function (data) {
+                    let obj = JSON.parse(data);
+                    if(obj.code == 200){
+                        //关闭弹出层
+                        layer.closeAll();
+                        layer.msg(obj.msg,{icon:1,time:wait,shade:0.3});
+                    }else{
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.msg(obj.msg,{icon:2,time:wait,shade:0.3});
+                    }
+                },
+                error: function () {
+                    layer.msg("上传失败！",{icon:2,time:wait,shade:0.3});
+                    layer.closeAll('loading'); //关闭加载层
+                }
+            });
+            return false;
+        });
+
+        form.on('submit(formStep2)', function (data) {
+            let formData =  new FormData($('#DataForms')[0]); //获取整个表单数据
+            let wait = 2000;
+            $.ajax({
+                url: '/installs/index/install',
+                type: "POST",
+                data:formData,
+                async:true,  //true发送异步请求,false发送同步请求
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                beforeSend: function(){
+                    var loading = layer.load(1,
+                        {
+                            shade:[0.3,'#000'],
+                            content:'<span class="loadtip">0%</span>',
+                            success: function (layer) {
+                                layer.find('.layui-layer-content').css({
+                                    'padding-top': '40px',
+                                    'width': '100px',
+                                });
+                                layer.find('.loadtip').css({
+                                    'font-size':'20px',
+                                    'margin-left':'0px'
+                                });
+                            }
+                        }
+                    );
+                },
+                xhr: function() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(event) {
+                        if (event.lengthComputable) {
+                            //通过设置进度条的宽度达到效果
+                            var percent = Math.round((event.loaded / event.total) * 100);
+                            $('.loadtip').html(percent + '%');//完成进度（文字）
+                            //console.log('loading:'+percent);
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function (data) {
+                    let obj = JSON.parse(data);
+                    if(obj.code == 200){
+                        //关闭弹出层
+                        layer.closeAll();
+                        layer.msg(obj.msg,{icon:1,time:wait,shade:0.3});
+                        setTimeout(function () {
+                            step.next('#stepForm');
+                        },wait);
+                    }else{
+                        layer.closeAll('loading'); //关闭加载层
+                        layer.msg(obj.msg,{icon:2,time:wait,shade:0.3});
+                    }
+                },
+                error: function () {
+                    layer.msg("上传失败！",{icon:2,time:wait,shade:0.3});
+                    layer.closeAll('loading'); //关闭加载层
+                }
+            });
+            //step.next('#stepForm');
+            return false;
+        });
+
+        $('.pre').click(function () {
+            step.pre('#stepForm');
+        });
+
+        $('.next').click(function () {
+            location.href = '/admin';
+            //step.next('#stepForm');
+        });
+        $('.home').click(function () {
+            location.href = '/';
+            //step.next('#stepForm');
+        });
+    })
+</script>
+</body>
+</html>

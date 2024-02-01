@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN" style="transform: none;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <title>{$Think.config.web.web_title}</title>
+    <meta name="keywords" content="{$Think.config.web.web_key}">
+    <meta name="description" content="{$Think.config.web.web_desc}">
+    <meta property="og:type" content="index">
+    <meta property="og:title" content="{$Think.config.web.web_title}">
+    <meta property="og:description" content="{$Think.config.web.web_desc}">
+    <meta property="og:image" content="{$Think.config.web.web_logo}">
+    {include file="layout/file_css"}
+    {include file="layout/file_js"}
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <!--[if lt IE 9]><script src="https://cdn.staticfile.org/html5shiv/3.7.0/html5shiv.js"></script><![endif]-->
+    <style>
+        .bannerText{width:100%;text-align:center;position:fixed;bottom:30px;color:#fff;text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
+        -2px -2px 4px rgba(255, 255, 255, 0.5);font-weight: 500;font-size: 30px;}
+    </style>
+</head>
+
+<body class="home home-index catop" style="transform: none;">
+<div id="app">
+    <nav-menu></nav-menu>
+
+    <main id="main" class="site-main container clearfix" style="transform: none;">
+        <swiper v-if="banner.length">
+            <swiper-item v-for="item in banner" :key="item.id">
+                <img :src="'/'+item.img">
+                <p class="bannerText">
+                    <a :href="item.link" :target="item.target">{{item.title}}</a>
+                </p>
+            </swiper-item>
+        </swiper>
+    </main>
+
+    <main id="main" class="site-main container clearfix" style="transform: none;">
+        <div class="pic-list pic-box box-shadow clearfix">
+            <!--图文模块-->
+            <section class="two-box-tit">
+                <h3>随机推荐</h3>
+                <span class="suburl"></span>
+            </section>
+            <div class="pic-box box-shadow wow fadeInDown" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInDown;">
+                <ul class="pic-box-list">
+                    <li v-for="item in arRand">
+                        <a :href="item.temp_archives+'?id='+item.id">
+                            <i class="pic-thumb">
+                                <img class="lazy" :src="'/'+item.articleThumbImg" :key="item.id" :alt="item.keywords" title="item.title" :original="'/'+item.articleThumbImg" style="display: block;">
+                            </i>
+                            <h3>{{item.title}}</h3>
+                            <p>
+                                <b class="datetime">{{item.updateTime}}</b>
+                                <span class="viewd">{{item.views}} 人在看</span>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <main id="main" class="site-main container clearfix" style="transform: none;">
+        <!--main container-->
+        <div class="row clearfix" style="transform: none;">
+            <main-fl></main-fl>
+            <!--main fl-->
+            <main-fr></main-fr>
+        </div>
+        <!--row-->
+        <bottom></bottom>
+    </main>
+
+    <footers></footers>
+</div>
+
+</body>
+<script type="text/javascript" src="/hyy1.0.0/frontend/js/swiper-bundle.min.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        components: {
+            'navMenu': httpVueLoader('/components/head.vue'),
+            'swiper': httpVueLoader('/components/swiper.vue'),
+            'swiper-item': httpVueLoader('/components/swiper-item.vue'),
+            'main-fl': httpVueLoader('/components/main-left.vue'),
+            'main-fr': httpVueLoader('/components/main-right.vue'),
+            'bottom': httpVueLoader('/components/bottom.vue'),
+            'footers': httpVueLoader('/components/footer.vue'),
+        },
+        data(){
+            return{
+                banner:[],
+                arRand:[],
+            }
+        },
+        methods:{
+            async dataBanner(){
+                axios.get('/api/banner').then(res=>{
+                    this.banner = res.data.data;
+                });
+            },
+            async AttrArticle(){
+                axios.get('/api/article/attrID',{
+                    params:{
+                        limit:4,
+                        aid:'5',
+                    }
+                }).then(res=>{
+                    this.arRand = res.data.data;
+                });
+            },
+        },
+        mounted() {
+            this.dataBanner();
+            this.AttrArticle();
+        }
+    });
+</script>
+</html>
