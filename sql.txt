@@ -162,6 +162,7 @@ create table cy_visit(
     from_url varchar(150) not null default '' comment'来访链接地址',
     to_url varchar(150) not null default '' comment'访问地址',
     region varchar(100) not null default '' comment'来访地区',
+    clientInfo varchar(100) not null default '' comment'客户端设备信息',
     count int not null default 0 comment'统计短时间内访问次数',
     createTime int not null default 0 comment'访问时间'
 )engine=MyIsam charset=utf8;

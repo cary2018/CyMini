@@ -117,12 +117,8 @@ class Navigation extends BaseController
         $id = request()->param('data');
         $data = Db::name('navigation')->where('id',$id)->find();
         if($data){
-            if(ArrTree('navigation',$id)){
-                $msg = ['status'=>300,'msg'=>lang('error_column_message')];
-            }else{
-                Db::name('navigation')->delete($id);
-                $msg = ['code'=>200,'msg'=>lang('delete_message')];
-            }
+            Db::name('navigation')->delete($id);
+            $msg = ['code'=>200,'msg'=>lang('delete_message')];
         }else{
             $msg = ['code'=>300,'msg'=>lang('fail_message'),'data'=>$id];
         }

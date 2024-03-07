@@ -15,6 +15,7 @@ namespace app\admin\controller;
 
 
 use app\admin\BaseController;
+use think\facade\Config;
 use think\facade\View;
 use think\facade\Db;
 
@@ -65,7 +66,8 @@ class Visit extends BaseController
     }
     public function emptyData(){
         //截断表数据（清空表数据）
-        Db::query('truncate table cy_visit');
+        $prefix = Config::get('database.connections.mysql.prefix');
+        Db::query('truncate table '.$prefix.'visit');
         $msg = ['code'=>1,'msg'=>lang('wipeData')];
         echo json_encode($msg);
     }

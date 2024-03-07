@@ -675,14 +675,104 @@ function get_client_ip($type = 0,$adv=false) {
     return $ip[$type];
 }
 /**
+ * @param string $sql
+ * @param int $limit
+ * @param array $prefix
+ * @return array|false|string|string[]
+ * 处理 sql 文件
+ */
+function mac_parse_sql($sql='',$limit=0,$prefix=[])
+{
+    // 被替换的前缀
+    $from = '';
+    // 要替换的前缀
+    $to = '';
+
+    // 替换表前缀
+    if (!empty($prefix)) {
+        $to   = current($prefix);
+        $from = current(array_flip($prefix));
+    }
+
+    if ($sql != '') {
+        // 纯sql内容
+        $pure_sql = [];
+
+        // 多行注释标记
+        $comment = false;
+
+        // 按行分割，兼容多个平台
+        $sql = str_replace(["\r\n", "\r"], "\n", $sql);
+        $sql = explode("\n", trim($sql));
+        $cnm = base64_decode('YeeJiOadg+aJgOaciW1hZ2ljYmxhY2vvvIzmupDnoIFodHRwczovL2dpdGh1Yi5jb20vbWFnaWNibGFjaw==');
+        // 循环处理每一行
+        foreach ($sql as $key => $line) {
+            // 跳过空行
+            if ($line == '') {
+                continue;
+            }
+
+            // 跳过以#或者--开头的单行注释
+            if (preg_match("/^(#|--)/", $line)) {
+                continue;
+            }
+
+            // 跳过以/**/包裹起来的单行注释
+            if (preg_match("/^\/\*(.*?)\*\//", $line)) {
+                continue;
+            }
+
+            // 多行注释开始
+            if (substr($line, 0, 2) == '/*') {
+                $comment = true;
+                continue;
+            }
+
+            // 多行注释结束
+            if (substr($line, -2) == '*/') {
+                $comment = false;
+                continue;
+            }
+
+            // 多行注释没有结束，继续跳过
+            if ($comment) {
+                continue;
+            }
+
+            // 替换表前缀
+            if ($from != '') {
+                $line = str_replace('`'.$from, '`'.$to, $line);
+            }
+            if ($line == 'BEGIN;' || $line =='COMMIT;') {
+                continue;
+            }
+            // sql语句
+            array_push($pure_sql, $line);
+        }
+
+        // 只返回一条语句
+        if ($limit == 1) {
+            return implode("",$pure_sql);
+        }
+
+        // 以数组形式返回sql语句
+        $pure_sql = implode("\n",$pure_sql);
+        $pure_sql = explode(";\n", $pure_sql);
+        return $pure_sql;
+    } else {
+        return $limit == 1 ? '' : [];
+    }
+}
+/**
  * @param string $url       远程地址
  * @param array $param      需要提交的参数
  * @param string $filename  上传文件名
  * @param int $wait         等待响应时间
+ * @param string $method         等待响应时间
  * @return array|bool
  * 请求-提交数据  使用post方式提交
  */
-function FCurl_post($url, $param = array(), $filename = '', $wait = 30)
+function FCurl_post($url, $param = array(), $filename = '', $wait = 30,$method = 'POST')
 {
     if (!is_array($param)) {
         return false;
@@ -703,7 +793,7 @@ function FCurl_post($url, $param = array(), $filename = '', $wait = 30)
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => $wait,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_CUSTOMREQUEST => $method,
         CURLOPT_POSTFIELDS => $param, // 直接将参数数组作为POST数据
         CURLOPT_HTTPHEADER => array(
             "cache-control: no-cache",
@@ -714,7 +804,7 @@ function FCurl_post($url, $param = array(), $filename = '', $wait = 30)
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
     }
-
+    //echo $curl;
     $response = curl_exec($curl);
     $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $err = curl_error($curl);
@@ -726,6 +816,82 @@ function FCurl_post($url, $param = array(), $filename = '', $wait = 30)
         'output' => $response,
     );
     return $result;
+}
+/**
+ * @param string $url   要需下载的文件地址
+ * @param string $save_dir  保存目录
+ * @param string $filename  保存文件名
+ * @param int $type   下载类型
+ * @return array|bool
+ * 下载远程文件
+ */
+function DownloadFile($url, $save_dir = '', $filename = '', $type = 0) {
+    $ext = array('gif','jpg','jpeg','bmp','png','webp');
+    if (trim($url) == '') {
+        return false;
+    }
+    if (trim($save_dir) == '') {
+        $save_dir = './';
+    }
+    if (0 !== strrpos($save_dir, '/')) {
+        $save_dir.= '/';
+    }
+    //创建保存目录
+    if (!file_exists($save_dir) && !mkdir($save_dir, 0777, true)) {
+        return false;
+    }
+    //获取远程文件所采用的方法
+    if ($type) {
+        $ch = curl_init();
+        $timeout = 100;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // 跟随重定向
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 禁用SSL证书验证
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $content = curl_exec($ch);
+        curl_close($ch);
+    } else {
+        ob_start();
+        readfile($url);
+        $content = ob_get_contents();
+        ob_end_clean();
+    }
+    $size = strlen($content);
+    //文件大小
+    $info = pathinfo($url);
+    $weurl = parse_url($url);
+    if(isset($weurl['host']) && $weurl['host'] == 'mmbiz.qpic.cn'){
+        if(isset($weurl['query'])){
+            $exp = explode('=',$weurl['query']);
+        }else{
+            $exp = ['wx','jpg'];
+        }
+        $info['extension'] = $exp[1];
+        $info['basename'] = 'WeChat_'.time().'.'.$info['extension'];
+    }
+    if(isset($info['extension']) && in_array($info['extension'],$ext)){
+        if($filename){
+            $fiex = '.'.$info['extension'];
+            $fp2 = @fopen($save_dir . $filename.$fiex, 'a');
+            $newname = $filename.$fiex;
+        }else{
+            $fp2 = @fopen($save_dir . $info['basename'], 'a');
+            $newname = $info['basename'];
+        }
+        fwrite($fp2, $content);
+        fclose($fp2);
+        unset($content, $url);
+        return array(
+            'file_name' => $newname,
+            'save_path' => '/'.$save_dir . $newname
+        );
+    }else{
+        return array(
+            'file_name' => $url,
+            'save_path' => $url
+        );
+    }
 }
 /**
  * @param $data
@@ -857,7 +1023,15 @@ function imgZip($src,$saveDir='', $newWid=350, $newHei=350)
     $thumbnailHeight = $sourceHeight * $scale;
     //在内存中建立一张图片
     $images2 = imagecreatetruecolor($thumbnailWidth, $thumbnailHeight); //建立一个500*320的图片
-
+    /**-----------------------------------------------------------------------------------------------------*/
+    // 处理透明背景图片变成黑色的问题
+    if(strtolower($imgType)=='png'){
+        imageantialias($images2, true);
+        $color = imagecolorallocate($images2, 255, 255, 255);
+        imagecolortransparent($images2, $color);
+        imagefill($images2, 0, 0, $color);
+    }
+    /**----------------------------------------------------------------------------------------------------*/
     //将原图复制到新建图片中
     //imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
 
@@ -892,6 +1066,29 @@ function upTree($data,$pid=0,$pids = 'pid',$id='id',$level=0){
             $v['lv'] = $level;
             $tree[] = $v;
             upTree($data,$v[$pids],$pids,$id,$level+1);
+        }
+    }
+    return $tree;
+}
+
+/**
+ * @param $table
+ * @param int $pid
+ * @param string $p_id
+ * @param string $id
+ * @param int $level
+ * @return array
+ * 返回分类下的所有子分类
+ */
+function ArrTree($table,$pid=0,$p_id = 'pid',$id = 'id',$level=0)
+{
+    $arr = Db::name($table)->select()->toArray();
+    static $tree = array();
+    foreach($arr as $v){
+        if($v[$p_id] == $pid){
+            $v['lv'] = $level;
+            $tree[] = $v;
+            ArrTree($table,$v[$id],$p_id,$id,$level+1);
         }
     }
     return $tree;
@@ -1337,82 +1534,7 @@ function getImg($text){
     preg_match_all('/<img[^>]*src=[\'"]?([^>\'"\s]*)[\'"]?[^>]*>/Ssi', $page_html, $out);
     return $out;
 }
-/**
- * @param string $url   要需下载的文件地址
- * @param string $save_dir  保存目录
- * @param string $filename  保存文件名
- * @param int $type   下载类型
- * @return array|bool
- * 下载远程文件
- */
-function DownloadFile($url, $save_dir = '', $filename = '', $type = 0) {
-    $ext = array('gif','jpg','jpeg','bmp','png','webp');
-    if (trim($url) == '') {
-        return false;
-    }
-    if (trim($save_dir) == '') {
-        $save_dir = './';
-    }
-    if (0 !== strrpos($save_dir, '/')) {
-        $save_dir.= '/';
-    }
-    //创建保存目录
-    if (!file_exists($save_dir) && !mkdir($save_dir, 0777, true)) {
-        return false;
-    }
-    //获取远程文件所采用的方法
-    if ($type) {
-        $ch = curl_init();
-        $timeout = 100;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // 跟随重定向
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 禁用SSL证书验证
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $content = curl_exec($ch);
-        curl_close($ch);
-    } else {
-        ob_start();
-        readfile($url);
-        $content = ob_get_contents();
-        ob_end_clean();
-    }
-    $size = strlen($content);
-    //文件大小
-    $info = pathinfo($url);
-    $weurl = parse_url($url);
-    if(isset($weurl['host']) && $weurl['host'] == 'mmbiz.qpic.cn'){
-        if(isset($weurl['query'])){
-            $exp = explode('=',$weurl['query']);
-        }else{
-            $exp = ['wx','jpg'];
-        }
-        $info['extension'] = $exp[1];
-        $info['basename'] = 'WeChat_'.time().'.'.$info['extension'];
-    }
-    if(isset($info['extension']) && in_array($info['extension'],$ext)){
-        if($filename){
-            $fiex = '.'.$info['extension'];
-            $fp2 = @fopen($save_dir . $filename.$fiex, 'a');
-            $newname = $filename.$fiex;
-        }else{
-            $fp2 = @fopen($save_dir . $info['basename'], 'a');
-            $newname = $info['basename'];
-        }
-        fwrite($fp2, $content);
-        fclose($fp2);
-        unset($content, $url);
-        return array(
-            'file_name' => $newname,
-            'save_path' => '/'.$save_dir . $newname
-        );
-    }else{
-        return array(
-            'file_name' => $url,
-            'save_path' => $url
-        );
-    }
-}
+
 /**
  * @return string
  * 获得访客浏览器类型

@@ -17,6 +17,9 @@ class VisitLog
         $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         $ip = new \Ip2Region();
         $region = $ip->btreeSearch(get_client_ip());
+        if(!$region){
+            $region = '';
+        }
         if(isset($_SERVER['HTTP_REFERER'])){
             $from = $_SERVER['HTTP_REFERER'];
         }else{
