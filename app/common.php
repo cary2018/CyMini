@@ -675,95 +675,6 @@ function get_client_ip($type = 0,$adv=false) {
     return $ip[$type];
 }
 /**
- * @param string $sql
- * @param int $limit
- * @param array $prefix
- * @return array|false|string|string[]
- * 处理 sql 文件
- */
-function mac_parse_sql($sql='',$limit=0,$prefix=[])
-{
-    // 被替换的前缀
-    $from = '';
-    // 要替换的前缀
-    $to = '';
-
-    // 替换表前缀
-    if (!empty($prefix)) {
-        $to   = current($prefix);
-        $from = current(array_flip($prefix));
-    }
-
-    if ($sql != '') {
-        // 纯sql内容
-        $pure_sql = [];
-
-        // 多行注释标记
-        $comment = false;
-
-        // 按行分割，兼容多个平台
-        $sql = str_replace(["\r\n", "\r"], "\n", $sql);
-        $sql = explode("\n", trim($sql));
-        $cnm = base64_decode('YeeJiOadg+aJgOaciW1hZ2ljYmxhY2vvvIzmupDnoIFodHRwczovL2dpdGh1Yi5jb20vbWFnaWNibGFjaw==');
-        // 循环处理每一行
-        foreach ($sql as $key => $line) {
-            // 跳过空行
-            if ($line == '') {
-                continue;
-            }
-
-            // 跳过以#或者--开头的单行注释
-            if (preg_match("/^(#|--)/", $line)) {
-                continue;
-            }
-
-            // 跳过以/**/包裹起来的单行注释
-            if (preg_match("/^\/\*(.*?)\*\//", $line)) {
-                continue;
-            }
-
-            // 多行注释开始
-            if (substr($line, 0, 2) == '/*') {
-                $comment = true;
-                continue;
-            }
-
-            // 多行注释结束
-            if (substr($line, -2) == '*/') {
-                $comment = false;
-                continue;
-            }
-
-            // 多行注释没有结束，继续跳过
-            if ($comment) {
-                continue;
-            }
-
-            // 替换表前缀
-            if ($from != '') {
-                $line = str_replace('`'.$from, '`'.$to, $line);
-            }
-            if ($line == 'BEGIN;' || $line =='COMMIT;') {
-                continue;
-            }
-            // sql语句
-            array_push($pure_sql, $line);
-        }
-
-        // 只返回一条语句
-        if ($limit == 1) {
-            return implode("",$pure_sql);
-        }
-
-        // 以数组形式返回sql语句
-        $pure_sql = implode("\n",$pure_sql);
-        $pure_sql = explode(";\n", $pure_sql);
-        return $pure_sql;
-    } else {
-        return $limit == 1 ? '' : [];
-    }
-}
-/**
  * @param string $url       远程地址
  * @param array $param      需要提交的参数
  * @param string $filename  上传文件名
@@ -863,11 +774,12 @@ function DownloadFile($url, $save_dir = '', $filename = '', $type = 0) {
     $weurl = parse_url($url);
     if(isset($weurl['host']) && $weurl['host'] == 'mmbiz.qpic.cn'){
         if(isset($weurl['query'])){
-            $exp = explode('=',$weurl['query']);
+            parse_str($weurl['query'],$parr);
+            $exp = $parr['wx_fmt'];
         }else{
-            $exp = ['wx','jpg'];
+            $exp = 'jpg';
         }
-        $info['extension'] = $exp[1];
+        $info['extension'] = $exp;
         $info['basename'] = 'WeChat_'.time().'.'.$info['extension'];
     }
     if(isset($info['extension']) && in_array($info['extension'],$ext)){
@@ -1524,7 +1436,7 @@ function fileUrl($path,$url){
  * @return mixed
  * 返回匹配的图片地址
  */
-function getImg($text){
+function getImgList($text){
     $url = parse_url($text);
     if(isset($url['scheme']) && isset($url['host'])){
         $page_html = file_get_contents($text);
@@ -1589,8 +1501,7 @@ function GetLang()
  */
 function GetOs(){
     $agent = $_SERVER['HTTP_USER_AGENT'];
-    $os = '未知操作系统';
-
+    $os = $agent;
     if (preg_match('/win/i', $agent) && stripos($agent, '95'))
     {
         $os = 'Windows 95';
@@ -1631,6 +1542,10 @@ function GetOs(){
     {
         $os = 'Windows 2000';
     }
+    if (preg_match('/win/i', $agent) && preg_match('/nt 5.0/i', $agent))
+    {
+        $os = 'Windows 2000';
+    }
     if (preg_match('/win/i', $agent) && preg_match('/32/i', $agent))
     {
         $os = 'Windows 32';
@@ -1650,6 +1565,10 @@ function GetOs(){
     if (preg_match('/ibm/i', $agent) && preg_match('/os/i', $agent))
     {
         $os = 'IBM OS/2';
+    }
+    if (preg_match('/Mac/i', $agent) && preg_match('/OS/i', $agent))
+    {
+        $os = 'Mac OS';
     }
     if (preg_match('/Mac/i', $agent) && preg_match('/PC/i', $agent))
     {

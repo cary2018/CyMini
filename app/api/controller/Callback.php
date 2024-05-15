@@ -28,7 +28,7 @@ class Callback extends BaseController
             if($sign != $data_sign){
                 return '签名错误！';
             }
-            $pid = [1=>23,11=>15,2=>16,8=>17,9=>18,10=>5];
+            /*$pid = [1=>23,11=>15,2=>16,8=>17,9=>18,10=>5];
             $arr = [
                 'cid'=>$data['ar_pid'],
                 'title'=>$data['ar_title'],
@@ -38,6 +38,32 @@ class Callback extends BaseController
                 'status'=>$data['ar_status'],
                 'orderSort'=>$data['ar_ordery'],
                 'downloadJur'=>$data['down_jurisdiction'],
+                'createTime'=>time(),
+                'updateTime'=>time(),
+            ];*/
+            $path = 'download_img/'.date('Ymd');
+            $text = $data['content'];
+            $imgArr = array();
+            if($cdata['download']==1){
+                $imgUrl = getImgList($text);
+                foreach ($imgUrl[1] as $kk=>$vv){
+                    $newUrl = fileUrl($vv,$data['url']);
+                    $newImg = DownloadFile($newUrl,$path,'',1);
+                    $imgArr[$kk] = $newImg['save_path'];
+                    sleep(1);//防止图片未采集完程序提前结束
+                }
+                $text = str_replace($imgUrl[1],$imgArr,$text);
+            }
+            $arr = [
+                'cid'=>$data['cid'],
+                'title'=>$data['title'],
+                'tags'=>$data['tags'],
+                'keywords'=>$data['keywords'],
+                'description'=>$data['description'],
+                'content'=>$text,
+                'status'=>$data['status'],
+                'orderSort'=>$data['orderSort'],
+                'downloadJur'=>$data['downloadJur'],
                 'createTime'=>time(),
                 'updateTime'=>time(),
             ];
@@ -56,3 +82,8 @@ class Callback extends BaseController
         }
     }
 }
+
+
+
+
+

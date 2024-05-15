@@ -97,7 +97,7 @@ class Collection extends BaseController
         if(!$data['content']){
             $imgArr = array();
             if($cdata['download']==1){
-                $imgUrl = getImg($text);
+                $imgUrl = getImgList($text);
                 foreach ($imgUrl[1] as $kk=>$vv){
                     $newUrl = fileUrl($vv,$data['url']);
                     $newImg = DownloadFile($newUrl,$path,'',1);
@@ -233,7 +233,7 @@ class Collection extends BaseController
                 $text = str_replace('data-src','src',$text);
             }
             if($data['download']==1){
-                $imgUrl = getImg($text);
+                $imgUrl = getImgList($text);
                 foreach ($imgUrl[1] as $kk=>$vv){
                     for ($ci=1;$ci<=1000;$ci++){
                         echo str_repeat(' ', 10);

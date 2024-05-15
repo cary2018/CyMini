@@ -129,6 +129,7 @@ class Article extends BaseController
         $result = $model->dataSave($data);
         if($async == 1){
             $arr = [
+                'url'=>$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'],
                 'cid'=>$data['cid'],
                 'title'=>$data['title'],
                 'keywords'=>$data['keywords'],

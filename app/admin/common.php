@@ -17,7 +17,23 @@ function TmHtml($arr){
     foreach ($arr as $k=>$v){
         switch ($v['sys_type']){
             case 'input':
-                $arr[$k]['sys_html'] = '<input type="text" name="content[]" value="'.$v['sys_content'].'" class="layui-input" id="nav_url" >';
+                if($v['sys_variable'] == 'view_path'){
+                    // 使用 scandir() 函数读取目录
+                    $contents = scandir('template/');
+                    $filteredItems = array_filter($contents, function ($item) {
+                        return $item !== '.' && $item !== '..';
+                    });
+                    $path = Cfg('view_path');
+                    $arr[$k]['sys_html'] = '<select name="content[]">';
+                    foreach ($filteredItems as $item){
+                        $arr[$k]['sys_html'] .= '<option value="'.$item.'"';
+                        $arr[$k]['sys_html'] .= ''.$item==$path?" selected >":"".'>';
+                        $arr[$k]['sys_html'] .= $item.'</option>';
+                    }
+                    $arr[$k]['sys_html'] .= '</select>';
+                }else{
+                    $arr[$k]['sys_html'] = '<input type="text" name="content[]" value="'.$v['sys_content'].'" class="layui-input" id="nav_url" >';
+                }
                 break;
             case 'textarea':
                 $arr[$k]['sys_html'] = '<textarea name="content[]" id="sys_content" style="height:50px;" cols="50" rows="4" class="layui-input">'.$v['sys_content'].'</textarea>';
