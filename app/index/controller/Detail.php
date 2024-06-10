@@ -14,18 +14,18 @@
 namespace app\index\controller;
 
 
-use app\BaseController;
-use think\facade\View;
+use app\index\BaseController;
+use think\facade\Db;
 
 class Detail extends BaseController
 {
     public function index(){
         $id = request()->param('id');
         $data = FindTable('article',[['id','=',$id],['status','=',1]]);
+        Db::name('article')->where('id', $id)->inc('views')->update();
         if(!$data){
             return redirect('/');
         }
-        View::assign('article',$data);
-        return View::fetch();
+        return View();
     }
 }

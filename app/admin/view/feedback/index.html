@@ -82,11 +82,14 @@
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'id', align:"center", width: 80, title: 'ID', sort: true},
+                {field: 'rid', align:"center", width: 80, title: '回复ID'},
                 {field: 'username',width:120, align: 'center',title: '{$Think.lang.username}'},
-                {field: 'article', align: 'center',title: '{$Think.lang.variable_title}'},
-                {field: 'email',width:160, align: 'center',title: '{$Think.lang.Email}'},
-                {field: 'ip',width:160, align: 'center',title: '{$Think.lang.ip}'},
-                {field: 'msg',width:160, align: 'center',title: '{$Think.lang.content}'},
+                {field: 'article', align: 'center',title: '{$Think.lang.variable_title}',templet:function(d){
+                        return '<a href='+d.temp_archives+'?id='+d.aid+' target="_blank">'+d.article+'</a>';
+                }},
+                {field: 'email',align: 'center',title: '{$Think.lang.Email}'},
+                {field: 'ip', align: 'center',title: '{$Think.lang.ip}'},
+                {field: 'msg', align: 'center',title: '{$Think.lang.content}'},
                 {
                     field: 'status', width: 100, align: 'center', templet: function (d) {
                         if (d.status == 1) {
@@ -96,7 +99,7 @@
                         }
                     }, title: '{$Think.lang.status}'
                 },
-                {field: 'createTime',width:200, align: 'center',title: '{$Think.lang.createTime}'},
+                {field: 'createTime',width:160, align: 'center',title: '{$Think.lang.createTime}'},
                 {fixed:'right',title: '操作', width: 120, toolbar: '#toolBar', align: "center"}
             ]],
         });

@@ -9,7 +9,8 @@ class Index
     {
         $nav['list'] = GetCache('NavMenu');
         $nav['webInfo'] = CfgInfo('web');
-        echo json_encode($nav,JSON_UNESCAPED_UNICODE);
+        //echo json_encode($nav,JSON_UNESCAPED_UNICODE);
+        echo json_encode(['code'=>200,'data'=>$nav],JSON_UNESCAPED_UNICODE);
     }
     public function webInfo(){
         $info = CfgInfo('web');

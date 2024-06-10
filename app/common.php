@@ -347,26 +347,7 @@ function GetTree($arr,$pid=0,$pids = 'pid',$id = 'id',$level=0){
     }
     return $data;
 }
-/**
- * @param $arr
- * @param int $pid
- * @param string $pids
- * @param string $id
- * @param int $level
- * @return array
- * 递归返回多维数据
- */
-function MdaTree($arr,$pid=0,$pids = 'pid',$id='id',$level=0){
-    $tree = array();
-    foreach($arr as $k=>$v){
-        if($v[$pids] == $pid){
-            $v['lv'] = $level;
-            $tree[$k] = $v;
-            $tree[$k]['son'] = MdaTree($arr,$v[$id],$pids,$id,$level+1);
-        }
-    }
-    return $tree;
-}
+
 /**
  * @param $table
  * @param array $where
@@ -421,9 +402,194 @@ function joinTable($table,$table2,$start=0,$size=10,$where=[],$order=['id'=>'des
 function AllTable($table,$where=[],$order=['id'=>'desc']){
     return Db::name($table)->where($where)->order($order)->select()->toArray();
 }
-function AllTables($table,$where=[],$number,$order=['id'=>'desc']){
+function AllTables($table,$where=[],$number=10,$order=['id'=>'desc']){
     return Db::name($table)->where($where)->order($order)->limit($number)->select()->toArray();
 }
+
+/**
+ * @param int $start
+ * @param int $size
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\DbException
+ * @throws \think\db\exception\ModelNotFoundException
+ * tag 标签
+ *
+ */
+function Tags($start=0,$size=10){
+    $field = 'a.id,a.tag,c.tags,count(c.id) as count';
+    $list = Db::name('taglist')->alias('a')->leftJoin('article'.' c ','c.tags LIKE CONCAT(\'%\', a.tag, \'%\')')->field($field)->group('a.id, a.tag')->order(['a.id'=>'desc'])->page($start,$size)->select()->toArray();
+    foreach ($list as &$v){
+        $v['rand'] = mt_rand(0,10);
+    }
+    return $list;
+}
+
+/**
+ * @param int $size  显示数量
+ * @param string $aid   属性id
+ * @return mixed
+ * @throws \think\db\exception\DbException
+ * 指定属性文章
+ */
+function AttrId($size=10,$aid=''){
+    $prefix = Config::get('database.connections.mysql.prefix');
+    $table = $prefix.'article';
+    $table2 = $prefix.'category';
+    $sql = "SELECT a.id,a.cid,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id LIMIT $size";
+    $list = Db::query($sql);
+    foreach ($list as &$v){
+        if(!$v['articleThumbImg']){
+            $v['articleThumbImg'] = 'images/default.jpg';
+        }
+        $v['month'] = date('m',$v['updateTime']);
+        $v['day'] = date('d',$v['updateTime']);
+        $v['updateTime'] = date('Y-m-d',$v['updateTime']);
+        $v['feed'] = Db::name('feedback')->where('aid',$v['id'])->count();
+    }
+    return $list;
+}
+
+function Article($id='',$order='id',$size=12,$start=0){
+    $size = request()->param('limit')?request()->param('limit'):$size;
+    $start = request()->param('page')?request()->param('page'):$start;
+    $where = [['a.status','=',1]];
+    if($id){
+        $where[] = ['a.cid','=',$id];
+    }
+    $field = 'a.id,a.cid,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
+    $list['data'] = Db::name('article')->alias('a')->join('category'.' b ','b.id= a.cid')->leftJoin('feedback'.' c ','c.aid=a.id')->field($field)->where($where)->group('a.id, a.title, b.name')->order(['a.'.$order=>'desc'])->page($start,$size)->select()->toArray();
+    if($list){
+        $list['__total__'] = CountTable('article',$where,'a');
+    }
+    foreach ($list['data'] as &$v){
+        if(!$v['articleThumbImg']){
+            $v['articleThumbImg'] = 'images/default.jpg';
+        }
+        $v['month'] = date('m',$v['updateTime']);
+        $v['day'] = date('d',$v['updateTime']);
+        $v['updateTime'] = date('Y-m-d',$v['updateTime']);
+    }
+    return $list;
+}
+
+function Feedback($aid='',$size=10,$start=0){
+    $where = [['status','=',1]];
+    if($aid){
+        $where[] = ['aid','=',$aid];
+    }
+    $list['data'] = pageTable('feedback',$start,$size,$where);
+    $list['__total__'] = CountTable('feedback',$where);
+    foreach ($list['data'] as &$v){
+        $v['date'] = date('Y-m-d H:i:s',$v['createTime']);
+        $v['createTime'] = date('Y-m-d',$v['createTime']);
+    }
+    return $list;
+}
+
+function Breadcrumb($id=''){
+    $tree = GetMenu('category');
+    $new = upTree($tree,$id);
+    if(!$new){
+        $new = [];
+    }
+    return array_reverse($new);
+}
+
+function Detail($id){
+    $info = FindTable('article',[['id','=',$id],['status','=',1]]);
+    if($info){
+        if(!$info['articleThumbImg']){
+            $info['articleThumbImg'] = 'images/default.jpg';
+        }
+        $info['feed'] = CountTable('feedback',['aid'=>$info['id']]);
+        $info['month'] = date('m',$info['updateTime']);
+        $info['day'] = date('d',$info['updateTime']);
+        $info['createTime'] = date('Y-m-d',$info['createTime']);
+        $info['updateTime'] = date('Y-m-d',$info['updateTime']);
+    }
+    return $info;
+}
+
+/**
+ * @param int $table            数据总数
+ * @param int $pageSize         每页显示几条数据
+ * @param int $showPage         显示几个页码数字 例如显示5个：12345...下一页 尾页 当前1页 共10页
+ * @return string
+ * 分页函数
+ */
+function pageBar($table,$pageSize=10,$showPage=5){
+    //当前页完整url
+    $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    //解析url
+    $pat = parse_url($url);
+    //重组url
+    $urls = $pat['scheme'].'://'.$pat['host'].$pat['path'];
+    $page = (!empty($_GET['page']))?$_GET['page']:1;
+    $total = $table;
+    $totalPage = ceil($total / $pageSize);    //获取总页数
+    $pageOffset = ($showPage - 1) / 2;    //页码偏移量
+    $pageBanner = "<div class='minicms-page'>";
+    $start = 1;    //开始页码
+    $end = $totalPage;    //结束页码
+    if($page > 1){
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$start,'limit'=>$pageSize]))."> 首页 </a>";
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$page-1,'limit'=>$pageSize]))."> 上一页 </a>";
+    }
+    if($totalPage > $showPage){    //当总页数大于显示页数时
+        if($page > $pageOffset + 1){    //当当前页大于页码偏移量+1时，也就是当页码为4时 开始页码1替换为...
+            $pageBanner .= "...";
+        }
+        if($page > $pageOffset){        //当当前页大于页码偏移量时 开始页码变为当前页-偏移页码
+            $start = $page - $pageOffset;
+            $end = $totalPage > $page + $pageOffset ?  $page + $pageOffset : $totalPage;
+            //如果当前页数+偏移量大于总页数 那么$end为总页数
+        }else{
+            $start = 1;
+            $end = $totalPage > $showPage ? $showPage : $totalPage;
+        }
+        if($page + $pageOffset > $totalPage){
+            $start = $start - ($page + $pageOffset - $end);
+        }
+    }
+    for($i = $start ; $i <= $end ; $i++){ //循环出页码
+        if($i == $page){
+            $pageBanner .= "<span class='minincms-curr'>".$i." </span>";
+        }else{
+            $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$i,'limit'=>$pageSize])).">".$i." </a>";
+        }
+    }
+    if($totalPage > $showPage && $totalPage > $page + $pageOffset){    //当总页数大于页码显示页数时 且总页数大于当前页+偏移量
+        $pageBanner .= "...";
+    }
+    if($page < $totalPage){
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$page+1,'limit'=>$pageSize]))."> 下一页 </a>";
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$totalPage,'limit'=>$pageSize]))."> 尾页 </a>";
+    }
+    $pageBanner .= " 当前".$page."页 ";
+    $pageBanner .= " 共".$totalPage."页 </div>";
+    return $pageBanner;
+}
+
+/**
+ * @param string $url  地址
+ * @param array $params   参数
+ * @return string
+ * 重组 url
+ */
+function handlerUrl($url, array $params): string
+{
+    if (!$params) {
+        return $url;
+    }
+    $query = http_build_query($params);
+    if (strpos($url, '?')) {
+        $url = rtrim($url, '&') . '&' . $query;
+    } else {
+        $url = $url . '?' . $query;
+    }
+    return $url;
+}
+
 /**
  * @param $arr
  * @param int $pid
@@ -982,7 +1148,26 @@ function upTree($data,$pid=0,$pids = 'pid',$id='id',$level=0){
     }
     return $tree;
 }
-
+/**
+ * @param $arr
+ * @param int $pid
+ * @param string $pids
+ * @param string $id
+ * @param int $level
+ * @return array
+ * 递归返回多维数据
+ */
+function MdaTree($arr,$pid=0,$pids = 'pid',$id='id',$level=0){
+    $tree = array();
+    foreach($arr as $k=>$v){
+        if($v[$pids] == $pid){
+            $v['lv'] = $level;
+            $tree[$k] = $v;
+            $tree[$k]['son'] = MdaTree($arr,$v[$id],$pids,$id,$level+1);
+        }
+    }
+    return $tree;
+}
 /**
  * @param $table
  * @param int $pid
@@ -990,7 +1175,7 @@ function upTree($data,$pid=0,$pids = 'pid',$id='id',$level=0){
  * @param string $id
  * @param int $level
  * @return array
- * 返回分类下的所有子分类
+ * 返回分类下的所有子分类 （一级数组）
  */
 function ArrTree($table,$pid=0,$p_id = 'pid',$id = 'id',$level=0)
 {
@@ -1004,6 +1189,96 @@ function ArrTree($table,$pid=0,$p_id = 'pid',$id = 'id',$level=0)
         }
     }
     return $tree;
+}
+
+/**
+ * @param $table
+ * @param int $pid
+ * @param string $pids
+ * @param string $id
+ * @param int $level
+ * @return array
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\DbException
+ * @throws \think\db\exception\ModelNotFoundException
+ * 递归返回所有下级分类
+ */
+function MoreTree($table,$pid=0,$pids = 'pid',$id = 'id',$level=0)
+{
+    $arr = Db::name($table)->select()->toArray();
+    $tree = array();
+    foreach($arr as $k=>$v){
+        if($v[$pids] == $pid){
+            $v['lv'] = $level;
+            $tree[$k] = $v;
+            $tree[$k]['son'] = MdaTree($arr,$v[$id],$pids,$id,$level+1);
+        }
+    }
+    return $tree;
+}
+
+/**
+ * @param $arr
+ * @return array
+ * 多维数组转成二维数组
+ */
+function oneArr($arr){
+    $tree = [];
+    foreach($arr as $v){
+        $nar = array(
+            'id' => $v['id'],
+            'rid' => $v['rid'],
+            'aid' => $v['aid'],
+            'cid' => $v['cid'],
+            'username' => $v['username'],
+            'article' => $v['article'],
+            'email' => $v['email'],
+            'ip' => $v['ip'],
+            'msg' => $v['msg'],
+            'good' => $v['good'],
+            'bad' => $v['bad'],
+            'cate' => $v['cate'],
+            'status' => $v['status'],
+            'createTime' => $v['createTime'],
+            'lv' => $v['lv']
+        );
+        $tree[] = $nar;
+        if($v['son']){
+            $tree = array_merge($tree,oneArr($v['son']));
+        }
+    }
+    return $tree;
+}
+
+function ubb($Text) {
+    $Text=trim($Text);
+    $Text=preg_replace("/\[Addoil\]/is","<img style='width:22px;' src='/ubb/Addoil.png' />",$Text);
+    $Text=preg_replace("/\[Applause\]/is","<img style='width:22px;' src='/ubb/Applause.png' />",$Text);
+    $Text=preg_replace("/\[Badlaugh\]/is","<img style='width:22px;' src='/ubb/Badlaugh.png' />",$Text);
+    $Text=preg_replace("/\[Bomb\]/is","<img style='width:22px;' src='/ubb/Bomb.png' />",$Text);
+    $Text=preg_replace("/\[Coffee\]/is","<img style='width:22px;' src='/ubb/Coffee.png' />",$Text);
+    $Text=preg_replace("/\[Fabulous\]/is","<img style='width:22px;' src='/ubb/Fabulous.png' />",$Text);
+    $Text=preg_replace("/\[Facepalm\]/is","<img style='width:22px;' src='/ubb/Facepalm.png' />",$Text);
+    $Text=preg_replace("/\[Feces\]/is","<img style='width:22px;' src='/ubb/Feces.png' />",$Text);
+    $Text=preg_replace("/\[Frown\]/is","<img style='width:22px;' src='/ubb/Frown.png' />",$Text);
+    $Text=preg_replace("/\[Heyha\]/is","<img style='width:22px;' src='/ubb/Heyha.png' />",$Text);
+    $Text=preg_replace("/\[Insidious\]/is","<img style='width:22px;' src='/ubb/Insidious.png' />",$Text);
+    $Text=preg_replace("/\[KeepFighting\]/is","<img style='width:22px;' src='/ubb/KeepFighting.png' />",$Text);
+    $Text=preg_replace("/\[NoProb\]/is","<img style='width:22px;' src='/ubb/NoProb.png' />",$Text);
+    $Text=preg_replace("/\[PigHead\]/is","<img style='width:22px;' src='/ubb/PigHead.png' />",$Text);
+    $Text=preg_replace("/\[Shocked\]/is","<img style='width:22px;' src='/ubb/Shocked.png' />",$Text);
+    $Text=preg_replace("/\[Sinistersmile\]/is","<img style='width:22px;' src='/ubb/Sinistersmile.png' />",$Text);
+    $Text=preg_replace("/\[Slap\]/is","<img style='width:22px;' src='/ubb/Slap.png' />",$Text);
+    $Text=preg_replace("/\[Social\]/is","<img style='width:22px;' src='/ubb/Social.png' />",$Text);
+    $Text=preg_replace("/\[Sweat\]/is","<img style='width:22px;' src='/ubb/Sweat.png' />",$Text);
+    $Text=preg_replace("/\[Tolaugh\]/is","<img style='width:22px;' src='/ubb/Tolaugh.png' />",$Text);
+    $Text=preg_replace("/\[Watermelon\]/is","<img style='width:22px;' src='/ubb/Watermelon.png' />",$Text);
+    $Text=preg_replace("/\[Witty\]/is","<img style='width:22px;' src='/ubb/Witty.png' />",$Text);
+    $Text=preg_replace("/\[Wow\]/is","<img style='width:22px;' src='/ubb/Wow.png' />",$Text);
+    $Text=preg_replace("/\[Yeah\]/is","<img style='width:22px;' src='/ubb/Yeah.png' />",$Text);
+    $Text=preg_replace("/\[Yellowdog\]/is","<img style='width:22px;' src='/ubb/Yellowdog.png' />",$Text);
+
+    return $Text;
 }
 
 /**

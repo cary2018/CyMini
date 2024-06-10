@@ -56,7 +56,7 @@ class Banner extends BaseController
 
     public function saveAt(){
         $data = request()->param();
-        $res = upload('thumbImg',1);
+        $res = UploadImg('thumbImg',1);
         if($res['code']==200){
             if($res['ident'] == 1){
                 $res['code'] = 300;

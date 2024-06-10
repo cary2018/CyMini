@@ -34,7 +34,7 @@ class Liar extends BaseController
             $list[$k]['showImg'] = AllTable('liarImg',['lid'=>$v['id']]);
             $list[$k]['createTime'] = date('Y-m-d H:i:s',$v['createTime']);
         }
-        $arr = array('code'=>0,'msg'=>'ok','count'=>$count,'limit'=>$where,'data'=>$list);
+        $arr = array('code'=>200,'msg'=>'ok','count'=>$count,'limit'=>$where,'data'=>$list);
         echo json_encode($arr);
     }
 }

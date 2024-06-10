@@ -24,7 +24,7 @@ class Feedback extends BaseController
         $start = $data['page']?$data['page']:0;
         $aid = $data['aid']?$data['aid']:'';
         $sortId = $data['cate']?$data['cate']:'';
-        $where = [['status','=',1]];
+        $where = [['status','=',1],['rid','=',0]];
         if($aid){
             $where[] = ['aid','=',$aid];
         }
@@ -34,13 +34,25 @@ class Feedback extends BaseController
         $list = pageTable('feedback',$start,$size,$where);
         $count = CountTable('feedback',$where);
         foreach ($list as &$v){
-            $rep = FindTable('feedback',['id'=>$v['rid']]);
+            $rep = MoreTree('feedback',$v['id'],'rid');
+            $rep = oneArr($rep);
             $v['date'] = date('Y-m-d H:i:s',$v['createTime']);
             $v['createTime'] = date('Y-m-d',$v['createTime']);
-            $v['lv'] = $v['id'];
-            $v['rep'] = $rep['username'];
+            if($rep){
+                foreach ($rep as &$val){
+                    if($val['status'] == 1){
+                        $reps = FindTable('feedback',[['id','=',$val['rid']],['status','=',1]]);
+                        if($reps){
+                            $val['rep'] = $reps['username'];
+                        }
+                        $val['createTime'] = date('Y-m-d',$val['createTime']);
+                        $v['son'][] = $val;
+                    }
+                }
+            }
         }
-        $arr = array('code'=>200,'msg'=>'ok','total'=>$count,'data'=>$list);
+
+        $arr = array('code'=>200,'msg'=>'ok','count'=>$count,'data'=>$list);
         echo json_encode($arr);
     }
     public function datalist(){
@@ -62,7 +74,7 @@ class Feedback extends BaseController
             $v['date'] = date('Y-m-d H:i:s',$v['createTime']);
             $v['createTime'] = date('Y-m-d',$v['createTime']);
         }
-        $arr = array('code'=>200,'msg'=>'ok','total'=>$count,'data'=>$list);
+        $arr = array('code'=>200,'msg'=>'ok','count'=>$count,'data'=>$list);
         echo json_encode($arr);
     }
     public function saveAt(){
@@ -84,6 +96,7 @@ class Feedback extends BaseController
             unset($post['captcha']);
             $post['ip'] = get_client_ip();
             $post['createTime'] = time();
+            $post['msg'] = ubb($post['msg']);
             SaveAt('feedback',$post);
             $arr = ['code'=>200,'message'=>'你的评论已进入审核过程。','token'=>$token];
         }

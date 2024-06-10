@@ -14,8 +14,7 @@
 namespace app\index\controller;
 
 
-use app\BaseController;
-use think\facade\View;
+use app\index\BaseController;
 
 class Article extends BaseController
 {
@@ -25,7 +24,6 @@ class Article extends BaseController
         if(!$data){
             return redirect('/');
         }
-        View::assign('cate',$data);
-        return View::fetch();
+        return View();
     }
 }

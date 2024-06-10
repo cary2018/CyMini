@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN" class=" " style="transform: none;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{$Think.config.web.web_title}</title>
+    <meta name="description" content="{$Think.config.web.web_desc}" />
+    <meta name="keywords" content="{$Think.config.web.web_key}" />
+    <meta property="og:type" content="index" />
+    <meta property="og:title" content="{$Think.config.web.web_title}" />
+    <meta property="og:image" content="{$Think.config.web.web_logo}" />
+    <meta property="og:url" content="https://www.itmkk.com/" />
+    <script src="template/conme/static/js/jquery-2.2.4.min.js"></script>
+    <script src="template/conme/static/js/zblogphp.js"></script>
+    <script src="template/conme/static/js/c_html_js_add.js"></script>
+    <script src="template/conme/static/js/prism.js" type="text/javascript"></script>
+    <script src="template/conme/static/layui/layui.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" type="text/css" href="template/conme/static/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="template/conme/static/css/prism.css" />
+    <link href="template/conme/static/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="template/conme/static/css/animate.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="template/conme/static/css/style.css" type="text/css" media="all" />
+    <link rel="stylesheet" type="text/css" href="template/conme/static/css/swiper-bundle.min.css" />
+    <link rel="shortcut icon" href="https://youthlee.001666.cn/zb_users/theme/youthlee/style/images/favicon.ico" type="image/x-icon" />
+    <!--[if lt IE 9]><script src="https://cdn.staticfile.org/html5shiv/3.7.0/html5shiv.js"></script><![endif]-->
+</head>
+<body class="home home-index" style="transform: none;">
+
+{include file='layout/navmenu'}
+
+<div class="slide-main clearfix">
+    <div class="wrapper-ban container">
+        <div class="main-slider-row clearfix">
+            <!-- 轮播图 -->
+            <div id="main-slider" class="main-slider fl">
+                <div class="swiper mySwiper">
+                    <div id="ShowBanner" class="swiper-wrapper">
+                        {minicms:banner }
+                        <div class="swiper-slide">
+                            <img src="/{$vo.img}" >
+                            <p class="bannerText">
+                                <a href="{$vo.link}" target="{$vo.target}">{$vo.title}</a>
+                            </p>
+                        </div>
+                        {/minicms:banner}
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+            </div>
+            <div class="feature-post fr">
+                {minicms:attrid aid='3' num='2'}
+                <li>
+                    <a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">
+                        <img src="/{$vo.articleThumbImg}" alt="{$vo.title}" />
+                    </a>
+                    <span>{$vo.title}</span>
+                </li>
+                {/minicms:attrid}
+            </div>
+        </div>
+
+        <div class="hot-tags">
+            <ul class="clearfix">
+                {minicms:attrid aid='2' num='4'}
+                <li>
+                    <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}" rel="nofollow">
+                        <img src="/{$vo.articleThumbImg}" alt="{$vo.title}" style="max-width:275px;max-height:148px;"/>
+                    </a>
+                </li>
+                {/minicms:attrid}
+            </ul>
+        </div>
+        <div class="sytj-tit">
+            <h2><a href="javascript:;" class="cur">首页推荐</a></h2>
+        </div>
+    </div>
+</div>
+
+<div id="main" class="index-main clearfix">
+    <div class="container">
+        <div class="post-box clearfix">
+
+            {minicms:attrid aid='4' num='12'}
+            <article id="list{$vo.id}" class="post-list auto-list clearfix wow fadeInDown">
+                <div class="list-shade"></div>
+                <figure class="list-feaimg">
+                    <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}">
+                        <img width="280" height="210" src="/{$vo.articleThumbImg}" class="imgloadinglater" alt="{$vo.title}" rel="nofollow" style="display: inline;" />
+                    </a>
+                </figure>
+                <div class="list-info">
+                    <h3 class="items-title" title="{{item.title}}">
+                        <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}">
+                            {$vo.title}
+                        </a>
+                    </h3>
+                    <div class="items-meta">
+                        <span class="badge arc_v4">热文</span>
+                        <span class="meta-view"><i class="fa fa-eye" title="浏览数"></i><em>{$vo.views}</em></span>
+                        <span class="meta-comment"><i class="fa fa-commenting" title="评论数"></i><em>{$vo.feed}</em></span>
+                        <span class="meta-time"><i class="fa fa-clock-o" title="点赞数"></i><em>{$vo.updateTime}</em></span>
+                    </div>
+                    <div class="items-user">
+                        <a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}" class="avatar">
+                            <img src="/{$vo.articleThumbImg}" title="/{$vo.articleThumbImg}" />
+                        </a>
+                        <!--<strong class="name autlv aut-6">
+                            <a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">
+                                <em>{$vo.title}</em>
+                            </a>
+                        </strong>-->
+                        <span class="catename">
+                            <a class="meta-cate-url" href="{$vo.temp_list}?id={$vo.cid}" target="{$vo.target}">
+                                <em><i class="fa fa-columns"></i>{$vo.name}</em>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </article>
+            {/minicms:attrid}
+
+        </div>
+    </div>
+</div>
+<div id="list-main" class="list-main" style="transform: none;">
+    <div class="container clearfix alpha" style="transform: none;">
+        <div class="item-main fl">
+            <nav class="main-navigation">
+                <ul class="menu-nav-inline">
+                    <li class="menu-item active"><a data-post="" href="https://youthlee.001666.cn/">最新文章</a></li>
+                    <li class="menu-item"><a data-post="" href="https://youthlee.001666.cn/"> 技术生活</a></li>
+                    <li class="menu-item"><a data-post="" href="https://youthlee.001666.cn/"> 互联网</a></li>
+                    <li class="menu-item"><a data-post="" href="https://youthlee.001666.cn/"> 心情随笔</a></li>
+                </ul>
+            </nav>
+            <div id="pjaxmain" class="auto-side">
+                <div class="main_random auto-main clearfix">
+
+                    {minicms:article }
+                    <article id="list{$vo.id}" class="info-list auto-list clearfix wow fadeInDown" style="visibility: hidden; animation-name: none;">
+                        <figure class="info-thumb">
+                            <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}">
+                                <img width="280" height="210" src="/{$vo.articleThumbImg}" alt="{$vo.title}" />
+                            </a>
+                        </figure>
+                        <div class="info-items">
+                            <div class="info-limit">
+                                <h3 class="od-2v">
+                                    <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}">
+                                        {$vo.title}
+                                    </a>
+                                </h3>
+                                <p class="info-desc od-2v">
+                                    {$vo.description}
+                                </p>
+                            </div>
+                            <div class="info-meta">
+                                <a class="meta-cate-url" href="{$vo.temp_list}?id={$vo.cid}" >
+                                    <i class="fa fa-dot-circle-o"></i>{$vo.name}
+                                </a>
+                                <!--<a class="meta-author-url" href="{$vo.temp_archives}?id={$vo.id}">
+                                    <i class="fa fa-graduation-cap"></i>非李莫属
+                                </a>-->
+                                <div class="flex-fill"></div>
+                                <span class="info-time" title="{$vo.updateTime}">
+                                    <i class="fa fa-clock-o"></i>{$vo.updateTime}
+                                </span>
+                                <span class="info-viewnums"><i class="fa fa-eye" title="浏览数"></i>{$vo.views}</span>
+                                <span class="info-comment"><i class="fa fa-commenting" title="评论数"></i>{$vo.feed}</span>
+                            </div>
+                        </div>
+                    </article>
+                    {/minicms:article}
+
+                    <script id="TPL" type="text/html">
+                        {{#  layui.each(d.data, function(index, item){ }}
+                        <article id="list{{item.id}}" class="info-list auto-list clearfix wow fadeInDown" style="visibility: hidden; animation-name: none;">
+                            <figure class="info-thumb">
+                                <a href="{{item.temp_archives}}?id={{item.id}}" title="{{item.title}}" target="{{item.target}}">
+                                    <img width="280" height="210" src="/{{item.articleThumbImg}}" alt="{{item.title}}" />
+                                </a>
+                            </figure>
+                            <div class="info-items">
+                                <div class="info-limit">
+                                    <h3 class="od-2v">
+                                        <a href="{{item.temp_archives}}?id={{item.id}}" title="{{item.title}}" target="{{item.target}}">
+                                            {{item.title}}
+                                        </a>
+                                    </h3>
+                                    <p class="info-desc od-2v">
+                                        {{item.description}}
+                                    </p>
+                                </div>
+                                <div class="info-meta">
+                                    <a class="meta-cate-url" href="{{item.temp_list}}?id={{item.cid}}" >
+                                        <i class="fa fa-dot-circle-o"></i>{{item.name}}
+                                    </a>
+                                    <!--<a class="meta-author-url" href="{$vo.temp_archives}?id={$vo.id}">
+                                        <i class="fa fa-graduation-cap"></i>非李莫属
+                                    </a>-->
+                                    <div class="flex-fill"></div>
+                                    <span class="info-time" title="{{item.updateTime}}">
+                                    <i class="fa fa-clock-o"></i>{{item.updateTime}}
+                                </span>
+                                    <span class="info-viewnums"><i class="fa fa-eye" title="浏览数"></i>{{item.views}}</span>
+                                    <span class="info-comment"><i class="fa fa-commenting" title="评论数"></i>{{item.feed}}</span>
+                                </div>
+                            </div>
+                        </article>
+                        {{#  }); }}
+                    </script>
+                    <div id="view"></div>
+
+                </div>
+                <footer class="pagination wow fadeInDown" style="visibility: hidden; animation-name: none;">
+                    <script type="text/html" id="listData">
+                        {{d.id}}
+                    </script>
+                    <div id="listDatas"></div>
+
+                    <script type="text/html" id="showdata">
+                        <span style="font-size:35px;">{{d.id}}</span>
+                    </script>
+
+                </footer>
+            </div>
+        </div>
+        <div id="side" class="sidebar fr mside" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 0px;">
+            <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 0px; position: static;">
+                <div class="widget clearfix" id="divContorPanel">
+                    <h4 class="widget-title">控制面板</h4>
+                    <div class="divContorPanel">
+                        <span class="cp-hello">您好,欢迎到访网站!</span>
+                        <br />
+                        <span class="cp-login"><a href="https://youthlee.001666.cn/zb_system/cmd.php?act=login">登录后台</a></span>&nbsp;&nbsp;
+                        <span class="cp-vrs"><a href="https://youthlee.001666.cn/zb_system/cmd.php?act=misc&amp;type=vrs">查看权限</a></span>
+                    </div>
+                </div>
+                <div class="widget clearfix" id="divPrevious">
+                    <h4 class="widget-title">最近发表</h4>
+                    <ul class="divPrevious">
+                        <li><a title="资源下载-高中老师写鸡汤文走红：人生很贵 请别浪费" href="https://youthlee.001666.cn/blog/268.html">资源下载-高中老师写鸡汤文走红：人生很贵 请别浪费</a></li>
+                        <li><a title="本溪关门山国家森林公园一日游" href="https://youthlee.001666.cn/blog/267.html">本溪关门山国家森林公园一日游</a></li>
+                        <li><a title="吴京被逼捐1亿 强盗逻辑何时休" href="https://youthlee.001666.cn/blog/266.html">吴京被逼捐1亿 强盗逻辑何时休</a></li>
+                    </ul>
+                </div>
+                <div class="widget clearfix" id="divTags">
+                    <h4 class="widget-title">标签列表</h4>
+                    <ul class="divTags">
+                        {minicms:tags num='20'}
+                        <li>
+                            <a title="{$vo.tag}" href="/index/tags?tag='{$vo.tag}">
+                                {$vo.tag}<span class="tag-count"> ({$vo.count})</span>
+                            </a>
+                        </li>
+                        {/minicms:tags}
+                    </ul>
+                </div>
+                <div class="widget clearfix" id="divLinkage">
+                    <h4 class="widget-title">友情链接</h4>
+                    <ul class="divLinkage">
+                        {minicms:link }
+                        <li><a href="{$vo.link}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
+                        {/minicms:link}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="links-box">
+            <div class="links-tit">
+                <h3>友情链接</h3>
+                <span class="linksub">友情链接申请条件百度PR&gt;1（目前暂停申请）</span>
+            </div>
+            <div class="links-li">
+
+                <div id="ShowLink">
+                    {minicms:link }
+                    <li><a href="{$vo.link}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
+                    {/minicms:link}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<footer id="footer" class="footer">
+    <div class="site-footer-nav">
+        <div class="container">
+            <div class="footer-fill">
+                <div class="footer-menu">
+                    {$Think.config.web.web_footer_title}
+                </div>
+                <div class="flex-md-fill"></div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    {$Think.config.web.web_Copyright|raw}
+                </div>
+                <div class="footer-bottom-right">
+                    {$Think.config.web.web_Copy|raw}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="backtop" class="backtop">
+        <div class="bt-box top" title="返回顶部">
+            <i class="fa fa-rocket fa-rotate-15"></i>
+        </div>
+        <div class="bt-box kfqq" title="客服QQ">
+            <a href="https://wpa.qq.com/msgrd?v=3&amp;uin=840162678&amp;site=qq&amp;menu=yes" rel="nofollow" target="_blank" title="企鹅号"><i class="fa fa-qq"></i></a>
+        </div>
+        <div class="bt-box qrcode" title="微信扫码">
+            <i class="fa fa-qrcode"></i>
+            <span class="bg-qrcode" style="background-image:url(template/conme/static/images/wxqrcode.jpg);"></span>
+        </div>
+        <div class="bt-box bottom" title="网页底部">
+            <i class="fa fa-sign-in fa-rotate-90"></i>
+
+        </div>
+    </div>
+    <div class="none">
+        <script>var cookieDomain = "https://itmkk.com/";</script>
+        <script src="template/conme/static/js/zh_tw.js"></script>
+        <script src="template/conme/static/js/jquery.pjax.js"></script>
+        <script src="template/conme/static/js/custom.js"></script>
+        <script src="template/conme/static/js/wow.min.js"></script>
+    </div>
+</footer>
+<script src="template/conme/static/js/swiper-bundle.min.js" type="text/javascript"></script>
+<script>
+    layui.use(['table', 'dropdown', 'util','laytpl'], function(){
+        var table = layui.table;
+        var laypage = layui.laypage;
+
+        // 数据列表
+        table.render({
+            elem: '#listData',
+            url:'api/article',
+            page: { // 支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: [  'prev', 'page', 'next', 'skip','count','limit'], //自定义分页布局
+                curr: "{$Request.param.page?$Request.param.page:''}", //设定初始在第 5 页
+                groups: 5, //只显示 1 个连续页码
+                first: false, //不显示首页
+                last: false //不显示尾页
+            },
+            response: {
+                statusCode: 200 // 重新规定成功的状态码为 200，table 组件默认为 0
+            },
+            done:function(res,curr,count,origin){
+                //console.log(res);
+                var getTpl = document.getElementById('TPL').innerHTML; // 获取模板字符
+                var elemView = document.getElementById('view'); // 视图对象
+                // 渲染并输出结果
+                laytpl(getTpl).render(res, function(str){
+                    elemView.innerHTML = str;
+                });
+            }
+        });
+        laypage.render({
+            elem: 'listDatas',
+            count: "{$__total__}",
+            //curr: location.hash.replace('curr=', ''), // 初始获取 hash 值为 curr 的当前页
+            curr: "{$Request.param.page?$Request.param.page:''}", // 初始获取 hash 值为 curr 的当前页
+            //hash: 'page', // 自定义 hash 名称
+            jump: function(obj, first){
+                console.log(window.location.origin);
+                console.log(obj.curr); // 得到当前页，以便向服务端请求对应页的数据。
+                console.log(obj.limit); // 得到每页显示的条数
+                //window.location.reload("#id");  //局部刷新
+                var parsedUrl = new URL(window.location.href);
+                console.log(parsedUrl);
+                var searchParams = new URLSearchParams(parsedUrl.search);
+                searchParams.append('page', obj.curr);
+                console.log(decodeURI(searchParams.toString()));
+
+                // 首次不执行
+                if(!first){
+                    // do something
+                    //location.href = searchParams.toString();
+                }
+            }
+        });
+        console.log(location.hash);
+
+    });
+    //获取url中的参数
+    function getUrlParams(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    //获取url参数
+    function getURLParams() {
+        const searchParams = window.location.search.substring(1).split('&');
+        const params = {};
+        for (const param of searchParams) {
+            const [key, value] = param.split('=');
+            params[key] = value;
+        }
+        return params;
+    }
+</script>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay:true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+</script>
+<!---->
+</body>
+</html>

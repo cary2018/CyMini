@@ -19,7 +19,11 @@ function TmHtml($arr){
             case 'input':
                 if($v['sys_variable'] == 'view_path'){
                     // 使用 scandir() 函数读取目录
-                    $contents = scandir('template/');
+                    $dir = 'template/';
+                    if(!file_exists($dir)){
+                        mkdir($dir,0755);
+                    }
+                    $contents = scandir($dir);
                     $filteredItems = array_filter($contents, function ($item) {
                         return $item !== '.' && $item !== '..';
                     });

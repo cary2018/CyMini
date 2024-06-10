@@ -21,15 +21,14 @@ use think\facade\Db;
 class Article extends BaseController
 {
     public function index(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
-        $start = $data['page']?$data['page']:0;
-        $sort = $data['id']?$data['id']:'';
+        $size = request()->param('limit')?request()->param('limit'):12;
+        $start = request()->param('page')?request()->param('page'):0;
+        $sort = request()->param('id')?request()->param('id'):'';
         $where = [['a.status','=',1]];
         if($sort){
             $where[] = ['a.cid','=',$sort];
         }
-        $field = 'a.id,a.cid,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.description,a.views,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
+        $field = 'a.id,a.cid,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
         $list = Db::name('article')->alias('a')->join('category'.' b ','b.id= a.cid')->leftJoin('feedback'.' c ','c.aid=a.id')->field($field)->where($where)->group('a.id, a.title, b.name')->order(['a.id'=>'desc'])->page($start,$size)->select()->toArray();
         $count = CountTable('article',$where,'a');
         foreach ($list as &$v){
@@ -44,10 +43,9 @@ class Article extends BaseController
         echo json_encode($arr);
     }
     public function datalist(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
-        $start = $data['page']?$data['page']:0;
-        $sortId = $data['cate']?$data['cate']:'';
+        $size = request()->param('limit')?request()->param('limit'):12;
+        $start = request()->param('page')?request()->param('page'):0;
+        $sortId = request()->param('cate')?request()->param('cate'):'';
         $where = [['isShow','=',1]];
         if($sortId){
             $where[] = ['id','=',$sortId];
@@ -65,11 +63,10 @@ class Article extends BaseController
         echo json_encode($arr);
     }
     public function top(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
-        $start = $data['page']?$data['page']:0;
+        $size = request()->param('limit')?request()->param('limit'):12;
+        $start = request()->param('page')?request()->param('page'):0;
         $where = [['a.status','=',1]];
-        $field = 'a.id,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.views,b.name,b.target,b.temp_list,b.temp_archives';
+        $field = 'a.id,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives';
         $list = Db::name('article')->alias('a')->leftJoin('category'.' b','b.id=a.cid')->field($field)->where($where)->order(['a.views'=>'desc'])->page($start,$size)->select()->toArray();
         foreach ($list as &$v){
             $v['month'] = date('m',$v['updateTime']);
@@ -81,10 +78,9 @@ class Article extends BaseController
         echo json_encode($arr);
     }
     public function search(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
-        $start = $data['page']?$data['page']:0;
-        $key = $data['q']?$data['q']:'';
+        $size = request()->param('limit')?request()->param('limit'):12;
+        $start = request()->param('page')?request()->param('page'):0;
+        $key = request()->param('q')?request()->param('q'):0;
         $where = [['a.status','=',1]];
         if($key){
             $where[] = ['a.title','like','%'.trim($key).'%'];
@@ -104,10 +100,9 @@ class Article extends BaseController
         echo json_encode($arr);
     }
     public function tags(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
-        $start = $data['page']?$data['page']:0;
-        $key = $data['tag']?$data['tag']:'';
+        $size = request()->param('limit')?request()->param('limit'):12;
+        $start = request()->param('page')?request()->param('page'):0;
+        $key = request()->param('tag')?request()->param('tag'):'';
         $where = [['a.status','=',1]];
         if($key){
             $where[] = ['a.tags','like','%'.$key.'%'];
@@ -127,9 +122,8 @@ class Article extends BaseController
         echo json_encode($arr);
     }
     public function taglist(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
-        $start = $data['page']?$data['page']:0;
+        $size = request()->param('limit')?request()->param('limit'):12;
+        $start = request()->param('page')?request()->param('page'):0;
         $field = 'a.id,a.tag,c.tags,count(c.id) as count';
         $list = Db::name('taglist')->alias('a')->leftJoin('article'.' c ','c.tags LIKE CONCAT(\'%\', a.tag, \'%\')')->field($field)->group('a.id, a.tag')->order(['a.id'=>'desc'])->page($start,$size)->select()->toArray();
         foreach ($list as &$v){
@@ -139,8 +133,7 @@ class Article extends BaseController
         echo json_encode($arr);
     }
     public function arRand(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
+        $size = request()->param('limit')?request()->param('limit'):12;
         $prefix = Config::get('database.connections.mysql.prefix');
         $table = $prefix.'article';
         $table2 = $prefix.'category';
@@ -158,13 +151,12 @@ class Article extends BaseController
         echo json_encode($arr);
     }
     public function attrID(){
-        $data = request()->param();
-        $size = $data['limit']?$data['limit']:10;
-        $aid = $data['aid']?$data['aid']:'';
+        $size = request()->param('limit')?request()->param('limit'):12;
+        $aid = request()->param('aid')?request()->param('aid'):'';
         $prefix = Config::get('database.connections.mysql.prefix');
         $table = $prefix.'article';
         $table2 = $prefix.'category';
-        $sql = "SELECT a.id,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.views,b.temp_archives FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id LIMIT $size";
+        $sql = "SELECT a.id,a.cid,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.views,b.name,b.temp_archives FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id LIMIT $size";
         $list = Db::query($sql);
         foreach ($list as &$v){
             if(!$v['articleThumbImg']){
@@ -173,6 +165,7 @@ class Article extends BaseController
             $v['month'] = date('m',$v['updateTime']);
             $v['day'] = date('d',$v['updateTime']);
             $v['updateTime'] = date('Y-m-d',$v['updateTime']);
+            $v['feed'] = Db::name('feedback')->where('aid',$v['id'])->count();
         }
         $arr = array('code'=>200,'msg'=>'ok','data'=>$list);
         echo json_encode($arr);

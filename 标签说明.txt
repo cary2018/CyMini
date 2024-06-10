@@ -1,0 +1,173 @@
+//网站标题
+{$Think.config.web.web_title}
+//网站logo
+{$Think.config.web.web_logo}
+//网站关键字
+{$Think.config.web.web_key}
+//网站描述
+{$Think.config.web.web_desc}
+//验证码
+{:captcha_src()}
+// token  name='__token__' 表单令牌
+{:token()}
+
+//-----------------------导航菜单----------------------------
+{minicms:navmenu}
+{$vo.isUrl?$vo.outUrl:$vo.temp_list}
+{$vo.temp_list}         #列表模板
+{$vo.isUrl}             #是否启用外链
+{$vo.outUrl}            #外链地址
+{$vo.son}               #子菜单
+{$vo.id}                #菜单id
+{$vo.target}            #打开方式
+{/minicms:navmenu}
+
+//------------------------banner 广告图片 num显示量---------------------
+{minicms:banner num='5'}
+{$vo.link}          #链接地址
+{$vo.img}           #图片地址
+{$vo.target}        #打开方式
+{$vo.title}         #banner标题
+{/minicms:banner}
+
+//-----------------------------友情链接  num显示量-------------------------
+{minicms:link num='5'}
+{$vo.link}          #友情链接
+{$vo.target}        #打开方式
+{$vo.title}         #友链名称
+{/minicms:link}
+
+//--------------------------------------Tag标签 start起始  num显示量---------------------------
+{minicms:tags num='5'}
+{$vo.tag}           #标签名
+{$vo.count}         #所属标签文章数
+{/minicms:tags}
+
+//-----------------------------------指定文章属性 aid 文章属性 num 显示数量-------------------------
+{minicms:tag aid='5' num='5'}
+{$vo.title}             #标题
+{$vo.description}       #描述
+{$__total__}            #文章总数
+{$vo.temp_archives}     #文章模板
+{$vo.temp_list}         #列表模板
+{$vo.cid}               #分类id
+{$vo.id}                #文章id
+{$vo.name}              #分类名
+{$vo.articleThumbImg}   #缩略图片
+{$vo.updateTime}        #更新时间
+{$vo.views}             #浏览量
+{$vo.feed}              #评论数
+{$vo.target}            #打开方式
+{/minicms:tag}
+
+//------------------------------------------分类信息----------------------------------------
+{minicms:cate field='name'/}
+id                  #分类ID
+pid                 #上级分类ID
+name                #分类名
+target              #target属性
+keywords            #关键字
+description         #描述
+remark              #备注
+
+
+//-------------------------留言信息-------------------------------
+{minicms:feedback}
+    {$vo.aid}                   #留言所属 文章id
+    {$vo.msg}                   #留言信息
+    {$vo.createTime}            #留言时间
+{/minicms:feedback}
+
+//---------------------------面包屑导航---------------------------
+//文章详情页
+{minicms:breadcrumb aid='$__detail__["cid"]'}
+//分类页使用
+{minicms:breadcrumb aid='request()->param("id")'}
+{$vo.id}                        #分类id
+{$vo.target}                    #target属性
+{$vo.name}                      #分类名
+{$vo.isUrl}                     #是否启用外链
+{$vo.outUrl}                    #外链地址
+{$vo.temp_list}                 #列表模板
+{/minicms:breadcrumb}
+
+
+//-------------------------------文章列表标签-------------------------------
+start='0'       #起始页
+num='10'        #显示数量
+order='id'      #排序方式
+cid='5'         #所属分类id
+{minicms:article start='0' num='10' order='id' cid='5'}
+{$vo.id}                    #文章id
+{$vo.articleThumbImg}       #缩略图
+{$vo.temp_archives}         #文章详情模板
+{$vo.target}                #target属性
+{$vo.title}                 #标题
+{$vo.description}           #描述
+{$vo.temp_list}             #列表模板
+{$vo.cid}                   #分类id
+{$vo.name}                  #分类名
+{$vo.updateTime}            #更新时间
+{$vo.views}                 #浏览量
+{$vo.feed}                  #评论量
+{$vo.click}                 #点赞量
+{/minicms:article}
+
+//---------------------------分页标签---------------------------
+分页标签要配合 {minicms:article}{/minicms:article} 使用
+否则 $__total__  会报错
+{minicms:page total="$__total__"}
+
+//-----------------------------文章详情------------------------
+
+{minicms:detail field='title'/}
+id                       #文章id
+cid                      #文章分类id
+aid                      #所有用户id
+title                    #文章标题
+groupId                  #用户分组
+author                   #作者
+tags                     #tag标签
+keywords                 #关键字
+description              #描述
+content                  #文章内容
+articleImg               #原图
+articleThumbImg          #缩略图
+annex                    #附件地址
+views                    #浏览量
+download                 #下载量
+downloadJur              #下载权限
+status                   #状态
+orderSort                #排序
+attrId                   #文章属性
+createTime               #创建时间
+updateTime               #更新时间
+click                    #点击量
+
+
+//------------------------------ 上一篇  下一篇 ----------------------
+// 上一篇
+{minicms:next cid='$__detail__["cid"]'}
+{$vo.id}                #文章id
+{$vo.title}             #标题
+{$vo.temp_archives}     #文章模板
+{/minicms:next}
+// 下一篇
+{minicms:next cid='$__detail__["cid"]' pae='<' order='desc'}
+{$vo.id}                #文章id
+{$vo.title}             #标题
+{$vo.temp_archives}     #文章模板
+{/minicms:next}
+
+
+
+
+
+
+
+
+
+
+
+
+

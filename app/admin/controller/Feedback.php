@@ -35,7 +35,9 @@ class Feedback extends BaseController
         $list = pageTable('feedback',$start,$size,$where);
         $count = CountTable('feedback',$where);
         foreach ($list as &$v){
+            $cate = FindTable('category',['id'=>$v['cid']]);
             $v['createTime'] = date('Y-m-d H:i:s',$v['createTime']);
+            $v['temp_archives'] = $cate['temp_archives'];
         }
         $arr = array('code'=>0,'msg'=>'ok','count'=>$count,'data'=>$list);
         echo json_encode($arr);

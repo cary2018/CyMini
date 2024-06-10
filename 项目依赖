@@ -14,6 +14,8 @@ composer require zoujingli/ip2region
 composer require phpmailer/phpmailer
 #workerman扩展
 composer require workerman/phpsocket.io
+#扩展插件 https://www.kancloud.cn/ymsxxx/wt-tp6/2787771
+composer require zzstudio/think-addons
 
 
 

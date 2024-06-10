@@ -71,7 +71,7 @@ class System extends BaseController
     public function saveAt(){
         $data = request()->param();
         if($data['sys_type']=='file'){
-            $res = upload('variableFile');
+            $res = UploadImg('variableFile',0);
             if($res['code']==200){
                 if($res['ident'] == 1){
                     $res['code'] = 300;

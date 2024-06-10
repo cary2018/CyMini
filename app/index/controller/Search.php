@@ -14,12 +14,11 @@
 namespace app\index\controller;
 
 
-use app\BaseController;
-use think\facade\View;
+use app\index\BaseController;
 
 class Search extends BaseController
 {
     public function index(){
-        return View::fetch();
+        return View();
     }
 }

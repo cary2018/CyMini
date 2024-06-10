@@ -54,7 +54,7 @@ class Link extends BaseController
     }
     public function saveAt(){
         $data = request()->param();
-        $res = upload('logo',1);
+        $res = UploadImg('logo',1);
         if($res['code']==200){
             if($res['ident'] == 1){
                 $res['code'] = 300;
