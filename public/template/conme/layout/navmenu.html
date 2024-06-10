@@ -17,8 +17,8 @@
                             </div>
                         </div>
                         <ul class="m-slideout-count">
-                            <li><span>累计博文 <strong>253</strong> 篇</span></li>
-                            <li><span>累计评论 <strong>13816</strong> 条</span></li>
+                            <li><span>累计博文 <strong>{minicms:total table='article' where='[["status","=",1]]'}</strong> 篇</span></li>
+                            <li><span>累计评论 <strong>{minicms:total table='feedback' where='[["status","=",1]]'}</strong> 条</span></li>
                         </ul>
                     </div>
 

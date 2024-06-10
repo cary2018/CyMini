@@ -30,6 +30,7 @@ class Minicms extends TagLib
         'cate'                => ['attr' => '','expression'=>1,'close'=>0],
         'detail'              => ['attr' => '','expression'=>1,'close'=>0],
         'page'                => ['attr' => '','close'=>0],
+        'total'                => ['attr' => '','close'=>0],
         'feedback'            => ['attr' => 'aid,num,start','expression'=>1,'close'=>1],
         'breadcrumb'          => ['attr' => 'aid','expression'=>1,'close'=>1],
         'next'                => ['attr' => 'cid','expression'=>1,'close'=>1],
@@ -376,19 +377,18 @@ class Minicms extends TagLib
     /**
      * 友情链接标签
      */
-    public function tagLinks($tag, $content)
+    public function tagTotal($tag, $content)
     {
-        $item  = empty($tag['item']) ? 'vo' : $tag['item'];//循环变量名
-        $parse = <<<parse
-        <?php
-            \$__LINKS__ = \app\admin\service\ApiService::links();
-        ?>
-        <volist name="__LINKS__" id="{$item}">
-        {$content}
-        </volist>
-        parse;
-
+        if(empty($tag['table'])){
+            $tag['table'] = 0;
+        }
+        if(empty($tag['where'])){
+            $tag['where'] = 10;
+        }
+        $parse = '<?php ';
+        $parse .= '$__totals__ = CountTable("'.$tag['table'].'",'.$tag['where'].');';
+        $parse .= 'echo $__totals__;';
+        $parse .= ' ?>';
         return $parse;
-
     }
 }

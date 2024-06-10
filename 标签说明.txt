@@ -159,9 +159,12 @@ click                    #点击量
 {$vo.temp_archives}     #文章模板
 {/minicms:next}
 
+//---------------------------- 统计数据表数据 ----------------
 
-
-
+// 统计发表的文章数量  table（表名--不用加前缀）  where（条件）
+{minicms:total table='article' where='[["status","=",1]]'}
+// 统计文章评论的数量  table（表名--不用加前缀）  where（条件）
+{minicms:total table='feedback' where='[["status","=",1]]'}
 
 
 
