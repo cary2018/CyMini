@@ -4,6 +4,8 @@
 
 ![image-20240612232544912](README.assets/image-20240612232544912.png)
 
+![image-20240612233537866](README.assets/image-20240612233537866.png)
+
 ## 模板位置
 
 public/template
