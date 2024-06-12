@@ -17,15 +17,10 @@
     <script src="/template/conme/static/js/zblogphp.js"></script>
     <script src="/template/conme/static/js/c_html_js_add.js"></script>
 
-    <script src="/template/conme/static/layui/layui.js" type="text/javascript"></script>
-
-    <link rel="stylesheet" type="text/css" href="/template/conme/static/layui/css/layui.css" />
-
     <link href="/template/conme/static/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/template/conme/static/css/animate.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/template/conme/static/css/style.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/template/conme/static/css/navigation.css" type="text/css" media="all" />
-
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <!--[if lt IE 9]><script src="https://cdn.staticfile.org/html5shiv/3.7.0/html5shiv.js"></script><![endif]-->
@@ -37,17 +32,19 @@
 
 <main id="list-main" class="main-content container clearfix" style="transform: none;">
     <div class="container">
-        <!-- 广告位AD1  -->
+        {if !$pass}
+        <div style="margin: 0 auto;max-width:600px;">
+            <div style="margin:15px 15px;">
+                <form method="post" name="search" action="" class="searchform">
+                    <input type="text" value="" name="pass" placeholder="访问密码：123.." class="text" />
+                    <input type="submit" class="btn" value="访问" />
+                </form>
+            </div>
+        </div>
+        {/if}
+        {if $pass}
         <div class="row row-position">
             <div class="col-md-12">
-                <div style="margin: 0 auto;max-width:600px;">
-                    <div style="margin:15px 15px;">
-                        <el-input style="width:70%;"  @keyup.enter.native="SubmitValue" placeholder="请输入访问密码：123.." v-model="searchKey" class="input-with-select">
-                            <el-button slot="append" icon="el-icon-s-promotion" @click.stop="SubmitValue"></el-button>
-                        </el-input>
-                    </div>
-                </div>
-
                 {minicms:navigation}
                 <div class="part" id="cate{$vo.id}" >
                     <p class="tt" id="{$vo.id}">
@@ -64,11 +61,13 @@
                                         <i class="autoleft fa fa-link" title="{$vo.keywords}"></i>
                                     </a>
                                     <a class="a" href="{$vo.nav_url}" title="{$vo.nav_name}" target="{$vo.target}">
-                                        <h3>{$vo.nav_name}</h3>
+                                        <h3>
+                                            {$vo.nav_name}
+                                        </h3>
                                     </a>
                                 </div>
-
                             </article>
+
                             {if $vo.sun_name}
                             <article class="grid col-xs-6 col-sm-4 col-md-2">
                                 <div class="item">
@@ -88,6 +87,7 @@
                 {/minicms:navigation}
             </div>
         </div>
+        {/if}
     </div>
 </main>
 
@@ -99,30 +99,4 @@
 <script src="/template/conme/static/js/wow.min.js"></script>
 <!---->
 </body>
-<script>
-    layui.use(['table', 'laytpl'], function(){
-        var table = layui.table;
-        var laytpl = layui.laytpl;
-
-        // 数据列表
-        table.render({
-            elem: '#showpage',
-            url:'/api/article?id='+"{$Request.param.id?$Request.param.id:''}",
-            page:true,
-            limit:12,
-            response: {
-                statusCode: 200 // 重新规定成功的状态码为 200，table 组件默认为 0
-            },
-            done:function(res,curr,count,origin){
-                //console.log(res);
-                var getTpl = document.getElementById('listData').innerHTML; // 获取模板字符
-                var elemView = document.getElementById('view'); // 视图对象
-                // 渲染并输出结果
-                laytpl(getTpl).render(res, function(str){
-                    elemView.innerHTML = str;
-                });
-            }
-        });
-    });
-</script>
 </html>
