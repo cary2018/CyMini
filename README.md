@@ -4,6 +4,10 @@
 
 ![image-20240612232544912](README.assets/image-20240612232544912.png)
 
+### 进入安装页面
+
+   http://www.xxxx.com/installs
+
 ![image-20240612233537866](README.assets/image-20240612233537866.png)
 
 ## 模板位置
