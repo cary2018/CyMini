@@ -6,9 +6,9 @@
     <meta name="renderer" content="webkit" />
     <meta name="force-rendering" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{minicms:cate field='name'/} - {$Think.config.web.web_title}</title>
-    <meta name="description" content="{minicms:cate field='description'/}" />
-    <meta name="keywords" content="{minicms:cate field='keywords'/}" />
+    <title>{$Request.param.tag?$Request.param.tag:''} - {$Think.config.web.web_title}</title>
+    <meta name="description" content="{$Think.config.web.web_desc}" />
+    <meta name="keywords" content="{$Think.config.web.web_key}" />
     <meta property="og:type" content="index" />
     <meta property="og:title" content="{$Think.config.web.web_title}" />
     <meta property="og:image" content="{$Think.config.web.web_logo}" />
@@ -35,18 +35,20 @@
 {include file='layout/navmenu'}
 
 <main id="list-main" class="main-content container clearfix" style="transform: none;">
-    <nav class="navcates place">
-        <i class="fa fa-home"></i>
-        <a href="/">首页</a>
-        {minicms:breadcrumb aid='request()->param("id")'}
-        <i class="fa fa-angle-right"></i>
-        <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}" title="{$vo.name}">{$vo.name}</a>
-        {/minicms:breadcrumb}
-    </nav>
+
     <div id="main" class="cate-main fl auto-side">
         <div id="pjaxmain">
             <div class="post-box auto-main clearfix">
-
+                <nav class="main-navigation">
+                    <div class="modules-top">
+                        <nav class="navcates place">
+                            <i class="fa fa-home"></i>
+                            <a href="/">首页</a>
+                            <i class="fa fa-angle-right"></i>
+                            关于 {$Request.param.tag?$Request.param.tag:''} 的文章
+                        </nav>
+                    </div>
+                </nav>
                 <script id="listData" type="text/html">
                     {{#  layui.each(d.data, function(index, item){ }}
                     <article id="list{{item.id}}" class="info-list auto-list clearfix wow fadeInDown" style="visibility: hidden; animation-name: none;">
@@ -112,7 +114,10 @@
         // 数据列表
         table.render({
             elem: '#showpage',
-            url:'/api/article?id='+"{$Request.param.id?$Request.param.id:''}",
+            url:'/api/article/tags',
+            where:{
+                tag:"{$Request.param.tag?$Request.param.tag:''}"
+            },
             page:true,
             limit:12,
             response: {

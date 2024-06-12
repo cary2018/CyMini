@@ -13,8 +13,7 @@
 
 namespace app\index\controller;
 
-use app\BaseController;
-use think\facade\View;
+use app\index\BaseController;
 
 class Navigation extends BaseController
 {
@@ -22,9 +21,9 @@ class Navigation extends BaseController
         $id = request()->param('id');
         if($id){
             $data = FindTable('category',[['id','=',$id],['isShow','=',1]]);
-            View::assign('cate',$data);
+
         }else{
-            View::assign('cate');
+
         }
         return View();
     }

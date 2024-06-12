@@ -24,6 +24,7 @@
     <link href="/template/conme/static/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/template/conme/static/css/animate.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/template/conme/static/css/style.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/template/conme/static/css/navigation.css" type="text/css" media="all" />
 
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
@@ -35,65 +36,59 @@
 {include file='layout/navmenu'}
 
 <main id="list-main" class="main-content container clearfix" style="transform: none;">
-    <nav class="navcates place">
-        <i class="fa fa-home"></i>
-        <a href="/">首页</a>
-        {minicms:breadcrumb aid='request()->param("id")'}
-        <i class="fa fa-angle-right"></i>
-        <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}" title="{$vo.name}">{$vo.name}</a>
-        {/minicms:breadcrumb}
-    </nav>
-    <div id="main" class="cate-main fl auto-side">
-        <div id="pjaxmain">
-            <div class="post-box auto-main clearfix">
+    <div class="container">
+        <!-- 广告位AD1  -->
+        <div class="row row-position">
+            <div class="col-md-12">
+                <div style="margin: 0 auto;max-width:600px;">
+                    <div style="margin:15px 15px;">
+                        <el-input style="width:70%;"  @keyup.enter.native="SubmitValue" placeholder="请输入访问密码：123.." v-model="searchKey" class="input-with-select">
+                            <el-button slot="append" icon="el-icon-s-promotion" @click.stop="SubmitValue"></el-button>
+                        </el-input>
+                    </div>
+                </div>
 
-                <script id="listData" type="text/html">
-                    {{#  layui.each(d.data, function(index, item){ }}
-                    <article id="list{{item.id}}" class="info-list auto-list clearfix wow fadeInDown" style="visibility: hidden; animation-name: none;">
-                        <figure class="info-thumb">
-                            <a href="{{item.temp_archives}}?id={{item.id}}" title="{{item.title}}" target="{{item.target}}">
-                                <img width="280" height="210" src="/{{item.articleThumbImg}}" alt="{{item.title}}" />
-                            </a>
-                        </figure>
-                        <div class="info-items">
-                            <div class="info-limit">
-                                <h3 class="od-2v">
-                                    <a href="{{item.temp_archives}}?id={{item.id}}" title="{{item.title}}" target="{{item.target}}">
-                                        {{item.title}}
+                {minicms:navigation}
+                <div class="part" id="cate{$vo.id}" >
+                    <p class="tt" id="{$vo.id}">
+                        <i class="fa fa-globe"></i>
+                        <strong>{$vo.name}</strong>
+                    </p>
+                    <div class="items">
+
+                        <div class="row">
+                            {volist name='$vo.nav' id='vo'}
+                            <article class="grid col-xs-6 col-sm-4 col-md-2">
+                                <div class="item">
+                                    <a class="link" target="{$vo.target}" href="{$vo.nav_url}" rel="nofollow">
+                                        <i class="autoleft fa fa-link" title="{$vo.keywords}"></i>
                                     </a>
-                                </h3>
-                                <p class="info-desc od-2v">
-                                    {{item.description}}
-                                </p>
-                            </div>
-                            <div class="info-meta">
-                                <a class="meta-cate-url" href="{{item.temp_list}}?id={{item.cid}}" >
-                                    <i class="fa fa-dot-circle-o"></i>{{item.name}}
-                                </a>
-                                <div class="flex-fill"></div>
-                                <span class="info-time" title="{{item.updateTime}}">
-                                    <i class="fa fa-clock-o"></i>{{item.updateTime}}
-                                </span>
-                                <span class="info-viewnums"><i class="fa fa-eye" title="浏览数"></i>{{item.views}}</span>
-                                <span class="info-comment"><i class="fa fa-commenting" title="评论数"></i>{{item.feed}}</span>
-                            </div>
+                                    <a class="a" href="{$vo.nav_url}" title="{$vo.nav_name}" target="{$vo.target}">
+                                        <h3>{$vo.nav_name}</h3>
+                                    </a>
+                                </div>
+
+                            </article>
+                            {if $vo.sun_name}
+                            <article class="grid col-xs-6 col-sm-4 col-md-2">
+                                <div class="item">
+                                    <a class="link" target="{$vo.target}" href="{$vo.sun_url}" rel="nofollow">
+                                        <i class="autoleft fa fa-link" title="{$vo.keywords}"></i>
+                                    </a>
+                                    <a class="a" href="{$vo.sun_url}" title="{$vo.sun_name}" target="{$vo.target}">
+                                        <h3>{$vo.sun_name}</h3>
+                                    </a>
+                                </div>
+                            </article>
+                            {/if}
+                            {/volist}
                         </div>
-                    </article>
-                    {{#  }); }}
-                </script>
-                <div id="view"></div>
-
+                    </div>
+                </div>
+                {/minicms:navigation}
             </div>
-            <footer class="pagination wow fadeInDown" style="visibility: visible; animation-name: fadeInDown;">
-                <!----------分页显示-------->
-                <div id="showpage"></div>
-
-            </footer>
         </div>
     </div>
-
-    {include file='layout/list-right'}
-
 </main>
 
 {include file='layout/footer'}

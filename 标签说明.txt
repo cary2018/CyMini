@@ -166,6 +166,13 @@ click                    #点击量
 // 统计文章评论的数量  table（表名--不用加前缀）  where（条件）
 {minicms:total table='feedback' where='[["status","=",1]]'}
 
+//--------------------------- 获取数据表信息 ------------------
+table                   #表名
+where                   #条件
+{minicms:table table='category' where='["isShow","=",1],["id","=",2]'}
+{$vo.id}                #分类id
+{$vo.name}              #分类名
+{/minicms:table}
 
 
 

@@ -112,7 +112,7 @@
             },
             async dataMenu(){
                 axios.get('/api/').then(res=>{
-                    this.navMenu = res.data;
+                    this.navMenu = res.data.data;
                 });
             },
             async search(){

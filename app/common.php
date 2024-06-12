@@ -371,6 +371,24 @@ function FindTable($table,$where = [],$order=['id'=>'desc']){
 function CountTable($table, $where=[],$alias=''){
     return Db::name($table)->alias($alias)->where($where)->count();
 }
+
+/**
+ * @return array|mixed
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\DbException
+ * @throws \think\db\exception\ModelNotFoundException
+ * 导航信息
+ */
+function getNav(){
+    $data = GetCache('navigation');
+    if(!$data){
+        $data = AllTable('classify',['status'=>1],['orderBy'=>'desc']);
+        foreach ($data as $k=>$v){
+            $data[$k]['nav'] = AllTables('navigation',[['cid','=',$v['id']],['is_show','=',1]],$v['number'],['orderBy'=>'desc']);
+        }
+    }
+    return $data;
+}
 /**
  * @param string $table  表名
  * @param int $start  起始页

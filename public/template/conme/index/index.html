@@ -12,20 +12,27 @@
     <meta property="og:type" content="index" />
     <meta property="og:title" content="{$Think.config.web.web_title}" />
     <meta property="og:image" content="{$Think.config.web.web_logo}" />
-    <meta property="og:url" content="https://www.itmkk.com/" />
+
     <script src="/template/conme/static/js/jquery-2.2.4.min.js"></script>
     <script src="/template/conme/static/js/zblogphp.js"></script>
     <script src="/template/conme/static/js/c_html_js_add.js"></script>
-    <script src="/template/conme/static/js/prism.js" type="text/javascript"></script>
-    <script src="/template/conme/static/layui/layui.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" type="text/css" href="/template/conme/static/layui/css/layui.css" />
+    <script src="/template/conme/static/js/prism.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="/template/conme/static/css/prism.css" />
+
+    <script src="/template/conme/static/layui/layui.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/template/conme/static/layui/css/layui.css" />
+
+    <script src="/template/conme/static/js/swiper.min.js"></script>
+
+
     <link href="/template/conme/static/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/template/conme/static/css/swiper.min.css" type="text/css" />
     <link rel="stylesheet" href="/template/conme/static/css/animate.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/template/conme/static/css/style.css" type="text/css" media="all" />
-    <link rel="stylesheet" type="text/css" href="/template/conme/static/css/swiper-bundle.min.css" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://www.hlwlb.com/zb_users/upload/2023/05/favicon_hlwlb.ico" type="image/x-icon" />
+
+
     <!--[if lt IE 9]><script src="https://cdn.staticfile.org/html5shiv/3.7.0/html5shiv.js"></script><![endif]-->
     <style>
         .atext{
@@ -44,32 +51,40 @@
         }
         .atext a{color: hsla(0, 0%, 100%, .9);}
     </style>
+
 </head>
 <body class="home home-index" style="transform: none;">
 
 {include file='layout/navmenu'}
 
-<div class="slide-main clearfix">
-    <div class="wrapper-ban container">
-        <div class="main-slider-row clearfix">
+<div class="slide-main clearfix ">
+    <div class="wrapper-ban container ">
+        <div class="main-slider-row clearfix ">
             <!-- 轮播图 -->
-            <div id="main-slider" class="main-slider fl">
-                <div class="swiper mySwiper">
-                    <div id="ShowBanner" class="swiper-wrapper">
+            <div id="main-slider" class="main-slider fl ">
+                <div class="swiper-container swiper-main swiper-container-initialized swiper-container-horizontal">
+                    <div class="swiper-wrapper " >
+
                         {minicms:banner }
-                        <div class="swiper-slide">
-                            <img src="/{$vo.img}" >
-                            <p class="bannerText">
-                                <a href="{$vo.link}" target="{$vo.target}">{$vo.title}</a>
-                            </p>
+                        <div class="swiper-slide swiper-slide-duplicate-active swiper-slide-prev swiper-slide-duplicate-next" >
+                            <a href="{$vo.link}" target="{$vo.target}">
+                                <img src="/{$vo.img}" alt="{$vo.title}" />
+                                <span class="swiper-title">
+                                 <span class="badge arc_v3">推荐1</span>
+                                 {$vo.title}
+                                </span>
+                            </a>
                         </div>
                         {/minicms:banner}
-                    </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
 
+                    </div>
+                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets">
+                        <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1"></span>
+                    </div>
+                    <div class="swiper-button-next " tabindex="0" role="button" aria-label="Next slide"></div>
+                    <div class="swiper-button-prev " tabindex="0" role="button" aria-label="Previous slide"></div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                </div>
             </div>
             <div class="feature-post fr">
                 {minicms:attrid aid='3' num='2'}
@@ -86,7 +101,6 @@
                 {/minicms:attrid}
             </div>
         </div>
-
         <div class="hot-tags">
             <ul class="clearfix">
                 {minicms:attrid aid='2' num='4'}
@@ -103,16 +117,14 @@
                 {/minicms:attrid}
             </ul>
         </div>
-        <div class="sytj-tit">
+        <div class="sytj-tit youthlee_d7aaf_a768d">
             <h2><a href="javascript:;" class="cur">首页推荐</a></h2>
         </div>
     </div>
 </div>
-
-<div id="main" class="index-main clearfix">
-    <div class="container">
-        <div class="post-box clearfix">
-
+<div id="main" class="index-main clearfix ">
+    <div class="container ">
+        <div class="post-box clearfix ">
             {minicms:attrid aid='4' num='12'}
             <article id="list{$vo.id}" class="post-list auto-list clearfix wow fadeInDown">
                 <div class="list-shade"></div>
@@ -137,11 +149,7 @@
                         <a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}" class="avatar">
                             <img src="/{$vo.articleThumbImg}" title="/{$vo.articleThumbImg}" />
                         </a>
-                        <!--<strong class="name autlv aut-6">
-                            <a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">
-                                <em>{$vo.title}</em>
-                            </a>
-                        </strong>-->
+
                         <span class="catename">
                             <a class="meta-cate-url" href="{$vo.temp_list}?id={$vo.cid}" target="{$vo.target}">
                                 <em><i class="fa fa-columns"></i>{$vo.name}</em>
@@ -151,24 +159,27 @@
                 </div>
             </article>
             {/minicms:attrid}
-
         </div>
     </div>
 </div>
-<div id="list-main" class="list-main" style="transform: none;">
-    <div class="container clearfix alpha" style="transform: none;">
-        <div class="item-main fl">
-            <nav class="main-navigation">
+
+<div id="list-main" class="list-main " style="transform: none;">
+    <div class="container clearfix alpha " style="transform: none;">
+        <div class="item-main fl ">
+            <nav class="main-navigation ">
                 <ul class="menu-nav-inline">
-                    <li class="menu-item active"><a data-post="" href="/">最新文章</a></li>
-                    <li class="menu-item"><a data-post="" href="/"> 技术生活</a></li>
-                    <li class="menu-item"><a data-post="" href="/"> 互联网</a></li>
-                    <li class="menu-item"><a data-post="" href="/"> 心情随笔</a></li>
+                    <li class="menu-item active "><a lay-on="ajaxGet" id="" href="javascript:;">最新文章</a></li>
+                    {minicms:table where='["isShow","=",1],["id","=",2]'}
+                    <li class="menu-item "><a lay-on="ajaxGet" id="{$vo.id}" href="javascript:;"> {$vo.name}</a></li>
+                    {/minicms:table}
+                    {minicms:table where='["isShow","=",1],["id","=",3]'}
+                    <li class="menu-item "><a lay-on="ajaxGet" id="{$vo.id}" href="javascript:;"> {$vo.name}</a></li>
+                    {/minicms:table}
                 </ul>
             </nav>
-            <div id="pjaxmain" class="auto-side">
-                <div class="main_random auto-main clearfix">
 
+            <div id="pjaxmain" class="auto-side ">
+                <div class="main_random auto-main clearfix ">
                     <script id="TPL" type="text/html">
                         {{#  layui.each(d.data, function(index, item){ }}
                         <article id="list{{item.id}}" class="info-list auto-list clearfix wow fadeInDown" style="visibility: hidden; animation-name: none;">
@@ -204,9 +215,8 @@
                         {{#  }); }}
                     </script>
                     <div id="view"></div>
-
                 </div>
-                <footer class="pagination wow fadeInDown" style="visibility: hidden; animation-name: none;">
+                <footer class="pagination wow fadeInDown " style="visibility: visible; animation-name: fadeInDown;">
                     <!--分页-->
                     <script type="text/html" id="listData"></script>
                 </footer>
@@ -214,44 +224,43 @@
         </div>
         {include file='layout/main-right'}
     </div>
-    <div class="container">
-        <div class="links-box">
-            <div class="links-tit">
+    <div class="container ">
+        <div class="links-box ">
+            <div class="links-tit ">
                 <h3>友情链接</h3>
                 <span class="linksub">友情链接申请条件百度PR&gt;1（目前暂停申请）</span>
             </div>
-            <div class="links-li">
-
-                <div id="ShowLink">
-                    {minicms:link }
-                    <li><a href="{$vo.link}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
-                    {/minicms:link}
-                </div>
-
+            <div class="links-li youthlee_c8fe5_55046">
+                {minicms:link }
+                <li><a href="{$vo.link}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
+                {/minicms:link}
             </div>
         </div>
     </div>
 </div>
+
 {include file='layout/footer'}
 
-<script>var cookieDomain = "https://itmkk.com/";</script>
+<!---->
+
+<script>var cookieDomain = "https://www.itmkk.com/";</script>
 <script src="/template/conme/static/js/zh_tw.js"></script>
-<script src="/template/conme/static/js/jquery.pjax.js"></script>
+
 <script src="/template/conme/static/js/custom.js"></script>
 <script src="/template/conme/static/js/wow.min.js"></script>
-<script src="/template/conme/static/js/swiper-bundle.min.js" type="text/javascript"></script>
 <script>
     layui.use(['table', 'dropdown', 'util','laytpl'], function(){
         var table = layui.table;
         var laypage = layui.laypage;
         var laytpl = layui.laytpl;
+        var util = layui.util;
 
         // 数据列表
         table.render({
             elem: '#listData',
             url:'api/article',
             page:true,
-            //limit:12,
+            limit:12,
             response: {
                 statusCode: 200 // 重新规定成功的状态码为 200，table 组件默认为 0
             },
@@ -265,6 +274,34 @@
                 });
             }
         });
+
+        util.on('lay-on',{
+            ajaxGet:function(obj){
+                table.render({
+                    elem: '#listData',
+                    url:'api/article',
+                    where:{
+                        'id':obj.context.id,
+                    },
+                    page:true,
+                    limit:12,
+                    response: {
+                        statusCode: 200 // 重新规定成功的状态码为 200，table 组件默认为 0
+                    },
+                    done:function(res,curr,count,origin){
+                        //console.log(res);
+                        var getTpl = document.getElementById('TPL').innerHTML; // 获取模板字符
+                        var elemView = document.getElementById('view'); // 视图对象
+                        // 渲染并输出结果
+                        laytpl(getTpl).render(res, function(str){
+                            elemView.innerHTML = str;
+                        });
+                    }
+                });
+            }
+        });
+
+
     });
     //获取url中的参数
     function getUrlParams(name) {
@@ -283,23 +320,5 @@
         return params;
     }
 </script>
-
-<script>
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        loop: true,
-        autoplay:true,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-    });
-</script>
-<!---->
 </body>
 </html>

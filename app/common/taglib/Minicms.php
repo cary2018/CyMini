@@ -30,10 +30,12 @@ class Minicms extends TagLib
         'cate'                => ['attr' => '','expression'=>1,'close'=>0],
         'detail'              => ['attr' => '','expression'=>1,'close'=>0],
         'page'                => ['attr' => '','close'=>0],
-        'total'                => ['attr' => '','close'=>0],
+        'total'               => ['attr' => '','close'=>0],
         'feedback'            => ['attr' => 'aid,num,start','expression'=>1,'close'=>1],
         'breadcrumb'          => ['attr' => 'aid','expression'=>1,'close'=>1],
         'next'                => ['attr' => 'cid','expression'=>1,'close'=>1],
+        'navigation'          => ['attr' => 'cid','expression'=>1,'close'=>1],
+        'table'               => ['attr' => 'table,where','expression'=>1,'close'=>1],
     ];
 
     /**
@@ -301,8 +303,6 @@ class Minicms extends TagLib
         $parse .= 'if($__next__){ $__next__["temp_archives"] = $__cate__["temp_archives"]; }';
         $parse .= 'if($__next__){ $pare = array(0=>$__next__);}else{ $pare = array();}';
         $parse .= '$__LIST__ = $pare;';
-        //$parse .= 'print_r($pare);';
-        //$parse .= 'print_r($__next__);';
         $parse .= ' ?>';
         $parse .= '{volist name="__LIST__" id="' . $tag['id'] . '" key="'.$tag['key'].'"';
         if(!empty($tag['cid'])){
@@ -377,7 +377,7 @@ class Minicms extends TagLib
     /**
      * 友情链接标签
      */
-    public function tagTotal($tag, $content)
+    public function tagTotal($tag)
     {
         if(empty($tag['table'])){
             $tag['table'] = 0;
@@ -389,6 +389,54 @@ class Minicms extends TagLib
         $parse .= '$__totals__ = CountTable("'.$tag['table'].'",'.$tag['where'].');';
         $parse .= 'echo $__totals__;';
         $parse .= ' ?>';
+        return $parse;
+    }
+
+    public function tagNavigation($tag,$content){
+        if(empty($tag['id'])){
+            $tag['id'] = 'vo';
+        }
+        if(empty($tag['key'])){
+            $tag['key'] = 'key';
+        }
+        $parse = '<?php ';
+        $parse .= '$__navigation__ = getNav();';
+        $parse .= ' ?>';
+        $parse .= '{volist name="__navigation__" id="' . $tag['id'] . '" key="'.$tag['key'].'"';
+        $parse .= '}';
+        $parse .= $content;
+        $parse .= '{/volist}';
+
+        return $parse;
+    }
+
+    public function tagTable($tag, $content){
+        if(empty($tag['id'])){
+            $tag['id'] = 'vo';
+        }
+        if(empty($tag['key'])){
+            $tag['key'] = 'key';
+        }
+        if(empty($tag['table'])){
+            $tag['table'] = 'category';
+        }
+        if(empty($tag['where'])){
+            $tag['where'] = '[]';
+        }
+        $parse = '<?php ';
+        $parse .= '$__LIST__ = AllTable("'.$tag['table'].'",['.$tag['where'].']);';
+        $parse .= ' ?>';
+        $parse .= '{volist name="$__LIST__" id="'. $tag['id'].'" key="'.$tag['key'].'"';
+        if(!empty($tag['table'])){
+            $parse .= ' table="'.$tag['table'].'"';
+        }
+        if(!empty($tag['where'])){
+            $parse .= ' where="'.$tag['where'].'"';
+        }
+        $parse .= '}';
+        $parse .= $content;
+        $parse .= '{/volist}';
+
         return $parse;
     }
 }
