@@ -22,10 +22,11 @@ class Detail extends BaseController
     public function index(){
         $id = request()->param('id');
         $data = FindTable('article',[['id','=',$id],['status','=',1]]);
-        Db::name('article')->where('id', $id)->inc('views')->update();
         if(!$data){
             return redirect('/');
         }
+        //更新阅读量
+        Db::name('article')->where('id', $id)->inc('views')->update();
         return View();
     }
 }

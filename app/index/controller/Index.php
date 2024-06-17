@@ -16,6 +16,10 @@ class Index extends BaseController
 
     public function hello($name = 'ThinkPHP6')
     {
+        echo '<pre>----';
+        echo $name.'-----------';
+        print_r($_SERVER);
+        die;
         $url = 'https://1080api.com/api.php/provide/vod/?ac=videolist';
               //https://1080api.com/api.php/provide/vod/?ac=videolist&t=&pg=3&h=&ids=&wd=
         $param = array(

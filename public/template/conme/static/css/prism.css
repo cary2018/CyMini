@@ -1,10 +1,3 @@
-/* http://prismjs.com/download.html?themes=prism&languages=markup+css+clike+javascript+actionscript+applescript+aspnet+bash+basic+c+csharp+cpp+coffeescript+ruby+css-extras+d+diff+erlang+fsharp+fortran+go+groovy+haskell+java+latex+less+matlab+objectivec+ocaml+perl+php+php-extras+powershell+prolog+python+r+jsx+crystal+rust+sass+scss+scala+smalltalk+sql+swift+typescript+yaml&plugins=line-numbers+show-language */
-
-/**
- * prism.js default theme for JavaScript, CSS and HTML
- * Based on dabblet (http://dabblet.com)
- * @author Lea Verou
- */
 
 code[class*="language-"],
 pre[class*="language-"]{color:black;text-shadow:0 1px white;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;}

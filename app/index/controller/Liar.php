@@ -13,28 +13,25 @@
 
 namespace app\index\controller;
 
-
-use app\admin\service\ImgCompress;
-use app\BaseController;
-use think\facade\Cookie;
-use think\facade\Db;
-use think\facade\View;
+use app\index\BaseController;
 
 class Liar extends BaseController
 {
     public function index(){
         $id = request()->param('id');
-        if($id){
-            $data = FindTable('category',[['id','=',$id],['isShow','=',1]]);
-            View::assign('cate',$data);
-        }else{
-            View::assign('cate');
+        if($id == ''){
+            return redirect('/');
         }
         return View();
     }
 
     public function saveAt(){
         $post = request()->param();
+        /*$file = request()->file("thumbImg");
+        echo '<pre>';
+        print_r($file);
+        print_r($_FILES);
+        die;*/
         $check = request()->checkToken('__token__', request()->param());
         //更新token
         $token = request()->buildToken('__token__', 'sha1');
@@ -58,7 +55,7 @@ class Liar extends BaseController
                 ini_set('display_errors','On');*/
                 //配置内存大小
                 //ini_set('memory_limit', '256M');
-                $files = UploadImg('thumbImg');
+                $files = UploadImg('thumbImg',1);
                 $arrFile = [];
                 foreach ($files['result'] as $v){
                     $img = [
@@ -69,7 +66,7 @@ class Liar extends BaseController
                     array_push($arrFile,$img);
                 }
                 batchSave('liarImg',$arrFile);
-                $arr = ['code'=>200,'message'=>'上传成功','token'=>$token];
+                $arr = ['code'=>200,'message'=>'添加成功','token'=>$token];
                 DelSe('validaCode');
                 DelSe('validaEmail');
             }else{
@@ -89,5 +86,14 @@ class Liar extends BaseController
         $subject = '验证码：'.$code;
         $content = '你的验证码：'.$code;
         SendEmail($email,$nickname,$subject,$content);
+    }
+
+    public function upfile(){
+        $file = request()->file('image');
+        if ($file){
+            echo '<pre>';
+            print_r($file);
+        }
+        return View();
     }
 }

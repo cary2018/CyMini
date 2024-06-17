@@ -33,6 +33,6 @@ return array (
   'upload_config' => '',
   'img_type' => 'png,jpg,jpeg,webp,ico,gif,bmp',
   'file_type' => 'zip,gz,rar',
-  'img_size' => '5',
+  'img_size' => '10',
   'file_size' => '60',
 );

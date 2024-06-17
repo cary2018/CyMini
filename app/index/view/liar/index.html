@@ -7,13 +7,13 @@
     <meta name="applicable-device" content="pc,mobile">
     <meta name="renderer" content="webkit">
     <meta name="force-rendering" content="webkit">
-    <title>{$cate.name}-{$Think.config.web.web_title}</title>
-    <meta name="keywords" content="{$cate.keywords}">
-    <meta name="description" content="{$cate.description}">
+    <title>{minicms:cate field='name'/}-{$Think.config.web.web_title}</title>
+    <meta name="keywords" content="{minicms:cate field='keywords'/}">
+    <meta name="description" content="{minicms:cate field='description'/}">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{$cate.name}">
-    <meta property="og:category" content="{$cate.name}">
-    <meta property="og:description" content="{$cate.description}">
+    <meta property="og:title" content="{minicms:cate field='name'/}">
+    <meta property="og:category" content="{minicms:cate field='name'/}">
+    <meta property="og:description" content="{minicms:cate field='description'/}">
     <meta property="og:image" content="{$Think.config.web.web_logo}">
     {include file="layout/file_css"}
     {include file="layout/file_js"}

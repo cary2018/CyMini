@@ -347,9 +347,7 @@ class Minicms extends TagLib
         }
         $parse = '<?php ';
         $parse .= '$__category__ = FindTable("category",[["id","=",request()->param(\'id\')],["isShow","=",1]]);';
-        $parse .= 'if(('.$field.')){';
-        $parse .= 'echo $__category__["'.$tag['field'].'"];';
-        $parse .= '}';
+        $parse .= 'if($__category__){echo $__category__["'.$tag['field'].'"];}';
         $parse .= ' ?>';
         return $parse;
     }

@@ -32,6 +32,7 @@ class Liar extends BaseController
         $count = CountTable('liar',$where);
         foreach ($list as $k=>$v){
             $list[$k]['showImg'] = AllTable('liarImg',['lid'=>$v['id']]);
+            $list[$k]['dayTime'] = date('Y-m-d',$v['createTime']);
             $list[$k]['createTime'] = date('Y-m-d H:i:s',$v['createTime']);
         }
         $arr = array('code'=>200,'msg'=>'ok','count'=>$count,'limit'=>$where,'data'=>$list);

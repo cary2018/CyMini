@@ -1,5 +1,7 @@
 ## 系统安装
 
+网站根目录指向 public 下
+
 把 public/install 下的 install.lock 文件删除 即可重新安装
 
 ![image-20240612232544912](README.assets/image-20240612232544912.png)

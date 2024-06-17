@@ -38,7 +38,14 @@ class Visit extends BaseController
         $where = [];
         if(array_key_exists('data',$data)){
             foreach ($data['data'] as $k=>$v){
-                $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                if($v['name'] == 'range'){
+                    $atime = explode(' ~ ',$v['value']);
+                    $st = strtotime($atime[0]);
+                    $et=strtotime($atime[1]);
+                    $where[] = ['createTime','between',[$st,$et]];
+                }else{
+                    $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                }
             }
         }
         $list = pageTable('visit',$start,$size,$where);
