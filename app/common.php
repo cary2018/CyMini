@@ -1980,6 +1980,21 @@ function GetOs(){
     }
     return $os;
 }
+
+function checkAccept(){
+    if(strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false){
+        //可能是真实浏览器
+    }else{
+        // 判断蜘蛛
+        $bot = isbot($_SERVER['HTTP_USER_AGENT']);
+        if (!$bot) {
+            //蜘蛛不存在终止访问
+            die;
+        }
+        //die('坚决杜绝一切非正常访问');
+    }
+}
+
 function isbot($tmp){
     //谷歌蜘蛛
     if(strpos($tmp, 'compatible; Googlebot/2.1') !== false){$flag = '谷歌蜘蛛';}
@@ -2041,6 +2056,8 @@ function isbot($tmp){
     else if(strpos($tmp, 'YandexBot') !== false){$flag = 'YandexBot';}
     else if(strpos($tmp, 'AhrefsBot') !== false){$flag = 'AhrefsBot';}
     else if(strpos($tmp, 'ezooms.bot') !== false){$flag = 'ezooms.bot';}
+    else if(strpos($tmp, 'YisouSpider') !== false){$flag = '神马搜索';}
+    else if(strpos($tmp, 'MJ12bot') !== false){$flag = 'majestic.com';}
     else{$flag = '';}
     return $flag;
 }

@@ -14,10 +14,6 @@ class VisitLog
      */
     public function handle($request, \Closure $next)
     {
-        $bot = isbot($_SERVER['HTTP_USER_AGENT']);
-        if($bot == ''){
-            die;
-        }
         $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         $ip = new \Ip2Region();
         $region = $ip->btreeSearch(get_client_ip());
