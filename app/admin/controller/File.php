@@ -67,6 +67,7 @@ class File extends BaseController
         View::assign('center',$center);
         return View();
     }
+    //保存修改文件
     public function saveFile(){
         $data = request()->param();
         $path =  root_path().$data['path'].'/'.$data['filename'];
@@ -136,7 +137,7 @@ class File extends BaseController
     }
     public function createFile(){
         $url = request()->param() ?? '';
-        $path = root_path().str_replace('-','/',$url['path']).'/'.$url['filename'];
+        $path = root_path().$url['path'].'/'.$url['filename'];
         //echo $path;
         if($url){
             if(is_dir($path)){
@@ -179,8 +180,8 @@ class File extends BaseController
     public function countSize(){
         $data = request()->param();
         $path = root_path();
-        $dir = str_replace('-','/',$data['key']);
-        $size = toSize(dirSize($path.$dir));
+        $dir = $path.$data['key'];
+        $size = toSize(dirSize($dir));
         return json_encode(array('code'=>200,'size'=>$size));
     }
 }

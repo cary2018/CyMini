@@ -144,6 +144,7 @@ function getCer($cer){
         'visit'=>'访客记录',
         'collection'=>'采集管理',
         'database'=>'数据库管理',
+        'file'=>'文件管理',
     ];
     $strCode = strtolower($cer);
     $strArr = array_change_key_case($arr,CASE_LOWER);
@@ -198,6 +199,19 @@ function getAct($action){
         'repair'=>'修复数据',
         'restore'=>'还原数据',
         'sql'=>'执行Sql',
+        'rep'=>'批量替换',
+        'repcon'=>'执行批量替换',
+        'columns'=>'获取数据表信息',
+        'rename'=>'修改文件名',
+        'saveName'=>'执行修改文件名',
+        'saveFile'=>'保存修改文件',
+        'remove'=>'移动文件',
+        'removeFile'=>'执行移动文件',
+        'create'=>'新建文件',
+        'createFile'=>'执行新建文件',
+        'createdir'=>'新建文件夹',
+        'saveDir'=>'执行新建文件夹',
+        'countSize'=>'统计文件夹大小',
     ];
     $strCode = strtolower($action);
     $strArr = array_change_key_case($arr,CASE_LOWER);
@@ -276,6 +290,15 @@ function WebLog(){
         'select',
         'content',
         'importAll',
+        'rename',
+        'remove',
+        'create',
+        'createdir',
+        'countSize',
+        'columns',
+        'repcon',
+        'rep',
+        'sql',
     ];
     $bool = inArr($path,$skip);
     if(!$bool){
@@ -392,35 +415,6 @@ function read_gz($gz_file){
     }
     gzclose($file);
     return $str;
-}
-
-function InType($type=''){
-    $arr = array(
-        'php',
-        'css',
-        'txt',
-        'js',
-        'htm',
-        'html',
-        'xml',
-        'xhtml',
-        'inc',
-        'pl',
-        'cgi',
-        'xsl',
-        'cfm',
-        'yml',
-        'env',
-        'json',
-        'sql',
-        'md',
-        'htaccess',
-    );
-    if(in_array($type,$arr)){
-        return true;
-    }else{
-        return false;
-    }
 }
 
 //************************************************************************************************************

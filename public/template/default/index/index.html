@@ -68,8 +68,8 @@
                 </div>
                 <div class="guide-list">
 
-                    {minicms:article start='0' num='1' order='id' cid='4'}
-                    <article class="guide-inner top-num0">
+                    {minicms:attrid aid='3' num='6'}
+                    <article class="guide-inner top-num{$key-1}">
                         <div class="guide-inner-info">
                             <h4 class="g-i-top">
                                 <span class="g-i-cate">
@@ -81,82 +81,7 @@
                             <p>{$vo.description}</p>
                         </div>
                     </article>
-                    {/minicms:article}
-
-                    {minicms:article start='0' num='1' order='id' cid='3'}
-                    <article class="guide-inner top-num1">
-                        <div class="guide-inner-info">
-                            <h4 class="g-i-top">
-                                <span class="g-i-cate">
-                                    <a href="{$vo.temp_list}?id={$vo.cid}" target="{$vo.target}">{$vo.name}</a>
-                                </span>
-                                <span class="g-i-time"><i class="icon font-time"></i>{$vo.createTime}</span>
-                            </h4>
-                            <h5><a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">{$vo.title}</a></h5>
-                            <p>{$vo.description}</p>
-                        </div>
-                    </article>
-                    {/minicms:article}
-
-                    {minicms:article start='0' num='1' order='id' cid='2'}
-                    <article class="guide-inner top-num2">
-                        <div class="guide-inner-info">
-                            <h4 class="g-i-top">
-                                <span class="g-i-cate">
-                                    <a href="{$vo.temp_list}?id={$vo.cid}" target="{$vo.target}">{$vo.name}</a>
-                                </span>
-                                <span class="g-i-time"><i class="icon font-time"></i>{$vo.createTime}</span>
-                            </h4>
-                            <h5><a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">{$vo.title}</a></h5>
-                            <p>{$vo.description}</p>
-                        </div>
-                    </article>
-                    {/minicms:article}
-
-                    {minicms:article start='0' num='1' order='id' cid='2'}
-                    <article class="guide-inner top-num3">
-                        <div class="guide-inner-info">
-                            <h4 class="g-i-top">
-                                <span class="g-i-cate">
-                                    <a href="{$vo.temp_list}?id={$vo.cid}" target="{$vo.target}">{$vo.name}</a>
-                                </span>
-                                <span class="g-i-time"><i class="icon font-time"></i>{$vo.createTime}</span>
-                            </h4>
-                            <h5><a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">{$vo.title}</a></h5>
-                            <p>{$vo.description}</p>
-                        </div>
-                    </article>
-                    {/minicms:article}
-
-                    {minicms:article start='0' num='1' order='id' cid='3'}
-                    <article class="guide-inner top-num4">
-                        <div class="guide-inner-info">
-                            <h4 class="g-i-top">
-                                <span class="g-i-cate">
-                                    <a href="{$vo.temp_list}?id={$vo.cid}" target="{$vo.target}">{$vo.name}</a>
-                                </span>
-                                <span class="g-i-time"><i class="icon font-time"></i>{$vo.createTime}</span>
-                            </h4>
-                            <h5><a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">{$vo.title}</a></h5>
-                            <p>{$vo.description}</p>
-                        </div>
-                    </article>
-                    {/minicms:article}
-
-                    {minicms:article start='0' num='1' order='id' cid='4'}
-                    <article class="guide-inner top-num5">
-                        <div class="guide-inner-info">
-                            <h4 class="g-i-top">
-                                <span class="g-i-cate">
-                                    <a href="{$vo.temp_list}?id={$vo.cid}" target="{$vo.target}">{$vo.name}</a>
-                                </span>
-                                <span class="g-i-time"><i class="icon font-time"></i>{$vo.createTime}</span>
-                            </h4>
-                            <h5><a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">{$vo.title}</a></h5>
-                            <p>{$vo.description}</p>
-                        </div>
-                    </article>
-                    {/minicms:article}
+                    {/minicms:attrid}
 
                 </div>
             </div>
