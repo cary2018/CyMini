@@ -134,7 +134,7 @@ class Admin extends BaseController
 
     public function saveAt(){
         $data = request()->param();
-        $res = upload('headImg',1);
+        $res = UploadImg('headImg',1);
         if($res['code']==200){
             if($res['ident'] == 1){
                 $res['code'] = 300;
@@ -159,7 +159,7 @@ class Admin extends BaseController
 
     public function saveInfo(){
         $data = request()->param();
-        $res = upload('headImg',1);
+        $res = UploadImg('headImg',1);
         if($res['code']==200){
             if($res['ident'] == 1){
                 $res['code'] = 300;

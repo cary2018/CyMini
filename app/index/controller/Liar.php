@@ -27,11 +27,6 @@ class Liar extends BaseController
 
     public function saveAt(){
         $post = request()->param();
-        /*$file = request()->file("thumbImg");
-        echo '<pre>';
-        print_r($file);
-        print_r($_FILES);
-        die;*/
         $check = request()->checkToken('__token__', request()->param());
         //更新token
         $token = request()->buildToken('__token__', 'sha1');
@@ -49,23 +44,19 @@ class Liar extends BaseController
                 $post['createTime'] = time();
                 $post['isShow'] = 1;
                 $lid = saveId('liar',$post);
-                //显示所有错误
-                /*error_reporting(11);
-                //提示报错信息
-                ini_set('display_errors','On');*/
-                //配置内存大小
-                //ini_set('memory_limit', '256M');
                 $files = UploadImg('thumbImg',1);
                 $arrFile = [];
-                foreach ($files['result'] as $v){
-                    $img = [
-                        'lid'=>$lid,
-                        'img'=>$v['img'],
-                        'thumbImg'=>$v['thumb'],
-                    ];
-                    array_push($arrFile,$img);
+                if($files['code'] == 200){
+                    foreach ($files['result'] as $v){
+                        $img = [
+                            'lid'=>$lid,
+                            'img'=>$v['img'],
+                            'thumbImg'=>$v['thumb'],
+                        ];
+                        array_push($arrFile,$img);
+                    }
+                    batchSave('liarImg',$arrFile);
                 }
-                batchSave('liarImg',$arrFile);
                 $arr = ['code'=>200,'message'=>'添加成功','token'=>$token];
                 DelSe('validaCode');
                 DelSe('validaEmail');

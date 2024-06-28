@@ -37,6 +37,13 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 
 	//监听头部工具栏事件（表头事件） 添加 + 获取选中行id + 批量删除 + 重载数据表格
 	table.on('toolbar(DataDemos)', function(obj){
+		let checkStatus = table.checkStatus(obj.config.id); //idTest 即为基础参数 id 对应的值
+		let data = checkStatus.data;
+		let fileName = $('#FieldName').attr('alt');
+		if(!fileName){
+			fileName = 'id';
+		}
+		let arr_id = new Array();
 		switch(obj.event){
 			case 'add':
 				openAdd()
@@ -45,26 +52,12 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 				openAdds()
 				break;
 			case 'importSelect':
-				let checkData = table.checkStatus(obj.config.id); //idTest 即为基础参数 id 对应的值
-				let id = checkData.data;
-				let fileNames = $('#FieldName').attr('alt');
-				if(!fileNames){
-					fileNames = 'id';
+				for(let i = 0;i<data.length;i++){
+					arr_id.push(data[i][fileName]); //ar_id 是数据表唯一id
 				}
-				let arrs_id = new Array();
-				for(let i = 0;i<id.length;i++){
-					arrs_id.push(id[i][fileNames]); //ar_id 是数据表唯一id
-				}
-				importSelect(arrs_id);
+				importSelect(arr_id);
 				break;
 			case 'delete':
-				let checkStatus = table.checkStatus(obj.config.id); //idTest 即为基础参数 id 对应的值
-				let data = checkStatus.data;
-				let fileName = $('#FieldName').attr('alt');
-				if(!fileName){
-					fileName = 'id';
-				}
-				let arr_id = new Array();
 				for(let i = 0;i<data.length;i++){
 					arr_id.push(data[i][fileName]); //ar_id 是数据表唯一id
 				}
@@ -73,11 +66,34 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 					layer.close(index);
 				});
 				break;
+			case 'ChangeData':
+				let fieldName = $(this).attr('field');
+				if(!fieldName){
+					fieldName = 'id';
+				}
+				let actionUrl = $(this).attr('action');
+				if(!actionUrl){
+					actionUrl = 'Change';
+				}
+				let confirm = $(this).attr('title');
+				if(!confirm){
+					confirm = '确定操作吗?';
+				}
+				let arr = new Array();
+				for(let i = 0;i<data.length;i++){
+					arr.push(data[i][fieldName]); //ar_id 是数据表唯一id
+				}
+				layer.confirm(confirm, function(index){
+					ChangeData(arr,actionUrl);  //执行批量删除
+					layer.close(index);
+				});
+				break;
 			case 'laySearch':
 				$("#inputSearch").slideToggle("fast");
 				break;
 		}
 	});
+
 	//监听单元格编辑事件(修改字段数据)
 	table.on('edit(DataDemos)', function(obj){
 		//异步发送，把数据提交给php
@@ -224,10 +240,13 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 	});
 	//删除操作
 	function DelData(data,delHan=''){
-		//异步发送，把数据提交给php
+		//异步发送，把数据提交给后台处理
 		let DelUrl = $('#DelUrl').attr('alt');
 		if(!DelUrl){
 			DelUrl = 'delAll';
+		}
+		if(delHan){
+			DelUrl = delHan;
 		}
 		var wait = 1000;
 		$.ajax({
@@ -264,18 +283,82 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 			}
 		});
 	}
+	function ChangeData(data,action){
+		//异步发送，把数据提交给后台处理
+		var wait = 3000;
+		$.ajax({
+			url: action,
+			type: "POST",
+			data: {data},
+			beforeSend: function(){
+				layer.load(1,{shade:[0.3,'#000']});
+			},
+			success: function (data) {
+				//关闭等待弹出层
+				layer.closeAll();
+				//权限不足
+				let ob = typeof data;
+				if(ob == 'object'){
+					if(data.code == 0){
+						layer.msg(data.msg,{icon:5,time:wait,shade:0.3});
+					}
+				}
+				let obj = JSON.parse(data);
+				if(obj.code == 200){
+					//删除指定行
+					//delHan.del();
+					table.reload("DataDemos");  //重载数据表格
+					layer.msg(obj.msg,{icon:1,time:wait,shade:0.3});
+				}else{
+					layer.msg(obj.msg,{icon:2,time:wait,shade:0.3});
+				}
+			},
+			error: function () {
+				layer.msg("上传失败！",{icon:2,time:wait,shade:0.3});
+				$("#imgWait").hide();
+				layer.closeAll('loading'); //关闭加载层
+			}
+		});
+	}
+
 	//工具条事件  编辑 + 删除
 	table.on('tool(DataDemos)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
 		var nowActItem = obj; //获得当前行数据
 		var data = obj.data; //获得当前行数据
 		var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 		if(layEvent === 'del'){ //删除
-			layer.confirm('确定删除吗?', function(index){
+			layer.confirm('确定操作吗?', function(index){
 				let fileName = $('#FieldName').attr('alt');
 				if(!fileName){
 					fileName = 'id';
 				}
-				DelData(data[fileName],obj); //执行删除操作
+				DelData(data[fileName]); //执行删除操作
+				layer.close(index);
+			});
+		} else if(layEvent === 'optimize'){ //优化
+			layer.confirm('确定操作吗?', function(index){
+				let name = $('#optimize').attr('field');
+				let url = $('#optimize').attr('action');
+				if(!name){
+					name = 'id';
+				}
+				if(!url){
+					url = 'optimize';
+				}
+				DelData(data[name],url); //提交后台执行操作
+				layer.close(index);
+			});
+		} else if(layEvent === 'repair'){ //修复
+			layer.confirm('确定操作吗?', function(index){
+				let name = $('#repair').attr('field');
+				let url = $('#repair').attr('action');
+				if(!name){
+					name = 'id';
+				}
+				if(!url){
+					url = 'repair';
+				}
+				DelData(data[name],url); //提交后台执行操作
 				layer.close(index);
 			});
 		} else if(layEvent === 'edit'){ //编辑
@@ -473,7 +556,7 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 		let format = obj.form;
 		let formId = $(format).attr('id');
 		let formData =  new FormData($('#'+formId)[0]); //获取整个表单数据
-		let wait = 1000;
+		let wait = 2000;
 		let ActionUrl = $('#ActionUrl').attr('alt');
 		if(ActionUrl){
 			url = ActionUrl;

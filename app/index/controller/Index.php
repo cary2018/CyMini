@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use app\index\BaseController;
+use think\facade\Db;
 
 class Index extends BaseController
 {
@@ -16,9 +17,18 @@ class Index extends BaseController
 
     public function hello($name = 'ThinkPHP6')
     {
-        echo '<pre>----';
+        echo '<pre>';
+        //echo base_path();
+        $file = base_path().'admin/data/backup/database/';
+        echo $file;
+        if(!file_exists($file)){
+            mkdir($file,0777,true);
+        }
+        $data = RandRow("",3);
+        echo PHP_EOL;
         echo $name.'-----------';
-        print_r($_SERVER);
+        $list = Db::query('show table status');
+        //print_r($list);
         die;
         $url = 'https://1080api.com/api.php/provide/vod/?ac=videolist';
               //https://1080api.com/api.php/provide/vod/?ac=videolist&t=&pg=3&h=&ids=&wd=

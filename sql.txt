@@ -167,6 +167,7 @@ create table cy_visit(
     createTime int not null default 0 comment'访问时间'
 )engine=MyIsam charset=utf8;
 alter table cy_visit add clientInfo varchar(100) not null default '' comment'客户端设备信息' after region;
+alter table cy_visit add clientType varchar(30) not null default '' comment'客户类型' after clientInfo;
 //文章
 create table cy_article(
     id int primary key auto_increment,
@@ -272,6 +273,7 @@ create table cy_category(
 alter table cy_category add remark varchar(300) not null comment'备注';
 alter table cy_category add keywords varchar(300) not null comment'关键字';
 alter table cy_category add description varchar(300) not null comment'描述';
+alter table cy_category add iconfont varchar(30) not null default '' comment'icon图标' after keywords;
 //文章属性
 CREATE TABLE `cy_attribute` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

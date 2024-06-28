@@ -38,7 +38,7 @@
     <nav class="navcates place">
         <i class="fa fa-home"></i>
         <a href="/">首页</a>
-        {minicms:breadcrumb aid='request()->param("id")'}
+        {minicms:breadcrumb}
         <i class="fa fa-angle-right"></i>
         <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}" title="{$vo.name}">{$vo.name}</a>
         {/minicms:breadcrumb}
@@ -71,8 +71,8 @@
                                     <i class="fa fa-dot-circle-o"></i>{{item.name}}
                                 </a>
                                 <div class="flex-fill"></div>
-                                <span class="info-time" title="{{item.updateTime}}">
-                                    <i class="fa fa-clock-o"></i>{{item.updateTime}}
+                                <span class="info-time" title="{{item.createTime}}">
+                                    <i class="fa fa-clock-o"></i>{{item.createTime}}
                                 </span>
                                 <span class="info-viewnums"><i class="fa fa-eye" title="浏览数"></i>{{item.views}}</span>
                                 <span class="info-comment"><i class="fa fa-commenting" title="评论数"></i>{{item.feed}}</span>
@@ -112,9 +112,12 @@
         // 数据列表
         table.render({
             elem: '#showpage',
-            url:'/api/article?id='+"{$Request.param.id?$Request.param.id:''}",
+            url:'/api/article',
             page:true,
             limit:12,
+            where:{
+                id:"{$Request.param.id?$Request.param.id:''}",
+            },
             response: {
                 statusCode: 200 // 重新规定成功的状态码为 200，table 组件默认为 0
             },

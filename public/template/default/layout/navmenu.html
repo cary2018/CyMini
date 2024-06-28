@@ -1,0 +1,73 @@
+<header class="top-header">
+    <div class="top-bar fixed-nav fixed-appear">
+        <div class="container secnav secnav-b clearfix">
+            <div class="fav-subnav">
+                <div class="top-bar-left pull-left navlogo">
+                    <div class="m-top-search">
+                        <i class="icon font-search top-search"></i>
+                    </div>
+                    <a href="/" class="logo" title="...">
+                        <img width="300" height="100" src="/{$Think.config.web.web_logo}" class="logo-light" id="logo-light" alt="..." />
+                        <img width="300" height="100" src="/{$Think.config.web.web_logo}" class="logo-dark d-none" id="logo-dark" alt="..." />
+                        <b class="shan"></b>
+                    </a>
+                    <div class="m-top-logo">
+                        <i class="nav-bar"><span></span><span></span><span></span></i>
+                    </div>
+                </div>
+                <div class="top-nav-left header-nav fl" data-type="index" data-infoid="index">
+                    <aside class="mobile_aside mobile_nav">
+                        <ul id="nav" class="top-bar-menu nav-pills">
+                            <li id="nvabar-item-index">
+                                <a href="/">
+                                    <i class="icon font-home"></i>
+                                    首页
+                                </a>
+                            </li>
+                            {minicms:navmenu}
+                            <li id="navbar-category-{$vo.id}" class="{if $vo.son}menu-item-has-children{/if}">
+                                <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}">
+                                    <i class="icon {$vo.iconfont}"></i>
+                                    {$vo.name}
+                                </a>
+                                {if $vo.son}
+                                <span class="toggle-btn"><i class="icon font-chevron-down"></i></span>
+                                <ul class="dropdown-menu sub-menu">
+                                    {foreach $vo.son as $skey=>$item}
+                                    <li class="menu-item menu-item-type-taxonomy menu-item-object-category">
+                                        <a href="{$item.isUrl?$item.outUrl:$item.temp_list}?id={$item.id}" target="{$item.target}">
+                                            {$item.name}
+                                        </a>
+                                    </li>
+                                    {/foreach}
+                                </ul>
+                                {/if}
+                            </li>
+                            {/minicms:navmenu}
+                        </ul>
+                    </aside>
+                    <div id="mask"></div>
+                </div>
+                <div class="search-warp clearfix">
+                    <div class="search_top">
+                        <div class="search-icon"></div>
+                        <div class="search-box">
+                            <form name="search" method="get" action="/index/search">
+                                <input class="search-input" value="{$Request.param.q?$Request.param.q:''}" placeholder="请输入关键字" type="text" name="q" />
+                                <button class="showhide-search" type="submit">搜 索</button>
+                                <span class="s-icon"></span>
+                            </form>
+                        </div>
+                    </div>
+                    <a class="at-night top-night" title="夜间模式" href="javascript:switchNightMode()" target="_self"></a>
+                    <a class="top-tnrt" title="繁简转换" href="javascript:translatePage();" id="zh_tw">繁体</a>
+                    <!--<div class="text-user-r">
+                        <a target="_self" class="t-btn r-btn-ht" title="HI，您好！" href="javascript:lcp.loginPopup('register');">注册</a>
+                        <a target="_self" class="t-btn l-btn-ht" title="登录账户" href="javascript:lcp.loginPopup();">登录</a>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div id="percentageCounter" style="width: 0%;"></div>
+    </div>
+</header>

@@ -17,25 +17,21 @@
                             </div>
                         </div>
                         <ul class="m-slideout-count">
-                            <li><span>累计博文 <strong>{minicms:total table='article' where='[["status","=",1]]'}</strong> 篇</span></li>
-                            <li><span>累计评论 <strong>{minicms:total table='feedback' where='[["status","=",1]]'}</strong> 条</span></li>
+                            <li><span>累计博文 <strong>{minicms:total}</strong> 篇</span></li>
+                            <li><span>累计评论 <strong>{minicms:total table='feedback'}</strong> 条</span></li>
                         </ul>
                     </div>
 
                     <ul id="showNavs" class="sf-menu nav-pills">
-                        <li id="nvabar-item-index" class="{$Request.get.id?'':'active'}">
+                        <li id="nvabar-item-index">
                             <a href="/">
                                 <i class="fa fa-home"></i>首页
                             </a>
                         </li>
                         {minicms:navmenu}
-                        <li id="nvabar-item-index" class="{$Request.get.id==$vo.id?'active':''}">
+                        <li id="nvabar-item-index">
                             <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}">
-                                {if $vo.son}
-                                <i class="fa fa-book"></i>
-                                {else}
-                                <i class="fa fa-cloud"></i>
-                                {/if}
+                                <i class="fa {$vo.iconfont}"></i>
                                 {$vo.name}
                             </a>
                             {if $vo.son}
@@ -44,7 +40,7 @@
                                 </span>
                             <ul class="dropdown-menu sub-menu">
                                 {foreach $vo.son as $skey=>$item}
-                                <li id="navbar-page-68" class="{$Request.get.id==$item.id?'active':''}">
+                                <li id="navbar-page-68">
                                     <a href="{$item.isUrl?$item.outUrl:$item.temp_list}?id={$item.id}" target="{$item.target}">
                                         {$item.name}
                                     </a>

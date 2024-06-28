@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{$Think.lang.admin}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {include file="public/file_css"}
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div id="toolDel" style="display:none;">
+            <a class="layui-btn layui-btn-sm" href="{:url('file/')}">根目录</a>
+            <a class="layui-btn layui-btn-sm" lay-event="create" action="{:url('file/create')}?path={$path}">新建文件</a>
+            <a class="layui-btn layui-btn-sm" lay-event="createDir" action="{:url('file/createdir')}?path={$path}">新建目录</a>
+            <button class="layui-btn layui-btn-sm layui-btn-danger" action="{:url('file/delAll')}" lay-event="del"> 批量删除 </button>
+            <span style="margin-left:60px;">
+                <td colspan="3">
+                    {if $path}
+                    <a href="{:url('file/index')}?path={$url|urlencode}">
+                        <img src="/static/img/dir2.gif">
+                        返回上一页
+                    </a>
+                    {/if}
+                </td>
+                <td colspan="4">
+                    当前目录：/{$path}
+                </td>
+            </span>
+        </div>
+        <table lay-filter="backup">
+            <thead>
+            <tr>
+                <th lay-data="{field:'numbers',type:'checkbox', width:60}">-</th>
+                <th lay-data="{field:'filename'}">文件名</th>
+                <th lay-data="{field:'size',width:200}">文件大小</th>
+                <th lay-data="{field:'mtime',width:180}">修改时间</th>
+                <th lay-data="{field:'option',fixed:'right',width:220}">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {volist name='list' id='vo'}
+            <tr>
+                <td> - </td>
+                <td>
+                    {if $vo.type == 'dir'}
+                    <a alt="{$vo.filename}" href="{:url()}?path={$path?$path.'/'|urlencode:''}{$vo.filename}">
+                        <img src="/static/img/{$vo.parts}.gif">
+                        {$vo.filename}
+                    </a>
+                    {else}
+                    <a alt="{$vo.filename}" href="javascript:;">
+                        <img src="/static/img/{$vo.parts}.gif">
+                        {$vo.filename}
+                    </a>
+                    {/if}
+                </td>
+                <td>
+                    {if $vo.type == 'dir'}
+                        <span style="cursor:pointer;" onclick="CountCompute(this,'{$path?$path.\'/\':\'\'}{$vo.filename}')">
+                            {$vo.size}
+                        </span>
+                    {else}
+                        {$vo.size}
+                    {/if}
+                </td>
+                <td>{$vo.mtime}</td>
+                <td>
+                    {if $vo.mime_type == 'text'}
+                    <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+                    {/if}
+                    {if $vo.type == 'file'}
+                    <button class="layui-btn layui-btn-xs" lay-event="remove">移动</button>
+                    {/if}
+                    <button class="layui-btn layui-btn-xs" lay-event="rename">改名</button>
+                    <button class="layui-btn-danger layui-btn layui-btn-xs" lay-event="del">删除</button>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+{include file="public/file_js"}
+<script src="/hyy1.0.0/js/jquery.min.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+            var $ = layui.jquery,
+                form = layui.form,
+                table = layui.table;
+        //转换静态表格
+        table.init('backup', {
+            //height: 315 //设置高度
+            limit: 100, //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+            toolbar:"#toolDel"
+            //支持所有基础参数
+        })
+        table.on('toolbar(backup)',function (obj) {
+            let checkStatus = table.checkStatus(obj.config.id); //idTest 即为基础参数 id 对应的值
+            let data = checkStatus.data;
+            let fieldName = $(this).attr('field');
+            if(!fieldName){
+                fieldName = 'filename';
+            }
+            let actionUrl = $(this).attr('action');
+            if(!actionUrl){
+                actionUrl = 'Change';
+            }
+            let confirm = $(this).attr('title');
+            if(!confirm){
+                confirm = '确定操作吗?';
+            }
+            let arr = new Array();
+            switch (obj.event) {
+                case 'create':
+                    ChangeData(actionUrl);
+                    break;
+                case 'createDir':
+                    ChangeData(actionUrl);
+                    break;
+                case 'del':
+                    for(let i = 0;i<data.length;i++){
+                        let path = "{$path}";
+                        let name = $(data[i][fieldName]).attr('alt');
+                        arr.push(path+'/'+name); //ar_id 是数据表唯一id
+                    }
+                    layer.confirm(confirm, function(index){
+                        Del(actionUrl,arr);  //执行批量删除
+                        layer.close(index);
+                    });
+                    break;
+            }
+        });
+        table.on('tool(backup)',function (obj) {
+            let data = obj.data;
+            let event = obj.event;
+            let name = $(data['filename']).attr('alt');
+            switch (event) {
+                case 'rename':
+                    ChangeData('{:url("file/rename")}?path={$path}/'+name);
+                    break;
+                case 'edit':
+                    ChangeData('{:url("file/edit")}?path={$path}/'+name);
+                    break;
+                case 'remove':
+                    ChangeData('{:url("file/remove")}?path={$path}/'+name);
+                    break;
+                case 'del':
+                    layer.confirm('确认操作吗？', function(index){
+                        Del('{:url("file/delAll")}?path={$path}/'+name);
+                        obj.del();
+                        layer.close(index);
+                    });
+                    break;
+            }
+        })
+        function Del(url,obj){
+            let index = layer.load(1,{shade: 0.3});
+            $.ajax({
+                url:url,
+                type:"POST",
+                data:{path:obj},
+                success:function(result){
+                    //权限不足
+                    let ob = typeof result;
+                    if(ob == 'object'){
+                        if(ob.code == 0){
+                            layer.msg(ob.msg,{icon:5,time:3000});
+                        }
+                    }
+                    let obj = JSON.parse(result);
+                    if(obj.code==200){
+                        layer.msg(obj.msg,{icon:6,time:3000});
+                        layer.close(index);
+                        //移除选中行
+                        $(".layui-form-checked").not('.header').parents('tr').remove();
+                    }
+                }
+            });
+        }
+        function ChangeData(url){
+            layer.open({
+                type:2,
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                area:[$(window).width()*0.9+'px',$(window).height() - 50+'px'],
+                content:url
+            });
+        }
+    })
+    //计算文件夹大小========================
+    function CountCompute(obj,path=''){
+        let th = obj;
+        let val = $.trim($(th).text());
+        if(val == '计算'){
+            let index = layer.load(1,{shade:0.3});
+            $.ajax({
+                url:"/admin/file/countSize",
+                type:"POST",
+                data:{key:path},
+                success:function(result){
+                    //权限不足
+                    let ob = typeof result;
+                    if(ob == 'object'){
+                        if(data.code == 0){
+                            layer.msg(data.msg,{icon:5,time:3000});
+                        }
+                    }
+                    let obj = JSON.parse(result);
+                    if(obj.code==200){
+                        $(th).html(obj.size);
+                        layer.close(index);
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

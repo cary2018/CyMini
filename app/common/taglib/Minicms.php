@@ -36,6 +36,8 @@ class Minicms extends TagLib
         'next'                => ['attr' => 'cid','expression'=>1,'close'=>1],
         'navigation'          => ['attr' => 'cid','expression'=>1,'close'=>1],
         'table'               => ['attr' => 'table,where','expression'=>1,'close'=>1],
+        'sum'                 => ['attr' => 'table,where','expression'=>1,'close'=>0],
+        'rand'                => ['attr' => 'cid,num','expression'=>1,'close'=>1],
     ];
 
     /**
@@ -185,7 +187,7 @@ class Minicms extends TagLib
             $tag['key'] = 'key';
         }
         if(empty($tag['cid'])){
-            $tag['cid'] = 0;
+            $tag['cid'] = '""';
         }
         if(empty($tag['order'])){
             $tag['order'] = 'id';
@@ -230,6 +232,9 @@ class Minicms extends TagLib
         if(empty($tag['aid'])){
             $tag['aid'] = '';
         }
+        if(empty($tag['cate'])){
+            $tag['cate'] = 0;
+        }
         if(empty($tag['num'])){
             $tag['num'] = 12;
         }
@@ -237,13 +242,16 @@ class Minicms extends TagLib
             $tag['start'] = 0;
         }
         $parse = '<?php ';
-        $parse .= '$__feedback__ = Feedback('.intval($tag['aid']).','.intval($tag['num']).','.intval($tag['start']).');';
+        $parse .= '$__feedback__ = Feedback('.intval($tag['aid']).','.intval($tag['cate']).','.intval($tag['num']).','.intval($tag['start']).');';
         $parse .= '$__total__ = $__feedback__["__total__"];';
         $parse .= '$__LIST__ = $__feedback__["data"];';
         $parse .= ' ?>';
         $parse .= '{volist name="__LIST__" id="' . $tag['id'] . '" key="'.$tag['key'].'"';
         if(!empty($tag['aid'])){
             $parse .= ' aid="'.$tag['aid'].'"';
+        }
+        if(!empty($tag['cate'])){
+            $parse .= ' cate="'.$tag['cate'].'"';
         }
         if(!empty($tag['num'])){
             $parse .= ' num="'.$tag['num'].'"';
@@ -265,7 +273,7 @@ class Minicms extends TagLib
             $tag['key'] = 'key';
         }
         if(empty($tag['aid'])){
-            $tag['aid'] = '';
+            $tag['aid'] = 'request()->param("id")';
         }
         $parse = '<?php ';
         $parse .= '$__Breadcrumb__ = Breadcrumb('.$tag['aid'].');';
@@ -378,10 +386,10 @@ class Minicms extends TagLib
     public function tagTotal($tag)
     {
         if(empty($tag['table'])){
-            $tag['table'] = 0;
+            $tag['table'] = 'article';
         }
         if(empty($tag['where'])){
-            $tag['where'] = 10;
+            $tag['where'] = '[["status","=",1]]';
         }
         $parse = '<?php ';
         $parse .= '$__totals__ = CountTable("'.$tag['table'].'",'.$tag['where'].');';
@@ -430,6 +438,52 @@ class Minicms extends TagLib
         }
         if(!empty($tag['where'])){
             $parse .= ' where="'.$tag['where'].'"';
+        }
+        $parse .= '}';
+        $parse .= $content;
+        $parse .= '{/volist}';
+
+        return $parse;
+    }
+    public function tagSum($tag){
+        if(empty($tag['table'])){
+            $tag['table'] = 'article';
+        }
+        if(empty($tag['where'])){
+            $tag['where'] = '[["status","=",1]]';
+        }
+        if(empty($tag['field'])){
+            $tag['field'] = 'views';
+        }
+        $parse = '<?php ';
+        $parse .= '$__sum__ = SumField("'.$tag['table'].'",'.$tag['where'].',"'.$tag['field'].'");';
+        $parse .= 'echo $__sum__;';
+        $parse .= ' ?>';
+        return $parse;
+    }
+    public function tagRand($tag,$content){
+        if(empty($tag['id'])){
+            $tag['id'] = 'vo';
+        }
+        if(empty($tag['key'])){
+            $tag['key'] = 'key';
+        }
+        if(empty($tag['cid'])){
+            $tag['cid'] = '';
+        }
+        if(empty($tag['num'])){
+            $tag['num'] = 10;
+        }
+        $parse = '<?php ';
+        $parse .= '$__Rand__ = RandRow("'.$tag['cid'].'",'.$tag['num'].');';
+        $parse .= '$__LIST__ = $__Rand__["data"];';
+        $parse .= ' ?>';
+        $parse .= '{volist name="__LIST__" id="'. $tag['id'].'" key="'.$tag['key'].'"';
+        if(!empty($tag['cid'])){
+            $parse .= ' cid="'.$tag['cid'].'"';
+        }
+        if(!empty($tag['num'])){
+            $parse .= ' num="'.$tag['num'].'"';
         }
         $parse .= '}';
         $parse .= $content;

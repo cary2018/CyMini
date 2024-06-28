@@ -64,8 +64,8 @@
                                     <i class="fa fa-dot-circle-o"></i>{{item.name}}
                                 </a>
                                 <div class="flex-fill"></div>
-                                <span class="info-time" title="{{item.updateTime}}">
-                                    <i class="fa fa-clock-o"></i>{{item.updateTime}}
+                                <span class="info-time" title="{{item.createTime}}">
+                                    <i class="fa fa-clock-o"></i>{{item.createTime}}
                                 </span>
                                 <span class="info-viewnums"><i class="fa fa-eye" title="浏览数"></i>{{item.views}}</span>
                                 <span class="info-comment"><i class="fa fa-commenting" title="评论数"></i>{{item.feed}}</span>
@@ -105,9 +105,12 @@
         // 数据列表
         table.render({
             elem: '#showpage',
-            url:'/api/article/search?q='+"{$Request.param.q?$Request.param.q:''}",
+            url:'/api/article/search',
             page:true,
             limit:12,
+            where:{
+                q:"{$Request.param.q?$Request.param.q:''}",
+            },
             response: {
                 statusCode: 200 // 重新规定成功的状态码为 200，table 组件默认为 0
             },

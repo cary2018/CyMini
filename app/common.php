@@ -373,6 +373,16 @@ function CountTable($table, $where=[],$alias=''){
 }
 
 /**
+ * @param $table
+ * @param array $where
+ * @param string $field
+ * @param string $alias
+ * @return float
+ */
+function SumField($table,$where=[],$field='id',$alias=''){
+    return Db::name($table)->alias($alias)->where($where)->sum($field);
+}
+/**
  * @return array|mixed
  * @throws \think\db\exception\DataNotFoundException
  * @throws \think\db\exception\DbException
@@ -453,14 +463,15 @@ function AttrId($size=10,$aid=''){
     $prefix = Config::get('database.connections.mysql.prefix');
     $table = $prefix.'article';
     $table2 = $prefix.'category';
-    $sql = "SELECT a.id,a.cid,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id LIMIT $size";
+    $sql = "SELECT a.id,a.cid,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id LIMIT $size";
     $list = Db::query($sql);
     foreach ($list as &$v){
-        if(!$v['articleThumbImg']){
+        if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
             $v['articleThumbImg'] = 'images/default.jpg';
         }
-        $v['month'] = date('m',$v['updateTime']);
-        $v['day'] = date('d',$v['updateTime']);
+        $v['month'] = date('m',$v['createTime']);
+        $v['day'] = date('d',$v['createTime']);
+        $v['createTime'] = date('Y-m-d',$v['createTime']);
         $v['updateTime'] = date('Y-m-d',$v['updateTime']);
         $v['feed'] = Db::name('feedback')->where('aid',$v['id'])->count();
     }
@@ -474,30 +485,40 @@ function Article($id='',$order='id',$size=12,$start=0){
     if($id){
         $where[] = ['a.cid','=',$id];
     }
-    $field = 'a.id,a.cid,a.title,a.articleThumbImg,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
+    $field = 'a.id,a.cid,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
     $list['data'] = Db::name('article')->alias('a')->join('category'.' b ','b.id= a.cid')->leftJoin('feedback'.' c ','c.aid=a.id')->field($field)->where($where)->group('a.id, a.title, b.name')->order(['a.'.$order=>'desc'])->page($start,$size)->select()->toArray();
     if($list){
         $list['__total__'] = CountTable('article',$where,'a');
     }
     foreach ($list['data'] as &$v){
-        if(!$v['articleThumbImg']){
+        if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
             $v['articleThumbImg'] = 'images/default.jpg';
         }
-        $v['month'] = date('m',$v['updateTime']);
-        $v['day'] = date('d',$v['updateTime']);
+        $v['month'] = date('m',$v['createTime']);
+        $v['day'] = date('d',$v['createTime']);
+        $v['createTime'] = date('Y-m-d',$v['createTime']);
         $v['updateTime'] = date('Y-m-d',$v['updateTime']);
     }
     return $list;
 }
 
-function Feedback($aid='',$size=10,$start=0){
+function Feedback($aid='',$cate=0,$size=10,$start=0){
     $where = [['status','=',1]];
     if($aid){
         $where[] = ['aid','=',$aid];
     }
+    if($cate){
+        $where[] = ['cate','=',$cate];
+    }
     $list['data'] = pageTable('feedback',$start,$size,$where);
     $list['__total__'] = CountTable('feedback',$where);
     foreach ($list['data'] as &$v){
+        $cate = FindTable('category',[['id','=',$v['cid']]]);
+        if($cate){
+            $v['temp_archives'] = $cate['temp_archives'];
+            $v['temp_list'] = $cate['temp_list'];
+            $v['target'] = $cate['target'];
+        }
         $v['date'] = date('Y-m-d H:i:s',$v['createTime']);
         $v['createTime'] = date('Y-m-d',$v['createTime']);
     }
@@ -516,16 +537,45 @@ function Breadcrumb($id=''){
 function Detail($id){
     $info = FindTable('article',[['id','=',$id],['status','=',1]]);
     if($info){
+        $cate = FindTable('category',[['id','=',$info['cid']]]);
+        if($cate){
+            $info['temp_archives'] = $cate['temp_archives'];
+            $info['temp_list'] = $cate['temp_list'];
+        }
         if(!$info['articleThumbImg']){
             $info['articleThumbImg'] = 'images/default.jpg';
         }
-        $info['feed'] = CountTable('feedback',['aid'=>$info['id']]);
-        $info['month'] = date('m',$info['updateTime']);
-        $info['day'] = date('d',$info['updateTime']);
+        $info['feed'] = CountTable('feedback',['aid'=>$info['id'],['status','=',1]]);
+        $info['month'] = date('m',$info['createTime']);
+        $info['day'] = date('d',$info['createTime']);
         $info['createTime'] = date('Y-m-d',$info['createTime']);
         $info['updateTime'] = date('Y-m-d',$info['updateTime']);
     }
     return $info;
+}
+
+function RandRow($id='',$size=12,$start=0){
+    $size = request()->param('limit')?request()->param('limit'):$size;
+    $start = request()->param('page')?request()->param('page'):$start;
+    $where = [['a.status','=',1]];
+    if($id){
+        $where[] = ['a.cid','=',$id];
+    }
+    $field = 'a.id,a.cid,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
+    $list['data'] = Db::name('article')->alias('a')->join('category'.' b ','b.id= a.cid')->leftJoin('feedback'.' c ','c.aid=a.id')->field($field)->where($where)->group('a.id, a.title, b.name')->orderRand()->page($start,$size)->select()->toArray();
+    if($list){
+        $list['__total__'] = CountTable('article',$where,'a');
+    }
+    foreach ($list['data'] as &$v){
+        if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
+            $v['articleThumbImg'] = 'images/default.jpg';
+        }
+        $v['month'] = date('m',$v['createTime']);
+        $v['day'] = date('d',$v['createTime']);
+        $v['createTime'] = date('Y-m-d',$v['createTime']);
+        $v['updateTime'] = date('Y-m-d',$v['updateTime']);
+    }
+    return $list;
 }
 
 /**
@@ -673,99 +723,7 @@ function arrMac($data){
     }
     return $arr;
 }
-/**
- * @param $cer
- * @return string
- * 定义控制器名称
- */
-function getCer($cer){
-    $arr = [
-        'welcome'=>'欢迎页面',
-        'index'=>'后台主页',
-        'admin'=>'管理员',
-        'menu'=>'后台菜单',
-        'node'=>'后台节点',
-        'role'=>'角色权限',
-        'weblog'=>'网站日志',
-        'cache'=>'缓存',
-        'system'=>'系统配置',
-        'login'=>'缓存',
-        'article'=>'文章',
-        'attribute'=>'文章属性',
-        'category'=>'文章分类',
-        'banner'=>'广告横幅',
-        'link'=>'友情链接',
-        'album'=>'相册管理',
-        'albumcategory'=>'相册分类',
-        'classify'=>'导航分类',
-        'navigation'=>'导航',
-        'liar'=>'失信名单',
-        'area'=>'行政区域',
-        'position'=>'职位管理',
-        'department'=>'部门管理',
-        'feedback'=>'评论管理',
-        'tags'=>'tag标签',
-        'visit'=>'访客记录',
-        'collection'=>'采集管理',
-    ];
-    $strCode = strtolower($cer);
-    $strArr = array_change_key_case($arr,CASE_LOWER);
-    if(array_key_exists($strCode,$strArr)){
-        $name = $strArr[$strCode];
-    }else{
-        $name = '未定义';
-    }
-    return $name;
-}
-/**
- * @param $action
- * @return string
- * 定义方法名称
- */
-function getAct($action){
-    $arr = [
-        'index'=>'列表',
-        'list'=>'配置项',
-        'datalist'=>'数据',
-        'add'=>'添加',
-        'edit'=>'编辑',
-        'city'=>'行政区域',
-        'editSave'=>'保存编辑',
-        'saveat'=>'保存',
-        'switchat'=>'状态开关',
-        'del'=>'删除',
-        'delall'=>'删除',
-        'logout'=>'退出',
-        'updatefield'=>'更新字段',
-        'updatenode'=>'更新系统节点',
-        'info'=>'用户资料',
-        'saveinfo'=>'保存用户资料',
-        'emptydata'=>'清空数据',
-        'check'=>'登录验证',
-        'batchsave'=>'批量保存',
-        'addc'=>'添加采集',
-        'edits'=>'编辑采集',
-        'courl'=>'采集网址',
-        'codata'=>'内容采集',
-        'content'=>'内容发布',
-        'conlist'=>'采集数据列表',
-        'import'=>'采集url',
-        'imdata'=>'采集内容',
-        'saveAts'=>'采集单个',
-        'importAll'=>'导入全部',
-        'Allimport'=>'执行导入全部',
-        'select'=>'导入选中数据',
-        'selectImport'=>'执行导入选中',
-    ];
-    $strCode = strtolower($action);
-    $strArr = array_change_key_case($arr,CASE_LOWER);
-    if(array_key_exists($strCode,$strArr)){
-        $name = $strArr[$strCode];
-    }else{
-        $name = '未定义';
-    }
-    return $name;
-}
+
 /**
  * @param $table
  * @param $data
@@ -1576,6 +1534,111 @@ function uploadFile($name){
         return $msg;
     }
 }
+
+/**
+ * @param string $sql
+ * @param int $limit
+ * @param array $prefix
+ * @return array|false|string|string[]
+ * 处理 sql 文件
+ */
+function mini_parse_sql($sql='',$limit=0,$prefix=[])
+{
+    // 被替换的前缀
+    $from = '';
+    // 要替换的前缀
+    $to = '';
+
+    // 替换表前缀
+    if (!empty($prefix)) {
+        $to   = current($prefix);
+        $from = current(array_flip($prefix));
+    }
+
+    if ($sql != '') {
+        // 纯sql内容
+        $pure_sql = [];
+
+        // 多行注释标记
+        $comment = false;
+
+        // 按行分割，兼容多个平台
+        $sql = str_replace(["\r\n", "\r"], "\n", $sql);
+        $sql = explode("\n", trim($sql));
+        // 循环处理每一行
+        foreach ($sql as $key => $line) {
+            // 跳过空行
+            if ($line == '') {
+                continue;
+            }
+
+            // 跳过以#或者--开头的单行注释
+            if (preg_match("/^(#|--)/", $line)) {
+                continue;
+            }
+
+            // 跳过以/**/包裹起来的单行注释
+            if (preg_match("/^\/\*(.*?)\*\//", $line)) {
+                continue;
+            }
+
+            // 多行注释开始
+            if (substr($line, 0, 2) == '/*') {
+                $comment = true;
+                continue;
+            }
+
+            // 多行注释结束
+            if (substr($line, -2) == '*/') {
+                $comment = false;
+                continue;
+            }
+
+            // 多行注释没有结束，继续跳过
+            if ($comment) {
+                continue;
+            }
+
+            // 替换表前缀
+            if ($from != '') {
+                $line = str_replace('`'.$from, '`'.$to, $line);
+            }
+            if ($line == 'BEGIN;' || $line =='COMMIT;') {
+                continue;
+            }
+            // sql语句
+            array_push($pure_sql, $line);
+        }
+
+        // 只返回一条语句
+        if ($limit == 1) {
+            return implode("",$pure_sql);
+        }
+
+        // 以数组形式返回sql语句
+        $pure_sql = implode("\n",$pure_sql);
+        $pure_sql = explode(";\n", $pure_sql);
+        return $pure_sql;
+    } else {
+        return $limit == 1 ? '' : [];
+    }
+}
+
+function redSql($sql_list){
+    $db_connect = Db::connect();
+    if ($sql_list) {
+        $sql_list = array_filter($sql_list);
+        foreach ($sql_list as $v) {
+            try {
+                $db_connect->execute($v);
+            } catch(\Exception $e) {
+                return json_encode(['code'=>300,'msg'=>$e->getMessage()],JSON_UNESCAPED_UNICODE);
+            }
+        }
+    }
+    return ['code'=>200,'msg'=>'完成操作！'];
+}
+
 //打开缓冲
 function open_buffer(){
     set_time_limit(0);  //设置程序执行时间
@@ -2003,6 +2066,7 @@ function isbot($tmp){
     else if(strpos($tmp, 'Mediapartners-Google') >0){$flag = '谷歌广告蜘蛛';}
     else if(strpos($tmp, 'Adsbot-Google') >0){$flag = '谷歌质量蜘蛛';}
     else if(strpos($tmp, 'Googlebot') >0){$flag = '谷歌蜘蛛';}
+    else if(strpos($tmp, 'GoogleOther') !==false){$flag = '谷歌蜘蛛';}
     //百度蜘蛛
     else if(strpos($tmp, 'Baiduspider-mobile') >0){$flag = '百度蜘蛛';}
     else if(strpos($tmp, 'Baidu-Thumbnail') >0){$flag = '百度图片蜘蛛';}
@@ -2060,4 +2124,20 @@ function isbot($tmp){
     else if(strpos($tmp, 'MJ12bot') !== false){$flag = 'majestic.com';}
     else{$flag = '';}
     return $flag;
+}
+
+function ClientType(){
+    // 判断蜘蛛
+    $bot = isbot($_SERVER['HTTP_USER_AGENT']);
+    if(!$bot) {
+        //蜘蛛不存在
+        $msg = "未知";
+        if(strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false){
+            //可能是真实浏览器
+            $msg = "访客";
+        }
+    }else{
+        $msg = "蜘蛛：".$bot;
+    }
+    return $msg;
 }

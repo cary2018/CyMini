@@ -142,7 +142,7 @@
                         <span class="badge arc_v4">热文</span>
                         <span class="meta-view"><i class="fa fa-eye" title="浏览数"></i><em>{$vo.views}</em></span>
                         <span class="meta-comment"><i class="fa fa-commenting" title="评论数"></i><em>{$vo.feed}</em></span>
-                        <span class="meta-time"><i class="fa fa-clock-o" title="点赞数"></i><em>{$vo.updateTime}</em></span>
+                        <span class="meta-time"><i class="fa fa-clock-o" title="点赞数"></i><em>{$vo.createTime}</em></span>
                     </div>
                     <div class="items-user">
                         <a href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}" class="avatar">
@@ -203,8 +203,8 @@
                                         <i class="fa fa-dot-circle-o"></i>{{item.name}}
                                     </a>
                                     <div class="flex-fill"></div>
-                                    <span class="info-time" title="{{item.updateTime}}">
-                                    <i class="fa fa-clock-o"></i>{{item.updateTime}}
+                                    <span class="info-time" title="{{item.createTime}}">
+                                    <i class="fa fa-clock-o"></i>{{item.createTime}}
                                 </span>
                                     <span class="info-viewnums"><i class="fa fa-eye" title="浏览数"></i>{{item.views}}</span>
                                     <span class="info-comment"><i class="fa fa-commenting" title="评论数"></i>{{item.feed}}</span>
@@ -280,7 +280,7 @@
                     elem: '#listData',
                     url:'api/article',
                     where:{
-                        'id':obj.context.id,
+                        'id':obj[0].id,
                     },
                     page:true,
                     limit:12,

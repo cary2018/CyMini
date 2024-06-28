@@ -116,6 +116,7 @@ return [
     'description'=>'描述',
     'content'=>'内容',
     'author'=>'作者',
+    'iconfont'=>'icon图标',
     'annex'=>'附件',
     'attrId'=>'属性',
     'public'=>'公开',
