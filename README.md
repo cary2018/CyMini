@@ -214,3 +214,8 @@ public/template
 
 ![image-20240629204542297](README.assets/image-20240629204542297.png)
 
+### 捐赠支持
+
+开源项目不易，若此项目能得到你的青睐，可以捐赠支持作者持续开发与维护，感谢所有支持开源的朋友。
+
+<img src="README.assets/image-20240629232137707.png" alt="image-20240629232137707" style="zoom:50%;" /><img src="README.assets/image-20240629232214532.png" alt="image-20240629232214532" style="zoom:50%;" />

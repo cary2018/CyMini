@@ -20,7 +20,7 @@ function AllMethods(){
     //过滤方法
     $get_functions = array('initialize', '__construct', 'registerMiddleware', 'beforeAction','fetch','display','assign','filter','engine','validateFailException','validate','__debugInfo','success','error','result','redirect','getResponseType');
     foreach ($files as $file) {
-        if (strpos($file, '.php') !== false) {
+        if (stripos($file, '.php') !== false) {
             $controllerName = str_replace('.php', '', $file);
             $className = '\app\\' . $app . '\controller\\' . $controllerName;
             //echo $className;die;
@@ -650,7 +650,7 @@ function handlerUrl($url, array $params): string
         return $url;
     }
     $query = http_build_query($params);
-    if (strpos($url, '?')) {
+    if (stripos($url, '?')) {
         $url = rtrim($url, '&') . '&' . $query;
     } else {
         $url = $url . '?' . $query;
@@ -853,7 +853,7 @@ function FCurl_post($url, $param = array(), $filename = '', $wait = 30,$method =
         ),
     ));
 
-    if (strpos($url, "https") === 0) {
+    if (stripos($url, "https") === 0) {
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
     }
@@ -1682,7 +1682,7 @@ function get_url($url,$s,$e){
     $list = array();
     if($url){
         //获取列表页
-        $str = strpos($url,'(*)');
+        $str = stripos($url,'(*)');
         if($str){
             for($i=$s;$i<=$e;$i++){
                 $list[] = str_replace('(*)',$i,$url);
@@ -2045,7 +2045,7 @@ function GetOs(){
 }
 
 function checkAccept(){
-    if(strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false){
+    if(stripos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false){
         //可能是真实浏览器
     }else{
         // 判断蜘蛛
@@ -2060,68 +2060,68 @@ function checkAccept(){
 
 function isbot($tmp){
     //谷歌蜘蛛
-    if(strpos($tmp, 'compatible; Googlebot/2.1') !== false){$flag = '谷歌蜘蛛';}
-    else if(strpos($tmp, 'Googlebot-Mobile') >0){$flag = '谷歌蜘蛛';}
-    else if(strpos($tmp, 'Googlebot-Image') >0){$flag = '谷歌图片蜘蛛';}
-    else if(strpos($tmp, 'Mediapartners-Google') >0){$flag = '谷歌广告蜘蛛';}
-    else if(strpos($tmp, 'Adsbot-Google') >0){$flag = '谷歌质量蜘蛛';}
-    else if(strpos($tmp, 'Googlebot') >0){$flag = '谷歌蜘蛛';}
-    else if(strpos($tmp, 'GoogleOther') !==false){$flag = '谷歌蜘蛛';}
+    if(stripos($tmp, 'compatible; Googlebot/2.1') !== false){$flag = '谷歌蜘蛛';}
+    else if(stripos($tmp, 'Googlebot-Mobile') >0){$flag = '谷歌蜘蛛';}
+    else if(stripos($tmp, 'Googlebot-Image') >0){$flag = '谷歌图片蜘蛛';}
+    else if(stripos($tmp, 'Mediapartners-Google') >0){$flag = '谷歌广告蜘蛛';}
+    else if(stripos($tmp, 'Adsbot-Google') >0){$flag = '谷歌质量蜘蛛';}
+    else if(stripos($tmp, 'Googlebot') >0){$flag = '谷歌蜘蛛';}
+    else if(stripos($tmp, 'GoogleOther') !==false){$flag = '谷歌蜘蛛';}
     //百度蜘蛛
-    else if(strpos($tmp, 'Baiduspider-mobile') >0){$flag = '百度蜘蛛';}
-    else if(strpos($tmp, 'Baidu-Thumbnail') >0){$flag = '百度图片蜘蛛';}
-    else if(strpos($tmp, 'Baiduspider-image') >0){$flag = '百度图片蜘蛛';}
-    else if(strpos($tmp, 'Baiduspider-news') >0){$flag = '百度新闻蜘蛛';}
-    else if(strpos($tmp, 'Baiduspider-video') >0){$flag = '百度视频蜘蛛';}
-    else if(strpos($tmp, 'Baidu-Transcoder') >0){$flag = '百度音乐蜘蛛';}
-    else if(strpos($tmp, 'baiduspider-mobile-gate') >0){$flag = '百度移动蜘蛛';}
-    else if(strpos($tmp, 'Baiduspider') >0){$flag = '百度蜘蛛';}
+    else if(stripos($tmp, 'Baiduspider-mobile') >0){$flag = '百度蜘蛛';}
+    else if(stripos($tmp, 'Baidu-Thumbnail') >0){$flag = '百度图片蜘蛛';}
+    else if(stripos($tmp, 'Baiduspider-image') >0){$flag = '百度图片蜘蛛';}
+    else if(stripos($tmp, 'Baiduspider-news') >0){$flag = '百度新闻蜘蛛';}
+    else if(stripos($tmp, 'Baiduspider-video') >0){$flag = '百度视频蜘蛛';}
+    else if(stripos($tmp, 'Baidu-Transcoder') >0){$flag = '百度音乐蜘蛛';}
+    else if(stripos($tmp, 'baiduspider-mobile-gate') >0){$flag = '百度移动蜘蛛';}
+    else if(stripos($tmp, 'Baiduspider') >0){$flag = '百度蜘蛛';}
     //搜搜蜘蛛
-    else if(strpos($tmp, 'Sosospider') >0){$flag = '搜搜蜘蛛';}
-    else if(strpos($tmp, 'Sosoimagespider') >0){$flag = '搜搜图片蜘蛛';}
+    else if(stripos($tmp, 'Sosospider') >0){$flag = '搜搜蜘蛛';}
+    else if(stripos($tmp, 'Sosoimagespider') >0){$flag = '搜搜图片蜘蛛';}
     //雅虎蜘蛛
-    else if(strpos($tmp, 'Yahoo! Slurp China') !== false){$flag = '雅虎中文蜘蛛';}
-    else if(strpos($tmp, 'Yahoo ContentMatch Crawler') !== false){$flag = '雅虎竞价蜘蛛';}
-    else if(strpos($tmp, 'Yahoo-MMCrawler') !== false){$flag = '雅虎图片蜘蛛';}
-    else if(strpos($tmp, 'Yahoo! Slurp') !== false){$flag = '雅虎英文蜘蛛';}
+    else if(stripos($tmp, 'Yahoo! Slurp China') !== false){$flag = '雅虎中文蜘蛛';}
+    else if(stripos($tmp, 'Yahoo ContentMatch Crawler') !== false){$flag = '雅虎竞价蜘蛛';}
+    else if(stripos($tmp, 'Yahoo-MMCrawler') !== false){$flag = '雅虎图片蜘蛛';}
+    else if(stripos($tmp, 'Yahoo! Slurp') !== false){$flag = '雅虎英文蜘蛛';}
     //微软蜘蛛
-    else if(strpos($tmp, 'msnbot') !== false){$flag = '微软蜘蛛';}
-    else if(strpos($tmp, 'msnbot-media') !== false){$flag = '微软媒体蜘蛛';}
-    else if(strpos($tmp, 'MSNBot-Media') !== false){$flag = '微软多媒体蜘蛛';}
-    else if(strpos($tmp, 'MSNBot-NewsBlogs') !== false){$flag = '微软新闻及blog蜘蛛';}
-    else if(strpos($tmp, 'MSNBot-Academic') !== false){$flag = '微软学术蜘蛛';}
-    else if(strpos($tmp, 'MSNBot') !== false){$flag = '微软网页蜘蛛';}
+    else if(stripos($tmp, 'msnbot') !== false){$flag = '微软蜘蛛';}
+    else if(stripos($tmp, 'msnbot-media') !== false){$flag = '微软媒体蜘蛛';}
+    else if(stripos($tmp, 'MSNBot-Media') !== false){$flag = '微软多媒体蜘蛛';}
+    else if(stripos($tmp, 'MSNBot-NewsBlogs') !== false){$flag = '微软新闻及blog蜘蛛';}
+    else if(stripos($tmp, 'MSNBot-Academic') !== false){$flag = '微软学术蜘蛛';}
+    else if(stripos($tmp, 'MSNBot') !== false){$flag = '微软网页蜘蛛';}
     //360蜘蛛
-    else if(strpos($tmp, 'Sosospider') !== false){$flag = '360蜘蛛';}
+    else if(stripos($tmp, 'Sosospider') !== false){$flag = '360蜘蛛';}
     //有道蜘蛛
-    else if(strpos($tmp, 'YodaoBot') !== false || strpos($tmp, 'OutfoxBot') !== false){$flag = '有道蜘蛛';}
+    else if(stripos($tmp, 'YodaoBot') !== false || stripos($tmp, 'OutfoxBot') !== false){$flag = '有道蜘蛛';}
     //搜狗蜘蛛
-    else if(strpos($tmp, 'Sogou web spider') !== false || strpos($tmp, 'Sogou Orion spider') !== false){$flag = '搜狗蜘蛛';}
-    else if(strpos($tmp, 'Sogou inst spider') !== false){$flag = '搜狗蜘蛛';}
-    else if(strpos($tmp, 'Sogou News Spider') !== false){$flag = '搜狗新闻蜘蛛';}
-    else if(strpos($tmp, 'Sogou spider2') !== false){$flag = '搜狗蜘蛛';}
-    else if(strpos($tmp, 'Sogou blog') !== false){$flag = '搜狗blog蜘蛛';}
-    else if(strpos($tmp, 'sogou spider') !== false){$flag = '搜狗蜘蛛';}
+    else if(stripos($tmp, 'Sogou web spider') !== false || stripos($tmp, 'Sogou Orion spider') !== false){$flag = '搜狗蜘蛛';}
+    else if(stripos($tmp, 'Sogou inst spider') !== false){$flag = '搜狗蜘蛛';}
+    else if(stripos($tmp, 'Sogou News Spider') !== false){$flag = '搜狗新闻蜘蛛';}
+    else if(stripos($tmp, 'Sogou spider2') !== false){$flag = '搜狗蜘蛛';}
+    else if(stripos($tmp, 'Sogou blog') !== false){$flag = '搜狗blog蜘蛛';}
+    else if(stripos($tmp, 'sogou spider') !== false){$flag = '搜狗蜘蛛';}
     //其他蜘蛛
-    else if(strpos($tmp, 'bingbot') !== false){$flag = '必应蜘蛛';}
-    else if(strpos($tmp, 'EtaoSpider') !== false){$flag = '一淘网蜘蛛';}
-    else if(strpos($tmp, 'Scooter') !== false){$flag = 'Altavista蜘蛛';}
-    else if(strpos($tmp, 'Lycos_Spider') !== false){$flag = 'Lycos蜘蛛';}
-    else if(strpos($tmp, 'FAST-WebCrawler') !== false){$flag = 'Alltheweb蜘蛛';}
-    else if(strpos($tmp, 'Slurp ASPSeek ASPSeek') !== false){$flag = 'INKTOMI蜘蛛';}
-    else if(strpos($tmp, 'lanshanbot') !== false){$flag = '东方网景爬虫';}
-    else if(strpos($tmp, 'BSpider') !== false){$flag = '日本爬虫';}
-    else if(strpos($tmp, 'fast-webcrawler') !== false){$flag = 'fast-webcrawler';}
-    else if(strpos($tmp, 'Gaisbot') !== false){$flag = 'Gaisbot';}
-    else if(strpos($tmp, 'ia_archiver') !== false){$flag = 'Alexa蜘蛛';}
-    else if(strpos($tmp, 'altavista') !== false){$flag = 'altavista爬虫';}
-    else if(strpos($tmp, 'lycos_spider') !== false){$flag = 'Lycos蜘蛛';}
-    else if(strpos($tmp, 'Inktomi slurp') !== false){$flag = 'Inktomi slurp';}
-    else if(strpos($tmp, 'YandexBot') !== false){$flag = 'YandexBot';}
-    else if(strpos($tmp, 'AhrefsBot') !== false){$flag = 'AhrefsBot';}
-    else if(strpos($tmp, 'ezooms.bot') !== false){$flag = 'ezooms.bot';}
-    else if(strpos($tmp, 'YisouSpider') !== false){$flag = '神马搜索';}
-    else if(strpos($tmp, 'MJ12bot') !== false){$flag = 'majestic.com';}
+    else if(stripos($tmp, 'bingbot') !== false){$flag = '必应蜘蛛';}
+    else if(stripos($tmp, 'EtaoSpider') !== false){$flag = '一淘网蜘蛛';}
+    else if(stripos($tmp, 'Scooter') !== false){$flag = 'Altavista蜘蛛';}
+    else if(stripos($tmp, 'Lycos_Spider') !== false){$flag = 'Lycos蜘蛛';}
+    else if(stripos($tmp, 'FAST-WebCrawler') !== false){$flag = 'Alltheweb蜘蛛';}
+    else if(stripos($tmp, 'Slurp ASPSeek ASPSeek') !== false){$flag = 'INKTOMI蜘蛛';}
+    else if(stripos($tmp, 'lanshanbot') !== false){$flag = '东方网景爬虫';}
+    else if(stripos($tmp, 'BSpider') !== false){$flag = '日本爬虫';}
+    else if(stripos($tmp, 'fast-webcrawler') !== false){$flag = 'fast-webcrawler';}
+    else if(stripos($tmp, 'Gaisbot') !== false){$flag = 'Gaisbot';}
+    else if(stripos($tmp, 'ia_archiver') !== false){$flag = 'Alexa蜘蛛';}
+    else if(stripos($tmp, 'altavista') !== false){$flag = 'altavista爬虫';}
+    else if(stripos($tmp, 'lycos_spider') !== false){$flag = 'Lycos蜘蛛';}
+    else if(stripos($tmp, 'Inktomi slurp') !== false){$flag = 'Inktomi slurp';}
+    else if(stripos($tmp, 'YandexBot') !== false){$flag = 'YandexBot';}
+    else if(stripos($tmp, 'AhrefsBot') !== false){$flag = 'AhrefsBot';}
+    else if(stripos($tmp, 'ezooms.bot') !== false){$flag = 'ezooms.bot';}
+    else if(stripos($tmp, 'YisouSpider') !== false){$flag = '神马搜索';}
+    else if(stripos($tmp, 'MJ12bot') !== false){$flag = 'majestic.com';}
     else{$flag = '';}
     return $flag;
 }
@@ -2132,7 +2132,7 @@ function ClientType(){
     if(!$bot) {
         //蜘蛛不存在
         $msg = "未知";
-        if(strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false){
+        if(stripos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false){
             //可能是真实浏览器
             $msg = "访客";
         }
