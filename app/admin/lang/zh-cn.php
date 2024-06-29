@@ -38,6 +38,7 @@ return [
     'Enable' => '启用',
     'Disable' => '禁用',
     'Remark' => '备注',
+    'type' => '类型',
     'Identity' => '身份确认',
     'Confirm' => '确认骗子',
     'Suspected' => '疑似骗子',

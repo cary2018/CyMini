@@ -122,9 +122,14 @@ class File extends BaseController
                 }
             }else{
                 $file = $path.$dirname;
-                if(file_exists($file) && is_file($file)){
-                    //删除文件
-                    unlink($file);
+                if(file_exists($file)){
+                    if(is_dir($file)){
+                        //删除目录（递归删除目录下所有文件）
+                        delDir($file);
+                    }elseif(is_file($file)){
+                        //删除文件
+                        unlink($file);
+                    }
                 }
             }
         }

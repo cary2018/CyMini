@@ -37,6 +37,9 @@ class Database extends BaseController
         echo json_encode($arr);
     }
 
+    /**
+     * 导出备份数据
+     */
     public function export(){
         $par = request()->param();
         $arr = ['code'=>300,'msg'=>'请选择要备份的数据表'];
@@ -49,6 +52,9 @@ class Database extends BaseController
         echo json_encode($arr);
     }
 
+    /**
+     * 优化数据表
+     */
     public function optimize(){
         $par = request()->param();
         $arr = ['code'=>300,'msg'=>'操作失败，请选择要操作的数据！'];
@@ -68,6 +74,9 @@ class Database extends BaseController
         echo json_encode($arr);
     }
 
+    /**
+     *修复数据表
+     */
     public function repair(){
         $par = request()->param();
         $arr = ['code'=>300,'msg'=>'操作失败，请选择要操作的数据！'];
@@ -87,6 +96,9 @@ class Database extends BaseController
         echo json_encode($arr);
     }
 
+    /**
+     * 还原数据
+     */
     public function restore(){
         $data = request()->param();
         $path = backupDatabasePath().$data['data'];
@@ -97,6 +109,9 @@ class Database extends BaseController
         echo json_encode($res);
     }
 
+    /**
+     * 删除备份数据
+     */
     public function delAll(){
         $data = request()->param();
         $res = '';
@@ -119,9 +134,17 @@ class Database extends BaseController
         echo json_encode($arr);
     }
 
+    /**
+     * @return \think\response\View
+     * 执行sql页面
+     */
     public function sql(){
         return View();
     }
+    /**
+     * @return false|string
+     * 执行sql语句
+     */
     public function saveAt(){
         $sql = request()->param('sql');
         if($sql){
@@ -134,18 +157,30 @@ class Database extends BaseController
         return json_encode(['code'=>200,'msg'=>'执行成功！','sql'=>$sql]);
     }
 
+    /**
+     * @return \think\response\View
+     * 批量替换页面
+     */
     public function rep(){
         $table = Db::query('show table status');
         View::assign('table',$table);
         return View();
     }
 
+    /**
+     * @return false|string
+     * 获取数据表信息
+     */
     public function columns(){
         $data = request()->param();
         $columns = Db::query('show columns from '.$data['table']);
         return json_encode(['code'=>200,'msg'=>'获取成功！','data'=>$columns]);
     }
 
+    /**
+     * @return false|string
+     * 执行批量替换
+     */
     public function repcon(){
         $data = request()->param();
         if($data['field'] && $data['old'] && $data['new']){

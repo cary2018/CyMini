@@ -19,20 +19,16 @@
     <meta property="og:updated_time" content="{minicms:detail field='createTime'/}" />
     <meta property="og:article:author" content="{minicms:detail field='author'/}" />
 
-    <script src="/template/default/static/js/jquery.min-3.6.1.js"></script>
-    <script src="/template/default/static/js/zblogphp.js"></script>
-
-    <script src="/template/default/static/js/c_html_js_add.js"></script>
+    {include file='layout/file-js'}
+    {include file='layout/file-style'}
 
     <script src="/template/conme/static/layui/layui.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="/template/conme/static/layui/css/layui.css" />
 
     <link rel="stylesheet" href="/template/default/static/css/animate.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="/template/default/static/css/style.css" type="text/css" media="all" as="style" />
     <link rel="stylesheet" href="/template/default/static/css/night.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="/template/default/static/css/public.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/template/default/static/css/fancybox.css" type="text/css" media="all" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    {include file='layout/icon'}
 
     <!--[if lt IE 9]><script src="https://cdn.staticfile.org/html5shiv/3.7.0/html5shiv.js"></script><![endif]-->
 

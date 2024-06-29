@@ -13,16 +13,10 @@
     <meta property="og:type" content="category" />
     <meta property="og:title" content="{$Think.config.web.web_title}" />
     <meta property="og:description" content="{$Think.config.web.web_desc}" />
-
-    <script src="/template/default/static/js/jquery.min-3.6.1.js"></script>
-    <script src="/template/default/static/js/zblogphp.js"></script>
-    <script src="/template/default/static/js/c_html_js_add.js"></script>
-
-    <link rel="stylesheet" href="/template/default/static/css/style.css" type="text/css" media="all" as="style" />
-
-    <link rel="stylesheet" href="/template/default/static/css/public.css" type="text/css" media="all" />
+    {include file='layout/file-js'}
+    {include file='layout/file-style'}
     <link rel="stylesheet" href="/template/default/static/css/navigation.css" type="text/css" media="all" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    {include file='layout/icon'}
 
     <!--[if lt IE 9]><script src="https://cdn.staticfile.org/html5shiv/3.7.0/html5shiv.js"></script><![endif]-->
 

@@ -485,6 +485,10 @@ function dirList($dir){
                         $info = pathinfo($path);
                         if(array_key_exists('extension',$info)){
                             $data[$i]['parts'] = $info['extension'];
+                            $arr = ['txt','yml','gitignore','lock','env','md','ini','htaccess','vue','svg','woff','woff2','ttf','eot'];
+                            if(in_array($info['extension'],$arr)){
+                                $data[$i]['parts'] = 'file';
+                            }
                         }else{
                             $data[$i]['parts'] = 'default';
                         }

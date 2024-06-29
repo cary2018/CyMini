@@ -463,7 +463,7 @@ function AttrId($size=10,$aid=''){
     $prefix = Config::get('database.connections.mysql.prefix');
     $table = $prefix.'article';
     $table2 = $prefix.'category';
-    $sql = "SELECT a.id,a.cid,a.title,a.description,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id LIMIT $size";
+    $sql = "SELECT a.id,a.cid,a.title,a.description,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id DESC LIMIT $size";
     $list = Db::query($sql);
     foreach ($list as &$v){
         if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){

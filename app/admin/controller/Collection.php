@@ -197,6 +197,13 @@ class Collection extends BaseController
         View::assign('id',$id);
         return View();
     }
+
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * 内容采集
+     */
     public function imdata(){
         $sTime = openTime();
         open_buffer();

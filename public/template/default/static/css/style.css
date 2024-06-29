@@ -1301,7 +1301,7 @@ span.WB-OS img {height:16px;width:16px;padding:0;}
 .links-title span,.links-title span a {font-size:12px;color:#888;}
 span.suburl {float:right;position:relative;top:4px;margin-left:10px;}
 #links-home {overflow:hidden;margin-bottom:-10px;}
-#links-home li {display:inline-block;text-align:left;vertical-align:top;width:9%;margin-right:1%;margin-bottom:15px;font-size:13px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+#links-home li {display:inline-block;text-align:center;vertical-align:top;width:9%;margin-right:1%;margin-bottom:15px;font-size:13px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
 #links-home li a {vertical-align:middle;}
 #links-home li img {width:16px;margin-right:3px;position:relative;top:-1px;}
 span.suburl i.icon {margin-left:3px;}
