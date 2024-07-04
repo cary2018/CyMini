@@ -85,6 +85,7 @@ class Tags extends BaseController
         if(!$data['id']){
             unset($data['id']);
         }
+        $data['createTime'] = time();
         SaveAt('taglist',$data);
         $msg = ['code'=>200,'msg'=>lang('success_message')];
         return json_encode($msg);
