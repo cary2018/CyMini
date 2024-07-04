@@ -25,9 +25,8 @@ class VisitLog
         }else{
             $from = '';
         }
-        $client = ClientType();
         $data = array(
-            'clientType'=>$client,
+            'clientType'=>ClientType(),
             'ip'=>get_client_ip(),
             'from_url'=>$from,
             'to_url'=>$url,

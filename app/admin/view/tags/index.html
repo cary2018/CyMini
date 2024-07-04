@@ -39,9 +39,9 @@
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
             <span id="AddUrl" alt="tags/add" style="display: none"></span>
-            <!--<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="adds">
+            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="adds">
                 <i class="fa fa-plus"></i> {$Think.lang.add}
-            </button>-->
+            </button>
             <button class="layui-btn layui-btn-sm layui-btn-warm" lay-event="delete"> {$Think.lang.batchDel} </button>
         </div>
         <!--数据表格-->
@@ -52,6 +52,7 @@
             <span id="ActionUrl" alt="tags/add" title="{$Think.lang.view}" style="display: none"></span>
             <span id="DelUrl" alt="tags/delAll" style="display: none"></span>
             <span id="FieldUrl" alt="tags/updateField" style="display: none"></span>
+            <button class="layui-btn layui-btn-xs" lay-event="edits">{$Think.lang.edit}</button>
             <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</button>
         </script>
 

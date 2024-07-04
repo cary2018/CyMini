@@ -16,6 +16,7 @@ namespace app\admin\controller;
 
 use app\admin\BaseController;
 use think\facade\Db;
+use think\facade\View;
 
 class Tags extends BaseController
 {
@@ -55,5 +56,37 @@ class Tags extends BaseController
             $msg = ['code' => 300, 'msg' => lang('fail_message'), 'data' => $id];
         }
         echo json_encode($msg);
+    }
+
+    public function add(){
+        $id = request()->param('id');
+        $tree = GetMenu('category');
+        $data = FindTable('taglist',[['id','=',$id]]);
+        if(!$data){
+            $data['id'] = '';
+            $data['cid'] = '';
+            $data['tag'] = '';
+        }
+        foreach ($tree as $k=>$v){
+            $level = $v['level']-1;
+            if( $level > 1){
+                $tree[$k]['p'] = str_repeat("&nbsp;&nbsp;&nbsp;",$level).'|--';
+            }else{
+                $tree[$k]['p']='';
+            }
+        }
+        View::assign('tree',$tree);
+        View::assign('data',$data);
+        return View();
+    }
+
+    public function saveAt(){
+        $data = request()->param();
+        if(!$data['id']){
+            unset($data['id']);
+        }
+        SaveAt('taglist',$data);
+        $msg = ['code'=>200,'msg'=>lang('success_message')];
+        return json_encode($msg);
     }
 }
