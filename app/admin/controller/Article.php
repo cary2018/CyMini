@@ -23,6 +23,8 @@ class Article extends BaseController
 {
     public function index(){
         $tree = GetMenu('category');
+        $read = GetCache('readArticle');
+        $attr = GetCache('attribute');
         foreach ($tree as $k=>$v){
             $level = $v['level']-1;
             if( $level > 1){
@@ -31,6 +33,8 @@ class Article extends BaseController
                 $tree[$k]['p']='';
             }
         }
+        View::assign('read',$read);
+        View::assign('attr',$attr);
         View::assign('tree',$tree);
         return View();
     }

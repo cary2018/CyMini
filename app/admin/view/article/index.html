@@ -28,11 +28,19 @@
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">{$Think.lang.variable_title}</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="title" autocomplete="off" class="layui-input">
+                                <input type="text" name="title" placeholder="{$Think.lang.variable_title}" autocomplete="off" class="layui-input">
                             </div>
-                            <label class="layui-form-label required">{$Think.lang.category}</label>
+
+                            <div class="layui-input-inline">
+                                <select name="status" layui.formselect>
+                                    <option value="">{$Think.lang.DownSelect}</option>
+                                    {foreach $read as $key=>$vo }
+                                    <option value="{$key}" >{$vo}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+
                             <div class="layui-input-inline">
                                 <select name="cid" layui.formselect>
                                     <option value="">{$Think.lang.DownSelect}</option>
