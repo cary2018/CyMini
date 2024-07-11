@@ -50,10 +50,5 @@ class Welcome extends BaseController
         View::assign('update',$update);
         return View();
     }
-
-    public function test(){
-        $root = root_path().'runtime/';
-        redDir($root);
-    }
 }
 

@@ -12,6 +12,6 @@
 return [
     'domain'=>'http://update.itmkk.com',
     'name'=>'MiniCMS内容管理系统',
-    'code'=>'2024070',
+    'code'=>'20240708',
     'copyright' => 'CyMini',
 ];

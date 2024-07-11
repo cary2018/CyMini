@@ -19,6 +19,19 @@ use think\facade\Db;
  * 更新缓存数据
  */
 function EmptyCache(){
+    //删除缓存文件
+    $root = root_path().'runtime/';
+    delDirectory($root.'admin/log/');
+    delDirectory($root.'admin/temp/');
+    delDirectory($root.'api/api/');
+    delDirectory($root.'api/log/');
+    delDirectory($root.'cache/');
+    delDirectory($root.'index/index/');
+    delDirectory($root.'index/log/');
+    delDirectory($root.'index/temp/');
+    delDirectory($root.'installs/log/');
+    delDirectory($root.'installs/temp/');
+    delDirectory($root.'log/');
     //删除缓存
     delCache('Menu');
     //删除菜单列表缓存
@@ -45,19 +58,6 @@ function EmptyCache(){
     AreaList();
     //更新配置文件
     putFile();
-    //删除缓存文件
-    $root = root_path().'runtime/';
-    delDirectory($root.'admin/log/');
-    delDirectory($root.'admin/temp/');
-    delDirectory($root.'api/api/');
-    delDirectory($root.'api/log/');
-    delDirectory($root.'cache/');
-    delDirectory($root.'index/index/');
-    delDirectory($root.'index/log/');
-    delDirectory($root.'index/temp/');
-    delDirectory($root.'installs/log/');
-    delDirectory($root.'installs/temp/');
-    delDirectory($root.'log/');
 }
 
 /**
