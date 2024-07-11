@@ -50,6 +50,9 @@ class Update extends BaseController
             if($res['code']==200){
                 echo lang('update_handle_wrap');
                 @unlink($zip);
+            }else{
+                echo lang('decompression_error').':'.$zip;
+                die;
             }
             ob_flush();flush();
             sleep(1);
