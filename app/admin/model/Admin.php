@@ -21,16 +21,20 @@ class Admin extends Model
 {
     public function saveData($data){
         $se = GetSe('admin');
+        if($se['isAdmin'] !==1 && $se['id']!==$data['id']){
+            $msg = ['code'=>300,'msg'=>lang('errorUser')];
+            return json_encode($msg,JSON_UNESCAPED_UNICODE);
+        }
         $find = FindTable('admin',[['username','=',$data['username']],['id','<>',$data['id']]]);
         if($find){
             $msg = ['code'=>300,'msg'=>lang('errorName')];
             return json_encode($msg,JSON_UNESCAPED_UNICODE);
         }
         try{
-            if($data['entry_date']){
+            if(isset($data['entry_date']) && $data['entry_date']){
                 $data['entry_date'] = strtotime($data['entry_date']);
             }
-            if($data['depart_date']){
+            if(isset($data['depart_date']) && $data['depart_date']){
                 $data['depart_date'] = strtotime($data['depart_date']);
             }
             if(array_key_exists('role',$data)){
@@ -71,7 +75,7 @@ class Admin extends Model
         return json_encode($msg,JSON_UNESCAPED_UNICODE);
     }
 
-    public function saveInfo(){
+    public function saveInfo($data){
         $se = GetSe('admin');
         if($se['id'] != $data['id']){
             $msg = ['code'=>300,'msg'=>lang('errorUser')];

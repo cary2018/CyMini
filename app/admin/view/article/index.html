@@ -23,7 +23,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <fieldset style="display: none;" id="inputSearch" class="table-search-fieldset">
-            <legend>搜索信息</legend>
+            <legend>{$Think.lang.search_info}</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane">
                     <div class="layui-form-item">
@@ -44,7 +44,8 @@
                         </div>
 
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i>
+                            {$Think.lang.search}</button>
                         </div>
                     </div>
                 </form>
@@ -80,14 +81,14 @@
 
         table.render({
             elem: '#DataDemos',
-            url: '/admin/article/dataList',
+            url: '{:url("dataList")}',
             toolbar: '#toolbarDemo',
             method: 'get',
             page: true,  //开启分页
             limit: 10,  //默认10条
             height: '550', // 最大高度减去其他容器已占有的高度差
             defaultToolbar: ['filter', 'exports', 'print', {
-                title: '搜索',
+                title: '{$Think.lang.search}',
                 layEvent: 'laySearch',
                 icon: 'layui-icon layui-icon-search'
             }],
@@ -125,7 +126,7 @@
                     }, title: '{$Think.lang.downloadJur}'
                 },
 
-                {fixed:'right',title: '操作', width: 120, toolbar: '#toolBar', align: "center"}
+                {fixed:'right',title: '{$Think.lang.operate}', width: 120, toolbar: '#toolBar', align: "center"}
             ]],
         });
     });

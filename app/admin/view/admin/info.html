@@ -14,8 +14,9 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form">
-    <form class="layui-form" id="DataForm" lay-filter="DataForm" method="post" onsubmit="return false">
+<div class="layui-form">
+    <form class="layui-form layuimini-form" id="DataForm" lay-filter="DataForm" method="post" onsubmit="return false">
+        <span id="ActionUrl" alt="{:url('saveInfo')}"></span>
         <div class="layui-form-item">
             <input type="text" name="id" value="{$data.id}" style="display: none;">
         </div>
@@ -33,20 +34,20 @@
         <div class="layui-form-item">
             <label class="layui-form-label required">{$Think.lang.username}</label>
             <div class="layui-input-inline">
-                <input type="text" name="username" lay-verify="required" lay-reqtext="{$Think.lang.MenuNotEmpty}" value="{$data.username}" class="layui-input">
+                <input type="text" name="username" readonly lay-verify="required" lay-reqtext="{$Think.lang.MenuNotEmpty}" value="{$data.username}" class="layui-input">
             </div>
-            <label class="layui-form-label required">{$Think.lang.nickname}</label>
+            <label class="layui-form-label">{$Think.lang.nickname}</label>
             <div class="layui-input-inline">
                 <input type="text" name="nickname" value="{$data.nickname}" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">{$Think.lang.password}</label>
+            <label class="layui-form-label required">{$Think.lang.password}</label>
             <div class="layui-input-inline">
                 <input type="password" name="password" class="layui-input">
             </div>
-            <label class="layui-form-label">{$Think.lang.repassword}</label>
+            <label class="layui-form-label required">{$Think.lang.repassword}</label>
             <div class="layui-input-inline">
                 <input type="password" name="repassword" class="layui-input">
             </div>
@@ -55,36 +56,73 @@
         <div class="layui-form-item">
             <label class="layui-form-label">{$Think.lang.iphone}</label>
             <div class="layui-input-inline">
-                <input type="text" name="iphone" value="{$data.iphone}" class="layui-input">
+                <input type="text" name="iphone" readonly value="{$data.iphone}" class="layui-input">
             </div>
-            <label class="layui-form-label required">{$Think.lang.IsEnable}</label>
+            <label class="layui-form-label">{$Think.lang.Email}</label>
             <div class="layui-input-inline">
-                <input type="radio" name="status" value="1" title="{$Think.lang.Enable}" {if $data.status == 1}checked{/if} {if $data.status == ''}checked{/if}>
-                <input type="radio" name="status" value="0" title="{$Think.lang.Disable}" {if $data.status === 0}checked{/if}>
+                <input type="text" name="email" readonly value="{$data.email}" class="layui-input">
             </div>
         </div>
-        {if $user.isAdmin == 1}
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label required">{$Think.lang.admin}</label>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">{$Think.lang.realname}</label>
             <div class="layui-input-inline">
-                <input type="radio" name="isAdmin" value="1" title="{$Think.lang.yes}" {if $data.isAdmin == 1}checked{/if} >
-                <input type="radio" name="isAdmin" value="0" title="{$Think.lang.no}"  {if $data.isAdmin == ''}checked{/if}>
+                <input type="text" name="realname" readonly value="{$data.realname}" class="layui-input">
+            </div>
+            <label class="layui-form-label">{$Think.lang.identity}</label>
+            <div class="layui-input-inline">
+                <input type="text" name="identity" readonly value="{$data.identity}" class="layui-input">
             </div>
         </div>
-        {/if}
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">{$Think.lang.department}</label>
+            <div class="layui-input-inline">
+                <span class="layui-input" style="line-height:38px;">
+                    {$data.depart}
+                </span>
+            </div>
+            <label class="layui-form-label">{$Think.lang.position}</label>
+            <div class="layui-input-inline">
+                <span class="layui-input" style="line-height:38px;">
+                    {$data.position}
+                </span>
+            </div>
+        </div>
+
+        <div class="layui-form-item" id="area-picker">
+            <div class="layui-form-label">{$Think.lang.city}</div>
+            <div class="layui-input-inline" style="width:200px;">
+                <span class="layui-input" style="line-height:38px;">
+                    {$data.area}--{$data.city}--{$data.county}
+                </span>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">{$Think.lang.address}</label>
+            <div class="layui-input-block">
+                <span class="layui-input" style="line-height:38px;">
+                    {$data.address}
+                </span>
+            </div>
+        </div>
+
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">{$Think.lang.Remark}</label>
             <div class="layui-input-block">
-                <textarea name="remark" class="layui-textarea" >{$data.remark}</textarea>
+                <span class="layui-textarea">
+                    {$data.remark}
+                </span>
             </div>
         </div>
+
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" lay-submit lay-filter="doSubmit">{$Think.lang.Save}</button>
             </div>
         </div>
     </form>
-
 </div>
 {include file="public/file_js"}
 </body>

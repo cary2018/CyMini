@@ -19,8 +19,8 @@
     <form class="layui-form" id="DataForm" lay-filter="DataForm" method="post" onsubmit="return false">
         <div class="layui-tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">采集信息</li>
-                <li>采集内容</li>
+                <li class="layui-this">{$Think.lang.collection_info}</li>
+                <li>{$Think.lang.collection_content}</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show layuimini-form">
@@ -34,14 +34,14 @@
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label required">采集地址</label>
+                        <label class="layui-form-label required">{$Think.lang.variable_title}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="url" lay-verify="required" value="{$data.url}" placeholder="如：http://www.domain.cn/sore/123.html" class="layui-input">
+                            <input type="text" name="url" lay-verify="required" value="{$data.url}" placeholder="{$Think.lang.collection_title_auto}" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label"></label>
-                        <div class="layui-form-mid layui-word-aux">文章图片过多时，采集会比较耗时请耐心等待，（注：想提升采集速度，可在内容规则--下载图片选择：否）</div>
+                        <div class="layui-form-mid layui-word-aux">{$Think.lang.collection_down_tips}</div>
                     </div>
                 </div>
                 <div class="layui-tab-item">

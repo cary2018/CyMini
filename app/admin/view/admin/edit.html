@@ -78,14 +78,14 @@
             <label class="layui-form-label">{$Think.lang.gender}</label>
             <div class="layui-input-inline">
                 <select name="gender">
-                    <option value="">【请选择性别】</option>
-                    <option value="1" {if $data.gender == 1}selected{/if}>男</option>
-                    <option value="0" {if $data.gender == 0}selected{/if}>女</option>
+                    <option value="">【{$Think.lang.select_sex}】</option>
+                    <option value="1" {if $data.gender == 1}selected{/if}>{$Think.lang.boy}</option>
+                    <option value="0" {if $data.gender == 0}selected{/if}>{$Think.lang.girl}</option>
                 </select>
             </div>
             <div class="layui-input-inline">
                 <select name="dept_id">
-                    <option value="">【请选择{$Think.lang.department}】</option>
+                    <option value="">【{$Think.lang.select_department}】</option>
                     {volist name='depart' id='item'}
                     <option value="{$item.id}" {if $item.id == $data.dept_id}selected{/if}>{$item.p|raw}{$item.name}</option>
                     {/volist}
@@ -93,7 +93,7 @@
             </div>
             <div class="layui-input-inline">
                 <select name="position_id">
-                    <option value="">【请选择{$Think.lang.position}】</option>
+                    <option value="">【{$Think.lang.select_position}】</option>
                     {volist name='position' id='item'}
                     <option value="{$item.id}" {if $item.id == $data.position_id}selected{/if}>{$item.name}</option>
                     {/volist}
@@ -104,11 +104,11 @@
         <div class="layui-form-item">
             <label class="layui-form-label">{$Think.lang.entryDate}</label>
             <div class="layui-input-inline">
-                <input type="text" name="entry_date" id="date" value="{$data.entry_date}" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                <input type="text" name="entry_date" id="date" value="{$data.entry_date}" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
             </div>
             <label class="layui-form-label">{$Think.lang.departDate}</label>
             <div class="layui-input-inline">
-                <input type="text" name="depart_date" id="date2" value="{$data.depart_date}" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                <input type="text" name="depart_date" id="date2" value="{$data.depart_date}" placeholder="yyyy-mm-dd H:i:s" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -116,7 +116,7 @@
             <div class="layui-form-label">{$Think.lang.city}</div>
             <div class="layui-input-inline" style="width: 200px;">
                 <select name="province_id" class="province-selector" data-value="" lay-filter="province_id">
-                    <option value="">【请选择省】</option>
+                    <option value="">【{$Think.lang.select_area}】</option>
                     {volist name="area" id="item"}
                     <option value="{$item.id}" {if $item.id == $data.province_id}selected{/if}>{$item.name}</option>
                     {/volist}
@@ -124,7 +124,7 @@
             </div>
             <div class="layui-input-inline" style="width: 200px;">
                 <select name="city_id" class="city-selector" data-value="" lay-filter="city_id">
-                    <option value="">【请选择市】</option>
+                    <option value="">【{$Think.lang.select_city}】</option>
                     {volist name="city" id="item"}
                     <option value="{$item.id}" {if $item.id == $data.city_id}selected{/if}>{$item.name}</option>
                     {/volist}
@@ -132,7 +132,7 @@
             </div>
             <div class="layui-input-inline" style="width: 200px;">
                 <select name="county_id" class="county-selector" data-value="" lay-filter="county_id">
-                    <option value="">【请选择县/区】</option>
+                    <option value="">【{$Think.lang.select_county}】</option>
                     {volist name="county" id="item"}
                     <option value="{$item.id}" {if $item.id == $data.county_id}selected{/if}>{$item.name}</option>
                     {/volist}

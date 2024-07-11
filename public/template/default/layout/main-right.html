@@ -12,15 +12,15 @@
             </div>
             <div class="webinfo">
                 <div class="item">
-                    <span class="num" title="文章总数：{minicms:total}">{minicms:total}</span>
+                    <span class="num" title="文章总数：{cymini:total}">{cymini:total}</span>
                     <span>文章数</span>
                 </div>
                 <div class="item">
-                    <span class="num" title="评论总数：{minicms:total table='feedback' }">{minicms:total table='feedback'}</span>
+                    <span class="num" title="评论总数：{cymini:total table='feedback' }">{cymini:total table='feedback'}</span>
                     <span>评论数</span>
                 </div>
                 <div class="item">
-                    <span class="num" title="浏览总数：{minicms:sum}">{minicms:sum}</span>
+                    <span class="num" title="浏览总数：{cymini:sum}">{cymini:sum}</span>
                     <span>浏览数</span>
                 </div>
             </div>
@@ -89,7 +89,7 @@
         <section class="widget wow fadeInDown" id="side_con" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">热门文章</h3>
             <ul class="widget-box side_con">
-                {minicms:article num='5' order='views'}
+                {cymini:article num='5' order='views'}
                 <li>
                     <div class="hotcom-img">
                         <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}">
@@ -107,13 +107,13 @@
                         </div>
                     </div>
                 </li>
-                {/minicms:article}
+                {/cymini:article}
             </ul>
         </section>
         <section class="widget wow fadeInDown" id="side_random" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">随机推荐</h3>
             <ul class="widget-box side_random">
-                {minicms:rand num='6'}
+                {cymini:rand num='6'}
                 <li class="r-item">
                     <div class="r-item-wrap">
                         <a class="r-thumb" href="{$vo.temp_archives}?id={$vo.id}" target="{$vo.target}">
@@ -126,13 +126,13 @@
                         </h4>
                     </div>
                 </li>
-                {/minicms:rand}
+                {/cymini:rand}
             </ul>
         </section>
         <section class="widget wow fadeInDown" id="side_hot" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">热门推荐</h3>
             <ul class="widget-box side_hot">
-                {minicms:attrid aid='2' num='3'}
+                {cymini:attrid aid='2' num='3'}
                 <div class="list-media">
                     <a class="media-content" href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}" style="background-image:url(/{$vo.articleThumbImg})"><span class="list-overlay"></span></a>
                     <div class="list-content">
@@ -141,17 +141,17 @@
                             {$vo.month}-{$vo.day}</time></p>
                     </div>
                 </div>
-                {/minicms:attrid}
+                {/cymini:attrid}
             </ul>
         </section>
         <section class="widget wow fadeInDown" id="divTags" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">标签列表</h3>
             <ul class="widget-box divTags">
-                {minicms:tags num='20'}
+                {cymini:tags num='20'}
                 <li class="divTags6">
                     <a title="{$vo.tag}" href="/index/tags?tag={$vo.tag}">{$vo.tag}<span class="tag-count"> ({$vo.count})</span></a>
                 </li>
-                {/minicms:tags}
+                {/cymini:tags}
             </ul>
         </section>
     </div>

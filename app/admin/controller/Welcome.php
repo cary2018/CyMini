@@ -15,6 +15,7 @@ namespace app\admin\controller;
 
 
 use app\admin\BaseController;
+use think\facade\Db;
 use think\facade\View;
 
 class Welcome extends BaseController
@@ -28,12 +29,31 @@ class Welcome extends BaseController
         $article =  CountTable('article');
         $nav =  CountTable('navigation');
         $feed =  CountTable('feedback');
+        $sql = 'SELECT VERSION() AS version';
+        $version = Db::query($sql);
+        $mysql = $version[0]['version'];
+        $arr = [
+            'v'=>GetConfig('version','code'),
+        ];
+        $update = FCurl_post(GetConfig('version','domain'),$arr);
+        if($update['response_code'] == 200){
+            $update = json_decode($update['output'],true);
+        }else{
+            $update = ['code'=>'400','msg'=>lang('update_detection_failed')];
+        }
         View::assign('today',$todayCount);
         View::assign('views',$views);
         View::assign('article',$article);
         View::assign('nav',$nav);
         View::assign('feed',$feed);
+        View::assign('mysql',$mysql);
+        View::assign('update',$update);
         return View();
+    }
+
+    public function test(){
+        $root = root_path().'runtime/';
+        redDir($root);
     }
 }
 

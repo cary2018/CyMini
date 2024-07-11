@@ -6,15 +6,15 @@
     <meta name="renderer" content="webkit" />
     <meta name="force-rendering" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{minicms:detail field='title'/} - {$Think.config.web.web_title}</title>
-    <meta name="keywords" content="{minicms:detail field='keywords'/}" />
-    <meta name="description" content="{minicms:detail field='description'/}" />
-    <meta name="author" content="{minicms:detail field='author'/}" />
+    <title>{cymini:detail field='title'/} - {$Think.config.web.web_title}</title>
+    <meta name="keywords" content="{cymini:detail field='keywords'/}" />
+    <meta name="description" content="{cymini:detail field='description'/}" />
+    <meta name="author" content="{cymini:detail field='author'/}" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="{minicms:detail field='title'/}" />
-    <meta property="og:release_date" content="{minicms:detail field='createTime'/}" />
-    <meta property="og:updated_time" content="{minicms:detail field='createTime'/}" />
-    <meta property="og:article:author" content="{minicms:detail field='author'/}" />
+    <meta property="og:title" content="{cymini:detail field='title'/}" />
+    <meta property="og:release_date" content="{cymini:detail field='createTime'/}" />
+    <meta property="og:updated_time" content="{cymini:detail field='createTime'/}" />
+    <meta property="og:article:author" content="{cymini:detail field='author'/}" />
     <script src="/template/conme/static/js/jquery-2.2.4.min.js"></script>
     <script src="/template/conme/static/js/zblogphp.js"></script>
     <script src="/template/conme/static/js/c_html_js_add.js"></script>
@@ -45,39 +45,39 @@
                     <nav class="navcates place">
                         <i class="fa fa-home"></i>
                         <a href="/">首页</a>
-                        {minicms:breadcrumb aid='$__detail__["cid"]'}
+                        {cymini:breadcrumb aid='$__detail__["cid"]'}
                         <i class="fa fa-angle-double-right"></i>
                         <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}" title="{$vo.name}">{$vo.name}</a>
-                        {/minicms:breadcrumb}
+                        {/cymini:breadcrumb}
                         <i class="fa fa-angle-double-right"></i>
-                        <a href="" rel="bookmark" title="{minicms:detail field='title'}">正文</a>
+                        <a href="" rel="bookmark" title="{cymini:detail field='title'}">正文</a>
                     </nav>
                     <div id="font-change" class="single-font fr">
                         <span id="font-dec"><a href="#" title="减小字体"><i class="fa fa-minus-square-o"></i></a></span>
                         <span id="font-int"><a href="#" title="默认字体"><i class="fa fa-font"></i></a></span>
                         <span id="font-inc"><a href="#" title="增大字体"><i class="fa fa-plus-square-o"></i></a></span>
                     </div>
-                    <h1>{minicms:detail field='title'}</h1>
+                    <h1>{cymini:detail field='title'}</h1>
                     <div class="single-meta">
                         <span class="single-author">
-                            <img alt="{minicms:detail field='author'}" src="/{minicms:detail field='articleThumbImg'}" class="avatar" height="30" width="30" />
+                            <img alt="{cymini:detail field='author'}" src="/{cymini:detail field='articleThumbImg'}" class="avatar" height="30" width="30" />
                             <i class="autlv aut-1"></i>
-                            <a href="javascript:;" title="{minicms:detail field='author'}" class="author-name">{minicms:detail field='author'}</a>
+                            <a href="javascript:;" title="{cymini:detail field='author'}" class="author-name">{cymini:detail field='author'}</a>
                         </span>
-                        <span class="single-time" title="{minicms:detail field='createTime'}">
-                            <span class="separator"></span>{minicms:detail field='createTime'}
+                        <span class="single-time" title="{cymini:detail field='createTime'}">
+                            <span class="separator"></span>{cymini:detail field='createTime'}
                         </span>
-                        <span class="single-views"><span class="separator"></span>{minicms:detail field='views'} 阅读</span>
-                        <span class="single-comment"><span class="separator"></span><a href="#comments">{minicms:detail field='feed'} 评论</a></span>
+                        <span class="single-views"><span class="separator"></span>{cymini:detail field='views'} 阅读</span>
+                        <span class="single-comment"><span class="separator"></span><a href="#comments">{cymini:detail field='feed'} 评论</a></span>
                     </div>
                 </div>
                 <div id="post-body-888888" class="single-entry entry-content">
-                    {minicms:detail field='content'}
+                    {cymini:detail field='content'}
                 </div>
             </div>
             <div class="entry entry-page">
                 <div class="entry_page_flex">
-                    {minicms:next cid='$__detail__["cid"]'}
+                    {cymini:next cid='$__detail__["cid"]'}
                     <span class="page_nav_item page_prev">
                         <span class="page_nav_btn">
                             <i class="fa fa-caret-left"></i>
@@ -88,8 +88,8 @@
                             </a>
                         </span>
                     </span>
-                    {/minicms:next}
-                    {minicms:next cid='$__detail__["cid"]' pae='<' order='desc'}
+                    {/cymini:next}
+                    {cymini:next cid='$__detail__["cid"]' pae='<' order='desc'}
                     <span class="page_nav_item page_next">
                         <span class="page_nav_btn">
                             下一篇
@@ -101,14 +101,14 @@
                             </a>
                         </span>
                     </span>
-                    {/minicms:next}
+                    {/cymini:next}
                 </div>
             </div>
             <div class="entry-related clearfix">
                 <h3 class="section-title"><span>相关阅读</span></h3>
                 <div class="pic-box-list pic-box-img clearfix">
                     <!--相关标签-->
-                    {minicms:article num='8' cid='$__detail__["cid"]'}
+                    {cymini:article num='8' cid='$__detail__["cid"]'}
                     <article class="sell-lia-item wow fadeInDown" style="visibility: hidden; animation-name: none;">
                         <div class="sell-pic-media">
                             <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_archives}?id={$vo.id}" style="background-image:url('/{$vo.articleThumbImg}');"><span class="pic-overlay"></span></a>
@@ -121,17 +121,17 @@
                             </h4>
                         </div>
                     </article>
-                    {/minicms:article}
+                    {/cymini:article}
                 </div>
             </div>
             <section id="comments" class="comments-form">
                 <div id="comt-respond" class="commentpost">
                     <h4>发表评论<span><a rel="nofollow" id="cancel-reply" href="" style="display:none;"><small>取消回复</small></a></span></h4>
                     <form id="frmSumbit" target="_self" method="post" action="" onsubmit="return false;">
-                        <input type="hidden" name="aid" id="inpId" value="{minicms:detail field='id'}">
+                        <input type="hidden" name="aid" id="inpId" value="{cymini:detail field='id'}">
                         <input type="hidden" name="rid" id="inpRevID" value="0">
-                        <input type="hidden" name="cid" value="{minicms:detail field='cid'}">
-                        <input type="hidden" name="article" value="{minicms:detail field='title'}">
+                        <input type="hidden" name="cid" value="{cymini:detail field='cid'}">
+                        <input type="hidden" name="article" value="{cymini:detail field='title'}">
                         <input type="hidden" value="{:token()}" name="__token__" id="inpRevToken" >
                         <div class="comt-box">
                             <div class="form-group liuyan form-name">
@@ -203,8 +203,8 @@
                     <div class="comment-tab">
                         <div class="come-comt">
                             评论列表
-                            <span id="comment_count">（有 <span style="color:#E1171B">{minicms:detail field='feed'}</span>
-                                条评论，<span style="color:#E1171B">{minicms:detail field='views'}</span>人围观）</span>
+                            <span id="comment_count">（有 <span style="color:#E1171B">{cymini:detail field='feed'}</span>
+                                条评论，<span style="color:#E1171B">{cymini:detail field='views'}</span>人围观）</span>
                         </div>
                     </div>
                     <label id="AjaxCommentBegin"></label>

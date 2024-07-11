@@ -23,5 +23,5 @@ return [
     // 标签库标签结束标记
     'taglib_end'    => '}',
     // 预先加载的标签库
-    'taglib_pre_load'  =>    'app\common\taglib\Minicms',
+    'taglib_pre_load'  =>    'app\common\taglib\Cymini',
 ];

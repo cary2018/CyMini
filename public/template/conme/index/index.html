@@ -64,7 +64,7 @@
                 <div class="swiper-container swiper-main swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper " >
 
-                        {minicms:banner }
+                        {cymini:banner }
                         <div class="swiper-slide swiper-slide-duplicate-active swiper-slide-prev swiper-slide-duplicate-next" >
                             <a href="{$vo.link}" target="{$vo.target}">
                                 <img src="/{$vo.img}" alt="{$vo.title}" />
@@ -74,7 +74,7 @@
                                 </span>
                             </a>
                         </div>
-                        {/minicms:banner}
+                        {/cymini:banner}
 
                     </div>
                     <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets">
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="feature-post fr">
-                {minicms:attrid aid='3' num='2'}
+                {cymini:attrid aid='3' num='2'}
                 <li>
                     <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}">
                         <img src="/{$vo.articleThumbImg}" title="{$vo.title}" alt="{$vo.title}" />
@@ -97,12 +97,12 @@
                         </a>
                     </span>
                 </li>
-                {/minicms:attrid}
+                {/cymini:attrid}
             </div>
         </div>
         <div class="hot-tags">
             <ul class="clearfix">
-                {minicms:attrid aid='2' num='4'}
+                {cymini:attrid aid='2' num='4'}
                 <li>
                     <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}" rel="nofollow">
                         <img src="/{$vo.articleThumbImg}" alt="{$vo.title}" style="max-width:275px;max-height:148px;"/>
@@ -113,7 +113,7 @@
                         </a>
                     </span>
                 </li>
-                {/minicms:attrid}
+                {/cymini:attrid}
             </ul>
         </div>
         <div class="sytj-tit youthlee_d7aaf_a768d">
@@ -124,7 +124,7 @@
 <div id="main" class="index-main clearfix ">
     <div class="container ">
         <div class="post-box clearfix ">
-            {minicms:attrid aid='4' num='12'}
+            {cymini:attrid aid='4' num='12'}
             <article id="list{$vo.id}" class="post-list auto-list clearfix wow fadeInDown">
                 <div class="list-shade"></div>
                 <figure class="list-feaimg">
@@ -157,7 +157,7 @@
                     </div>
                 </div>
             </article>
-            {/minicms:attrid}
+            {/cymini:attrid}
         </div>
     </div>
 </div>
@@ -168,12 +168,12 @@
             <nav class="main-navigation ">
                 <ul class="menu-nav-inline">
                     <li class="menu-item active "><a lay-on="ajaxGet" id="" href="javascript:;">最新文章</a></li>
-                    {minicms:table where='["isShow","=",1],["id","=",2]'}
+                    {cymini:table where='["isShow","=",1],["id","=",2]'}
                     <li class="menu-item "><a lay-on="ajaxGet" id="{$vo.id}" href="javascript:;"> {$vo.name}</a></li>
-                    {/minicms:table}
-                    {minicms:table where='["isShow","=",1],["id","=",3]'}
+                    {/cymini:table}
+                    {cymini:table where='["isShow","=",1],["id","=",3]'}
                     <li class="menu-item "><a lay-on="ajaxGet" id="{$vo.id}" href="javascript:;"> {$vo.name}</a></li>
-                    {/minicms:table}
+                    {/cymini:table}
                 </ul>
             </nav>
 
@@ -230,9 +230,9 @@
                 <span class="linksub">友情链接申请条件百度PR&gt;1（目前暂停申请）</span>
             </div>
             <div class="links-li youthlee_c8fe5_55046">
-                {minicms:link }
+                {cymini:link }
                 <li><a href="{$vo.link}" target="{$vo.target}" title="{$vo.title}">{$vo.title}</a></li>
-                {/minicms:link}
+                {/cymini:link}
             </div>
         </div>
     </div>

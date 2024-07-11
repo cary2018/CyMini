@@ -33,6 +33,10 @@ class Database extends BaseController
 
     public function dataList(){
         $list = Db::query('show table status');
+        foreach ($list as &$item){
+            $item['Data_length'] = toSize($item['Data_length']);
+            $item['Data_free'] = toSize($item['Data_free']);
+        }
         $arr = array('code'=>200,'msg'=>'ok','count'=>count($list),'data'=>$list);
         echo json_encode($arr);
     }
@@ -42,7 +46,7 @@ class Database extends BaseController
      */
     public function export(){
         $par = request()->param();
-        $arr = ['code'=>300,'msg'=>'请选择要备份的数据表'];
+        $arr = ['code'=>300,'msg'=>lang('database_select_table')];
         $name = date('Ymd-His');
         if($par){
             foreach ($par['data'] as $v){
@@ -57,7 +61,7 @@ class Database extends BaseController
      */
     public function optimize(){
         $par = request()->param();
-        $arr = ['code'=>300,'msg'=>'操作失败，请选择要操作的数据！'];
+        $arr = ['code'=>300,'msg'=>lang('database_select_table_error')];
         $res = '';
         if($par){
             if(is_array($par['data'])){
@@ -68,7 +72,7 @@ class Database extends BaseController
                 $res = Db::query("OPTIMIZE TABLE `{$par['data']}`");
             }
             if($res){
-                $arr = ['code'=>200,'msg'=>'完成操作！'];
+                $arr = ['code'=>200,'msg'=>lang('complete')];
             }
         }
         echo json_encode($arr);
@@ -79,7 +83,7 @@ class Database extends BaseController
      */
     public function repair(){
         $par = request()->param();
-        $arr = ['code'=>300,'msg'=>'操作失败，请选择要操作的数据！'];
+        $arr = ['code'=>300,'msg'=>lang('database_select_table_error')];
         $res = '';
         if($par){
             if(is_array($par['data'])){
@@ -90,7 +94,7 @@ class Database extends BaseController
                 $res = Db::query("REPAIR TABLE `{$par['data']}`");
             }
             if($res){
-                $arr = ['code'=>200,'msg'=>'完成操作！'];
+                $arr = ['code'=>200,'msg'=>lang('complete')];
             }
         }
         echo json_encode($arr);
@@ -104,7 +108,7 @@ class Database extends BaseController
         $path = backupDatabasePath().$data['data'];
         $info = pathinfo($path);
         $sql = $info['extension']=='sql'?file_get_contents($path):read_gz($path);
-        $sql_list = mini_parse_sql($sql,0,env('database.prefix'));
+        $sql_list = mini_parse_sql($sql,0,['cy_'=>GetConfig('database','connections.mysql.prefix')]);
         $res = redSql($sql_list);
         echo json_encode($res);
     }
@@ -130,7 +134,7 @@ class Database extends BaseController
                 }
             }
         }
-        $arr = ['code'=>200,'msg'=>'完成操作！'];
+        $arr = ['code'=>200,'msg'=>lang('complete')];
         echo json_encode($arr);
     }
 
@@ -174,7 +178,7 @@ class Database extends BaseController
     public function columns(){
         $data = request()->param();
         $columns = Db::query('show columns from '.$data['table']);
-        return json_encode(['code'=>200,'msg'=>'获取成功！','data'=>$columns]);
+        return json_encode(['code'=>200,'msg'=>lang('get_data_success'),'data'=>$columns]);
     }
 
     /**
@@ -191,7 +195,7 @@ class Database extends BaseController
                 return json_encode(['code'=>300,'msg'=>$e->getMessage()]);
             }
         }
-        return json_encode(['code'=>200,'msg'=>'执行完成！']);
+        return json_encode(['code'=>200,'msg'=>lang('execute_success')]);
     }
 
 }

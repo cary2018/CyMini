@@ -84,14 +84,14 @@ function SendEmail($mailto, $nickname, $subject, $content,$addAttachment='')
         $mail->send();
         $arr = [
             'code'=>200,
-            'message'=>'邮件已发送',
+            'message'=>lang('email_send'),
             'data'=>'10000',
         ];
         echo json_encode($arr);
     } catch (Exception $e) {
         $arr = [
             'code'=>200,
-            'message'=>'邮件发送失败',
+            'message'=>lang('email_error'),
             'data'=>"{$mail->ErrorInfo}",
         ];
         echo json_encode($arr);
@@ -600,8 +600,8 @@ function pageBar($table,$pageSize=10,$showPage=5){
     $start = 1;    //开始页码
     $end = $totalPage;    //结束页码
     if($page > 1){
-        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$start,'limit'=>$pageSize]))."> 首页 </a>";
-        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$page-1,'limit'=>$pageSize]))."> 上一页 </a>";
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$start,'limit'=>$pageSize])).">". lang('page_index') ."</a>";
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$page-1,'limit'=>$pageSize])).">". lang('page_prev') ."</a>";
     }
     if($totalPage > $showPage){    //当总页数大于显示页数时
         if($page > $pageOffset + 1){    //当当前页大于页码偏移量+1时，也就是当页码为4时 开始页码1替换为...
@@ -630,11 +630,11 @@ function pageBar($table,$pageSize=10,$showPage=5){
         $pageBanner .= "...";
     }
     if($page < $totalPage){
-        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$page+1,'limit'=>$pageSize]))."> 下一页 </a>";
-        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$totalPage,'limit'=>$pageSize]))."> 尾页 </a>";
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$page+1,'limit'=>$pageSize])).">". lang('page_next') ."</a>";
+        $pageBanner .= "<a href=".handlerUrl($urls,array_merge($_GET,['page'=>$totalPage,'limit'=>$pageSize])).">". lang('page_tail') ."</a>";
     }
-    $pageBanner .= " 当前".$page."页 ";
-    $pageBanner .= " 共".$totalPage."页 </div>";
+    $pageBanner .= lang('page_current').$page.lang('page');
+    $pageBanner .= lang('page_common').$totalPage.lang('page')." </div>";
     return $pageBanner;
 }
 
@@ -738,9 +738,9 @@ function FieldUpdate($table,$data){
     $field = $data['field'];
     if($nar){
         Db::name($table)->save(['id' => $data['id'], $field => $data['value']]);
-        $msg = array('code'=>200,'msg'=>'更新成功！');
+        $msg = array('code'=>200,'msg'=>lang('update_success'));
     }else{
-        $msg = array('code'=>300,'msg'=>'更新失败！');
+        $msg = array('code'=>300,'msg'=>lang('update_failed'));
     }
     return $msg;
 }
@@ -764,9 +764,9 @@ function SwitchUp($table,$field,$id,$value=0){
             $val = 1;
         }
         Db::name($table)->save(['id' => $id, $field => $val]);
-        $msg = array('code'=>200,'msg'=>'状态已更新!');
+        $msg = array('code'=>200,'msg'=>lang('update_status'));
     }else{
-        $msg = array('code'=>300,'msg'=>'数据出错啦!');
+        $msg = array('code'=>300,'msg'=>lang('data_error'));
     }
     return $msg;
 }
@@ -864,11 +864,12 @@ function FCurl_post($url, $param = array(), $filename = '', $wait = 30,$method =
 
     curl_close($curl);
 
-    $result = array(
+
+    return [
         'response_code' => $httpCode,
         'output' => $response,
-    );
-    return $result;
+        'error' => $err,
+    ];
 }
 /**
  * @param string $url   要需下载的文件地址
@@ -879,16 +880,16 @@ function FCurl_post($url, $param = array(), $filename = '', $wait = 30,$method =
  * 下载远程文件
  */
 function DownloadFile($url, $save_dir = '', $filename = '', $type = 0) {
-    $ext = array('gif','jpg','jpeg','bmp','png','webp');
+    $ext = array('gif','jpg','jpeg','bmp','png','webp','zip','gz');
     if (trim($url) == '') {
         return false;
     }
-    if (trim($save_dir) == '') {
+    /*if (trim($save_dir) == '') {
         $save_dir = './';
     }
     if (0 !== strrpos($save_dir, '/')) {
         $save_dir.= '/';
-    }
+    }*/
     //创建保存目录
     if (!file_exists($save_dir) && !mkdir($save_dir, 0777, true)) {
         return false;
@@ -902,11 +903,30 @@ function DownloadFile($url, $save_dir = '', $filename = '', $type = 0) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 禁用SSL证书验证
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        if (stripos($url, "https") === 0) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
         $content = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $err = curl_error($ch);
         curl_close($ch);
+        if($httpCode !== 200){
+            return [
+                'code'=>$httpCode,
+                'content'=>$content,
+                'error'=>$err,
+            ];
+        }
     } else {
         ob_start();
-        readfile($url);
+        $dofile = @readfile($url);
+        if($dofile ===false){
+            return array(
+                'code'=>300,
+                'msg'=>lang('remote_error'),
+            );
+        }
         $content = ob_get_contents();
         ob_end_clean();
     }
@@ -937,11 +957,13 @@ function DownloadFile($url, $save_dir = '', $filename = '', $type = 0) {
         fclose($fp2);
         unset($content, $url);
         return array(
+            'code'=>200,
             'file_name' => $newname,
-            'save_path' => '/'.$save_dir . $newname
+            'save_path' => $save_dir . $newname
         );
     }else{
         return array(
+            'code'=>300,
             'file_name' => $url,
             'save_path' => $url
         );
@@ -978,13 +1000,13 @@ function AuthNode($data,$url){
         }
         if(!in_array($url,$skip)){
             if(!in_array($url,$node)){
-                $msg = ['code'=>300,'msg'=>'权限不足，请联系管理员!!'];
+                $msg = ['code'=>300,'msg'=>lang('authority_error')];
                 echo json_encode($msg,JSON_UNESCAPED_UNICODE);
                 die;
             }
         }
     }else{
-        $msg = ['code'=>300,'msg'=>'权限不足，请联系管理员!'];
+        $msg = ['code'=>300,'msg'=>lang('authority_error')];
         echo json_encode($msg,JSON_UNESCAPED_UNICODE);
         die;
     }
@@ -1393,7 +1415,7 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
                     $msg = [
                         'code'=>200,
                         'ident'=>1,
-                        'msg'=>'上传的图片的类型不正确，允许的类型有：'.$fileType,
+                        'msg'=>lang('upload_type_error').$fileType,
                         'result'=>'',
                     ];
                     return $msg;
@@ -1405,7 +1427,7 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
                     $msg = [
                         'code'=>200,
                         'ident'=>1,
-                        'msg'=>'上传文件超过限制大小：'.$fileSize,
+                        'msg'=>lang('upload_size_error').$fileSize,
                         'result'=>'',
                     ];
                     return $msg;
@@ -1414,7 +1436,7 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
                 $saveName[$k]['img'] = 'uploads/'.$saveName[$k]['img'];
                 //获取文件存放路径
                 $saveName[$k]['code'] = 200;
-                $saveName[$k]['msg'] = '上传成功';
+                $saveName[$k]['msg'] = lang('upload_success');
                 //压缩图片
                 ImgCompress($saveName[$k]['img'],1);
                 //生成缩略图
@@ -1425,14 +1447,14 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
             $msg = [
                 'code'=>200,
                 'ident'=>2,
-                'msg'=>'文件上传成功',
+                'msg'=>lang('upload_success'),
                 'result'=>$saveName,
             ];
             return $msg;
         }else{
             $msg = [
                 'code'=>300,
-                'msg'=>'请选择图片上传[]！',
+                'msg'=>lang('upload_select'),
                 'result'=>'',
             ];
             return $msg;
@@ -1453,14 +1475,14 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
             $msg = [
                 'code'=>200,
                 'ident'=>2,
-                'msg'=>'文件上传成功',
+                'msg'=>lang('upload_success'),
                 'result'=>$saveName,
             ];
             return $msg;
         }else{
             $msg = [
                 'code'=>300,
-                'msg'=>'请选择图片上传！',
+                'msg'=>lang('upload_select'),
                 'result'=>'',
             ];
             return $msg;
@@ -1486,7 +1508,7 @@ function uploadFile($name){
             $msg = [
                 'code'=>200,
                 'ident'=>1,
-                'msg'=>'上传的图片的类型不正确，允许的类型有：'.$fileType,
+                'msg'=>lang('upload_type_error').$fileType,
                 'result'=>'',
             ];
             return $msg;
@@ -1499,7 +1521,7 @@ function uploadFile($name){
             $msg = [
                 'code'=>200,
                 'ident'=>1,
-                'msg'=>'上传文件超过限制大小：'.$fileSize,
+                'msg'=>lang('upload_size_error').$fileSize,
                 'result'=>'',
             ];
             return $msg;
@@ -1511,7 +1533,7 @@ function uploadFile($name){
                 $saveName[$k]['file'] = 'uploads/'.$saveName[$k]['img'];
                 //获取文件存放路径
                 $saveName[$k]['code'] = 200;
-                $saveName[$k]['msg'] = '上传成功';
+                $saveName[$k]['msg'] = lang('upload_success');
             }
         }else{
             $saveName['file'] = \think\facade\Filesystem::disk('public')->putFile( 'uploadFile', $files,'uniqid');
@@ -1520,7 +1542,7 @@ function uploadFile($name){
         $msg = [
             'code'=>200,
             'ident'=>2,
-            'msg'=>'文件上传成功',
+            'msg'=>lang('upload_success'),
             'result'=>$saveName,
         ];
         return $msg;
@@ -1528,7 +1550,7 @@ function uploadFile($name){
         // 文件上传失败或未上传
         $msg = [
             'code'=>300,
-            'msg'=>'请选择文件上传！',
+            'msg'=>lang('upload_select'),
             'result'=>'',
         ];
         return $msg;
@@ -1626,17 +1648,18 @@ function mini_parse_sql($sql='',$limit=0,$prefix=[])
 
 function redSql($sql_list){
     $db_connect = Db::connect();
+    $msg = ['code'=>200,'msg'=>lang('complete')];
     if ($sql_list) {
         $sql_list = array_filter($sql_list);
         foreach ($sql_list as $v) {
             try {
                 $db_connect->execute($v);
             } catch(\Exception $e) {
-                return json_encode(['code'=>300,'msg'=>$e->getMessage()],JSON_UNESCAPED_UNICODE);
+                $msg = ['code'=>300,'msg'=>$e->getMessage()];
             }
         }
     }
-    return ['code'=>200,'msg'=>'完成操作！'];
+    return $msg;
 }
 
 //打开缓冲
@@ -1824,9 +1847,9 @@ function GetBrowser()
         } else {
             $br = 'Other';
         }
-        return "浏览器为：" . $br;
+        return lang('browser') . $br;
     } else {
-        return "获取浏览器信息失败！";
+        return lang('browser_error');
     }
 }
 /**
@@ -1839,15 +1862,15 @@ function GetLang()
         $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         $lang = substr($lang, 0, 5);
         if (preg_match("/zh-cn/i", $lang)) {
-            $lang = "简体中文";
+            $lang = lang('lang_ch');
         } elseif (preg_match("/zh/i", $lang)) {
-            $lang = "繁体中文";
+            $lang = lang('lang_tw');
         } else {
-            $lang = "English";
+            $lang = lang('lang_en');
         }
-        return "浏览器语言为：" . $lang;
+        return lang('browser_lang') . $lang;
     } else {
-        return "获取浏览器语言失败！";
+        return lang('browser_lang_error');
     }
 }
 /**
@@ -2140,4 +2163,23 @@ function ClientType(){
         $msg = "蜘蛛：".$bot;
     }
     return $msg;
+}
+
+/**
+ * @param $file                 //要解压的文件
+ * @param string $path          //解压后要存放的目录
+ * @return array
+ */
+function DealZip($file,$path = ''){
+    $zip = new PclZip($file);
+    $msg = ['code'=>300,'msg'=>lang('decompression_error')];
+    if ($zip->extract(PCLZIP_OPT_PATH,$path,PCLZIP_OPT_REPLACE_NEWER)) {
+        $msg = ['code'=>200,'msg'=>lang('decompression_success')];
+    }
+    return $msg;
+}
+
+function mini_jump($url,$sec=0)
+{
+    echo '<script>setTimeout(function (){location.href="'.$url.'";},'.($sec*1000).');</script><br>';
 }

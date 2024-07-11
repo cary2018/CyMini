@@ -131,9 +131,9 @@ class System extends BaseController
             Db::name('config')->save(['id' => $data['id'], $field => $data['value']]);
             //写入配置文件
             putFile();
-            $msg = array('code'=>200,'msg'=>'更新成功！');
+            $msg = array('code'=>200,'msg'=>lang('update_success'));
         }else{
-            $msg = array('code'=>300,'msg'=>'更新失败！');
+            $msg = array('code'=>300,'msg'=>lang('update_failed'));
         }
         echo json_encode($msg);
     }

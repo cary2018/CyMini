@@ -68,14 +68,14 @@
 
         table.render({
             elem: '#DataDemos',
-            url: '/admin/liar/datalist',
+            url: '{:url("datalist")}',
             toolbar: '#toolbarDemo',
             method: 'get',
             page: true,  //开启分页
             limit: 10,  //默认10条
             height: '550', // 最大高度减去其他容器已占有的高度差
             defaultToolbar: ['filter', 'exports', 'print', {
-                title: '搜索',
+                title: '{$Think.lang.search}',
                 layEvent: 'laySearch',
                 icon: 'layui-icon layui-icon-search'
             }],
@@ -104,7 +104,7 @@
                     }, title: '{$Think.lang.status}'
                 },
 
-                {fixed:'right',title: '操作', width: 120, toolbar: '#toolBar', align: "center"}
+                {fixed:'right',title: '{$Think.lang.operate}', width: 120, toolbar: '#toolBar', align: "center"}
             ]],
         });
     });

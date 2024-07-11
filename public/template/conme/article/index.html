@@ -6,9 +6,9 @@
     <meta name="renderer" content="webkit" />
     <meta name="force-rendering" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{minicms:cate field='name'/} - {$Think.config.web.web_title}</title>
-    <meta name="description" content="{minicms:cate field='description'/}" />
-    <meta name="keywords" content="{minicms:cate field='keywords'/}" />
+    <title>{cymini:cate field='name'/} - {$Think.config.web.web_title}</title>
+    <meta name="description" content="{cymini:cate field='description'/}" />
+    <meta name="keywords" content="{cymini:cate field='keywords'/}" />
     <meta property="og:type" content="index" />
     <meta property="og:title" content="{$Think.config.web.web_title}" />
     <meta property="og:image" content="{$Think.config.web.web_logo}" />
@@ -38,10 +38,10 @@
     <nav class="navcates place">
         <i class="fa fa-home"></i>
         <a href="/">首页</a>
-        {minicms:breadcrumb}
+        {cymini:breadcrumb}
         <i class="fa fa-angle-right"></i>
         <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}" title="{$vo.name}">{$vo.name}</a>
-        {/minicms:breadcrumb}
+        {/cymini:breadcrumb}
     </nav>
     <div id="main" class="cate-main fl auto-side">
         <div id="pjaxmain">

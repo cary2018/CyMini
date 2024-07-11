@@ -30,7 +30,8 @@
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i>
+                            {$Think.lang.search}</button>
                         </div>
                     </div>
                 </form>
@@ -68,21 +69,21 @@
 
         table.render({
             elem: '#DataDemos',
-            url: '/admin/feedback/datalist',
+            url: '{:url("datalist")}',
             toolbar: '#toolbarDemo',
             method: 'get',
             page: true,  //开启分页
             limit: 10,  //默认10条
             height: '550', // 最大高度减去其他容器已占有的高度差
             defaultToolbar: ['filter', 'exports', 'print', {
-                title: '搜索',
+                title: '{$Think.lang.search}',
                 layEvent: 'laySearch',
                 icon: 'layui-icon layui-icon-search'
             }],
             cols: [[
                 {type: "checkbox", width: 50},
                 {field: 'id', align:"center", width: 80, title: 'ID', sort: true},
-                {field: 'rid', align:"center", width: 80, title: '回复ID'},
+                {field: 'rid', align:"center", width: 80, title: '{$Think.lang.replyID}'},
                 {field: 'username',width:120, align: 'center',title: '{$Think.lang.username}'},
                 {field: 'article', align: 'center',title: '{$Think.lang.variable_title}',templet:function(d){
                         return '<a href='+d.temp_archives+'?id='+d.aid+' target="_blank">'+d.article+'</a>';
@@ -100,7 +101,7 @@
                     }, title: '{$Think.lang.status}'
                 },
                 {field: 'createTime',width:160, align: 'center',title: '{$Think.lang.createTime}'},
-                {fixed:'right',title: '操作', width: 120, toolbar: '#toolBar', align: "center"}
+                {fixed:'right',title: '{$Think.lang.operate}', width: 120, toolbar: '#toolBar', align: "center"}
             ]],
         });
     });

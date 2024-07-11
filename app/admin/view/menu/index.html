@@ -64,9 +64,9 @@
                 treePidName: 'pid',
                 elem: '#DataDemos',
                 toolbar: '#toolbarDemo', //开启头部工具栏，并为其绑定左侧模板
-                url: '/admin/menu/dataList',
+                url: '{:url("dataList")}',
                 defaultToolbar: ['filter', 'exports', 'print', {
-                    title: '搜索',
+                    title: '{$Think.lang.search}',
                     layEvent: 'LAYTABLE_TIPS',
                     icon: 'layui-icon layui-icon-search'
                 }],

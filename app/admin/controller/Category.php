@@ -26,6 +26,9 @@ class Category extends BaseController
     }
     public function dataList(){
         $tree = GetMenu('category');
+        foreach ($tree as $key=>$item){
+            $tree[$key]['name'] = $item['name'].'('.CountTable('article',[['cid','=',$item['id']]]).')';
+        }
         $count = CountTable('category');
         View::assign('tree',$tree);
         $arr = array('code'=>0,'msg'=>'ok','count'=>$count,'limit'=>[],'data'=>$tree);

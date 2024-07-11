@@ -44,7 +44,8 @@
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i>
+                            {$Think.lang.search}</button>
                         </div>
                     </div>
                 </form>
@@ -60,7 +61,7 @@
             <span id="AddUrl" alt="link/add" style="display: none"></span>
             <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> {$Think.lang.batchDel} </button>
 			<span class="layui-btn layui-btn-sm layui-btn-radius layui-btn-primary">
-                访问总数：{$views}--今日访问：{$today}
+                {$Think.lang.visit_total}：{$views}--{$Think.lang.today_total}：{$today}
             </span>
         </div>
         <!--数据-->
@@ -91,13 +92,13 @@
 
         table.render({
             elem: '#DataDemos',
-            url: '/admin/visit/dataList',
+            url: '{:url("dataList")}',
             toolbar: '#toolbarDemo',
             method: 'post',
             page: true,  //开启分页
             limit: 10,  //默认10条
             defaultToolbar: ['filter', 'exports', 'print', {
-                title: '搜索',
+                title: '{$Think.lang.search}',
                 layEvent: 'laySearch',
                 icon: 'layui-icon layui-icon-search'
             }],
@@ -124,14 +125,14 @@
                 {field: 'clientInfo', align: 'center',width:130,title: '{$Think.lang.clientInfo}'},
                 {field: 'clientType', align: 'center',width:100,title: '{$Think.lang.type}'},
                 {field: 'createTime',width:160, align: 'center',title: '{$Think.lang.createTime}'},
-                {title: '操作', width: 80, toolbar: '#toolBar', align: "center"}
+                {title: '{$Think.lang.operate}', width: 80, toolbar: '#toolBar', align: "center"}
             ]],
         });
         //清空数据
         $('#emptyData').click(function () {
             layer.confirm('确定清空访客记录吗？',function (index) {
                 table.reload('DataDemos', {
-                    url: '/admin/visit/emptyData',
+                    url: '{:url("emptyData")}',
                     done:function (res) {
                         //console.log(res.code);
                         if(res.code == 200){

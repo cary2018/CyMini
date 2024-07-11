@@ -29,10 +29,12 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 
 	//日期
 	laydate.render({
-		elem: '#date'
+		elem: '#date',
+		type: 'datetime',
 	});
 	laydate.render({
-		elem: '#date2'
+		elem: '#date2',
+		type: 'datetime',
 	});
 
 	//监听头部工具栏事件（表头事件） 添加 + 获取选中行id + 批量删除 + 重载数据表格

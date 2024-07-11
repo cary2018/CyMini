@@ -11,6 +11,80 @@
  */
 
 use think\facade\Db;
+
+/**
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\DbException
+ * @throws \think\db\exception\ModelNotFoundException
+ * 更新缓存数据
+ */
+function EmptyCache(){
+    //删除缓存
+    delCache('Menu');
+    //删除菜单列表缓存
+    delCache('MenuList');
+    //更新菜单列表缓存
+    caheMenu();
+    //更新菜单缓存
+    SetMenu();
+    //阅读权限
+    $str = [
+        '待审核',
+        '开放浏览'
+    ];
+    //设置阅读权限缓存
+    SetCaChe('readArticle',$str);
+    //更新文章属性缓存
+    $attr = AllTable('attribute',[['status','=',1]],['orderSort','id'=>'desc']);
+    SetCaChe('attribute',$attr);
+    //设置前台导航api缓存
+    navApi();
+    //上网导航缓存
+    Navigation();
+    //更新行政区域缓存
+    AreaList();
+    //更新配置文件
+    putFile();
+    //删除缓存文件
+    $root = root_path().'runtime/';
+    delDirectory($root.'admin/log/');
+    delDirectory($root.'admin/temp/');
+    delDirectory($root.'api/api/');
+    delDirectory($root.'api/log/');
+    delDirectory($root.'cache/');
+    delDirectory($root.'index/index/');
+    delDirectory($root.'index/log/');
+    delDirectory($root.'index/temp/');
+    delDirectory($root.'installs/log/');
+    delDirectory($root.'installs/temp/');
+    delDirectory($root.'log/');
+}
+
+/**
+ * @param $dirname
+ * 删除目录下所有文件和文件夹
+ */
+function delDirectory($dirname){
+    if(file_exists($dirname)) {
+        $dir=opendir($dirname);
+        while($filename=readdir($dir)){
+            if($filename!="." && $filename!=".."){
+                $file=$dirname."/".$filename;
+                if(is_dir($file)){
+                    //使用递归删除子目录
+                    delDirectory($file);
+                    //目录清空后删除空文件夹
+                    rmdir($file);
+                }else{
+                    //删除文件
+                    unlink($file);
+                }
+            }
+        }
+        closedir($dir);
+    }
+}
+
 /**
  * @param $arr
  * @return mixed
@@ -145,6 +219,7 @@ function getCer($cer){
         'collection'=>'采集管理',
         'database'=>'数据库管理',
         'file'=>'文件管理',
+        'update'=>'系统更新',
     ];
     $strCode = strtolower($cer);
     $strArr = array_change_key_case($arr,CASE_LOWER);
@@ -212,6 +287,9 @@ function getAct($action){
         'createdir'=>'新建文件夹',
         'saveDir'=>'执行新建文件夹',
         'countSize'=>'统计文件夹大小',
+        'step1'=>'系统更新，下载升级包',
+        'step2'=>'系统更新，解压升级包',
+        'step3'=>'系统更新，检测数据库完成升级',
     ];
     $strCode = strtolower($action);
     $strArr = array_change_key_case($arr,CASE_LOWER);

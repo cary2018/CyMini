@@ -48,7 +48,7 @@
                 </div>
                 <div class="catetop-list-txt">
                     <h1>{$Request.param.tag}
-                        <sup class="sup-list-num">{minicms:total where='[["status","=",1],["tags","like","%".request()->param("tag")."%"]]'}</sup>
+                        <sup class="sup-list-num">{cymini:total where='[["status","=",1],["tags","like","%".request()->param("tag")."%"]]'}</sup>
                     </h1>
                     <div class="catetop-list-intro">
 

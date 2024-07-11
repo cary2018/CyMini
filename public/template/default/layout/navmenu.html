@@ -24,7 +24,7 @@
                                     首页
                                 </a>
                             </li>
-                            {minicms:navmenu}
+                            {cymini:navmenu}
                             <li id="navbar-category-{$vo.id}" class="{if $vo.son}menu-item-has-children{/if}">
                                 <a href="{$vo.isUrl?$vo.outUrl:$vo.temp_list}?id={$vo.id}" target="{$vo.target}">
                                     <i class="icon {$vo.iconfont}"></i>
@@ -43,7 +43,7 @@
                                 </ul>
                                 {/if}
                             </li>
-                            {/minicms:navmenu}
+                            {/cymini:navmenu}
                         </ul>
                     </aside>
                     <div id="mask"></div>

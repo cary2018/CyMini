@@ -16,8 +16,8 @@ composer require phpmailer/phpmailer
 composer require workerman/phpsocket.io
 #扩展插件 https://www.kancloud.cn/ymsxxx/wt-tp6/2787771
 composer require zzstudio/think-addons
-
-
+#扩展压缩、解压 zip（composer完成后，到https://github.com/chamilo/pclzip/blob/master/pclzip.lib.php，复制代码覆盖 pclzip.lib.php 确保最新（>=5421行））
+composer require chamilo/pclzip
 
 
 

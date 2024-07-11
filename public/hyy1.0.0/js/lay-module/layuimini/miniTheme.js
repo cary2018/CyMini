@@ -430,9 +430,8 @@ layui.define(["jquery", "layer"], function (exports) {
                     '<ul>\n' + bgColorHtml + '</ul>\n' +
                     '</div>\n' +
                     '<div class="more-menu-list">\n' +
-                    '<a class="more-menu-item" href="http://layuimini.99php.cn/docs/index.html" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 开发文档</a>\n' +
-                    '<a class="more-menu-item" href="https://github.com/zhongshaofa/layuimini" target="_blank"><i class="layui-icon layui-icon-tabs" style="font-size: 16px;"></i> 开源地址</a>\n' +
-                    '<a class="more-menu-item" href="http://layuimini.99php.cn" target="_blank"><i class="layui-icon layui-icon-theme"></i> 官方网站</a>\n' +
+                    '<a class="more-menu-item" href="https://gitee.com/cary10000/tp8admin/blob/master/%E6%A0%87%E7%AD%BE%E8%AF%B4%E6%98%8E.txt" target="_blank"><i class="layui-icon layui-icon-read" style="font-size: 19px;"></i> 标签说明</a>\n' +
+                    '<a class="more-menu-item" href="https://gitee.com/cary10000/tp8admin" target="_blank"><i class="layui-icon layui-icon-tabs" style="font-size: 16px;"></i> 开源地址</a>\n' +
                     '</div>' +
                     '</div>';
                 layer.open({

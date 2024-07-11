@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "953b344736d812d914a417555fb95d0c",
+    "content-hash": "2a737aebf8a32c535de6b1d56ca7a13a",
     "packages": [
+        {
+            "name": "chamilo/pclzip",
+            "version": "v2.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chamilo/pclzip.git",
+                "reference": "8f6f9ba7b91fc4509a0e58e561b93c466eaf262a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chamilo/pclzip/zipball/8f6f9ba7b91fc4509a0e58e561b93c466eaf262a",
+                "reference": "8f6f9ba7b91fc4509a0e58e561b93c466eaf262a",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "pclzip.lib.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Blavet"
+                }
+            ],
+            "description": "A PHP library that offers compression and extraction functions for Zip formatted archives",
+            "homepage": "https://github.com/chamilo/pclzip",
+            "keywords": [
+                "php",
+                "zip"
+            ],
+            "support": {
+                "issues": "https://github.com/chamilo/pclzip/issues",
+                "source": "https://github.com/chamilo/pclzip/tree/v2.8.3"
+            },
+            "time": "2017-11-28T00:31:04+00:00"
+        },
         {
             "name": "league/flysystem",
             "version": "1.1.10",

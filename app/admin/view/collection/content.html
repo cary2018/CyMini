@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{$Think.lang.admin}</title>
+    <title>{$Think.lang.collection_content}</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +24,7 @@
     <div class="layuimini-main">
 
         <fieldset style="display: none;" id="inputSearch" class="table-search-fieldset">
-            <legend>搜索信息</legend>
+            <legend>{$Think.lang.search_info}</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i>{$Think.lang.search}</button>
                         </div>
                     </div>
                 </form>
@@ -52,12 +52,12 @@
             <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="adds"> {$Think.lang.add} </button>
             <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"> {$Think.lang.batchDel} </button>
             <button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-event="importSelect">
-                导入选中数据
+                {$Think.lang.collection_import_select}
             </button>
             <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:url('collection/importAll')}?id={$Request.get.id}">
-                导入全部采集数据
+                {$Think.lang.collection_import_all}
             </a>
-            <a class="layui-btn layui-btn-sm" href="/admin/collection/">返回采集管理</a>
+            <a class="layui-btn layui-btn-sm" href="/admin/collection/">{$Think.lang.collection_return}</a>
         </div>
         <!--数据-->
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
@@ -80,14 +80,14 @@
         let id=$("#cid").val();
         table.render({
             elem: '#DataDemos',
-            url: '/admin/collection/conlist',
+            url: '{:url("conlist")}',
             toolbar: '#toolbarDemo',
             method: 'get',
             page: true,  //开启分页
             limit: 10,  //默认10条
             where:{id:id},
             defaultToolbar: ['filter', 'exports', 'print', {
-                title: '搜索',
+                title: '{$Think.lang.search}',
                 layEvent: 'laySearch',
                 icon: 'layui-icon layui-icon-search'
             }],
@@ -95,9 +95,9 @@
                 {type: "checkbox", width: 50},
                 {field: 'id', align:"center", width: 80, title: 'ID', sort: true},
                 {field: 'url', align: 'center',title: 'url'},
-                {field: 'title', align: 'center',title: '标题'},
-                {field: 'status', align: 'center',title: '状态'},
-                {title: '操作', width: 120, toolbar: '#toolBar', align: "center"}
+                {field: 'title', align: 'center',title: '{$Think.lang.variable_title}'},
+                {field: 'status', align: 'center',title: '{$Think.lang.status}'},
+                {title: '{$Think.lang.operate}', width: 120, toolbar: '#toolBar', align: "center"}
             ]],
         });
     });

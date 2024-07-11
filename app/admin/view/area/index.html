@@ -50,7 +50,7 @@
             reqData: function (data, callback) {
                 setTimeout(function () {  // 延迟请求数据
                     var id = data?data.id:'';
-                    var url = '/admin/area/datalist';
+                    var url = '{:url("datalist")}';
                     url += '?id='+id;
                     $.get(url, function (res) {
                         let obj = JSON.parse(res);

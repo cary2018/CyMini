@@ -25,7 +25,7 @@
                 <div class="layui-tab-item layui-show layuimini-form">
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label required">采集名称</label>
+                        <label class="layui-form-label required">{$Think.lang.collection_name}</label>
                         <div class="layui-input-inline" style="width:50%;">
                             <input type="hidden" name="id" value="{$data.id}" class="layui-input">
                             <input type="text" name="name" value="{$data.name}" lay-verify="required" class="layui-input">
@@ -33,47 +33,47 @@
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">网址配置</label>
+                        <label class="layui-form-label">{$Think.lang.collection_web_config}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="url" value="{$data.url}" placeholder="(如：http://www.domain.cn/sore/(*).html,页码使用(*)做为通配符。" class="layui-input">
+                            <input type="text" name="url" value="{$data.url}" placeholder="{$Think.langcollection_rule_place}" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">页码从</label>
+                        <label class="layui-form-label">{$Think.lang.collection_page_form}</label>
                         <div class="layui-input-inline">
                             <input type="text" name="ps" value="{$data.ps?$data['ps']:1}" class="layui-input">
                         </div>
-                        <span style="float:left;width:25px;line-height:38px;">到</span>
+                        <span style="float:left;width:25px;line-height:38px;">{$Think.lang.collection_page_to}</span>
                         <div class="layui-input-inline">
                             <input type="text" name="pe" value="{$data.pe?$data['pe']:10}" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">网址规则</label>
+                        <label class="layui-form-label">{$Think.lang.collection_rule}</label>
                         <div class="layui-input-block">
-                            <textarea name="start" placeholder="起始标签" style="width:50%;float:left;" class="layui-textarea" >{$data.start}</textarea>
-                            <textarea name="end" placeholder="结束标签" style="width:50%;float:left;" class="layui-textarea" >{$data.end}</textarea>
+                            <textarea name="start" placeholder="{$Think.lang.collection_start_tag}" style="width:50%;float:left;" class="layui-textarea" >{$data.start}</textarea>
+                            <textarea name="end" placeholder="{$Think.lang.collection_end_tag}" style="width:50%;float:left;" class="layui-textarea" >{$data.end}</textarea>
                         </div>
                     </div>
 
                 </div>
                 <div class="layui-tab-item">
                     <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">标题规则</label>
+                        <label class="layui-form-label">{$Think.lang.collection_title_rule}</label>
                         <div class="layui-input-block">
-                            <textarea name="title" placeholder="使用'[内容]'作为通配符，示例：<h2 class='title'><span>[内容]</span><var>" class="layui-textarea" >{$data.title}</textarea>
+                            <textarea name="title" placeholder="{$Think.lang.collection_title_tips}" class="layui-textarea" >{$data.title}</textarea>
                         </div>
                     </div>
                     <div class="layui-form-item layui-form-text">
-                        <label class="layui-form-label">内容规则</label>
+                        <label class="layui-form-label">{$Think.lang.collection_rule_content}</label>
                         <div class="layui-input-block">
-                            <textarea name="content" placeholder="使用'[内容]'作为通配符,示例：<div class='ad'></div>[内容]<span id='supports' class='praise'" class="layui-textarea" >{$data.content}</textarea>
+                            <textarea name="content" placeholder="{$Think.lang.collection_content_rule}" class="layui-textarea" >{$data.content}</textarea>
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label required">下载图片</label>
+                        <label class="layui-form-label required">{$Think.lang.collection_down_img}</label>
                         <div class="layui-input-inline">
                             <input type="radio" name="download" value="1" title="{$Think.lang.yes}" {if $data.download == 1}checked{/if} >
                             <input type="radio" name="download" value="0" title="{$Think.lang.no}" {if $data.download === 0}checked{/if} {if $data.download === NULL}checked{/if}>

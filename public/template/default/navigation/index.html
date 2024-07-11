@@ -7,7 +7,7 @@
     <meta name="applicable-device" content="pc,mobile" />
     <meta name="renderer" content="webkit" />
     <meta name="force-rendering" content="webkit" />
-    <title>{minicms:cate field='name'}-{$Think.config.web.web_title}</title>
+    <title>{cymini:cate field='name'}-{$Think.config.web.web_title}</title>
     <meta name="Keywords" content="{$Think.config.web.web_key}" />
     <meta name="description" content="{$Think.config.web.web_desc}" />
     <meta property="og:type" content="category" />
@@ -40,7 +40,7 @@
         {if $pass}
         <div class="row row-position">
             <div class="col-md-12">
-                {minicms:navigation}
+                {cymini:navigation}
                 <div class="part" id="cate{$vo.id}" >
                     <p class="tt" id="{$vo.id}">
                         <i class="fa fa-globe"></i>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                {/minicms:navigation}
+                {/cymini:navigation}
             </div>
         </div>
         {/if}

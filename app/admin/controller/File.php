@@ -46,9 +46,9 @@ class File extends BaseController
         $new = $path.$data['path'].'/'.$data['newname'];
         if($data['newname']){
             rename($old,$new);  //修改文件名
-            $msg = array('code'=>200,'msg'=>'完成操作！');
+            $msg = array('code'=>200,'msg'=>lang('complete'));
         }else{
-            $msg = array('code'=>300,'msg'=>'操作失败,新名不能为空！');
+            $msg = array('code'=>300,'msg'=>lang('operate_error'));
         }
         return json_encode($msg);
     }
@@ -73,9 +73,9 @@ class File extends BaseController
         $path =  root_path().$data['path'].'/'.$data['filename'];
         if(file_exists($path)){
             file_put_contents($path,$data['center']);
-            $msg = array('code'=>200,'msg'=>'修改成功');
+            $msg = array('code'=>200,'msg'=>lang('edit_success'));
         }else{
-            $msg = array('code'=>300,'msg'=>'修改失败');
+            $msg = array('code'=>300,'msg'=>lang('edit_fail'));
         }
         return json_encode($msg);
     }
@@ -94,12 +94,12 @@ class File extends BaseController
         if(file_exists($new)){
             if($data['newname']){
                 rename($old,$new.'/'.$data['oldname']);
-                $msg = array('code'=>200,'msg'=>'移动成功');
+                $msg = array('code'=>200,'msg'=>lang('remove_success'));
             }else{
-                $msg = array('code'=>300,'msg'=>'新目录不能为空!');
+                $msg = array('code'=>300,'msg'=>lang('create_dir_empty'));
             }
         }else{
-            $msg = array('code'=>300,'msg'=>'新目录不存在');
+            $msg = array('code'=>300,'msg'=>lang('create_dir'));
         }
         return json_encode($msg);
     }
@@ -146,17 +146,17 @@ class File extends BaseController
         //echo $path;
         if($url){
             if(is_dir($path)){
-                $msg = array('code'=>300,'msg'=>'请输入文件名！');
+                $msg = array('code'=>300,'msg'=>lang('input_name'));
             }else{
                 if(!file_exists($path)){
                     file_put_contents($path,$url['center']);
-                    $msg = array('code'=>200,'msg'=>'创建成功！');
+                    $msg = array('code'=>200,'msg'=>lang('create_dir_success'));
                 }else{
-                    $msg = array('code'=>300,'msg'=>'文件名已经存在！');
+                    $msg = array('code'=>300,'msg'=>lang('file_name_exist'));
                 }
             }
         }else{
-            $msg = array('code'=>300,'msg'=>'创建失败！');
+            $msg = array('code'=>300,'msg'=>lang('create_dir_error'));
         }
         return json_encode($msg);
     }
@@ -172,12 +172,12 @@ class File extends BaseController
         if($url['filename']){
             if(!file_exists($path)){
                 mkdir($path,0777,true);
-                $msg = array('code'=>200,'msg'=>'创建成功！');
+                $msg = array('code'=>200,'msg'=>lang('create_dir_success'));
             }else{
-                $msg = array('code'=>300,'msg'=>'文件名已经存在！');
+                $msg = array('code'=>300,'msg'=>lang('file_name_exist'));
             }
         }else{
-            $msg = array('code'=>300,'msg'=>'创建失败，新建目录不能为空！');
+            $msg = array('code'=>300,'msg'=>lang('create_dir_error_empty'));
         }
         return json_encode($msg);
     }

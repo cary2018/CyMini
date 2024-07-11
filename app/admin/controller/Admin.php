@@ -92,12 +92,12 @@ class Admin extends BaseController
                 $county = '';
             }
             if($data['entry_date']){
-                $data['entry_date'] = date('Y-m-d',$data['entry_date']);
+                $data['entry_date'] = date('Y-m-d H:i:s',$data['entry_date']);
             }else{
                 $data['entry_date'] = '';
             }
             if($data['depart_date']){
-                $data['depart_date'] = date('Y-m-d',$data['depart_date']);
+                $data['depart_date'] = date('Y-m-d H:i:s',$data['depart_date']);
             }else{
                 $data['depart_date'] = '';
             }
@@ -153,6 +153,34 @@ class Admin extends BaseController
     public function info(){
         $id = request()->param('id');
         $data = Db::name('admin')->where('id',$id)->find();
+
+        if($data){
+            $data['position'] = '';
+            $data['city'] = '';
+            $data['county'] = '';
+            $data['area'] = '';
+            $data['depart'] = '';
+            if($data['position_id']){
+                $position = AllTable('position',[['status','=',1],['id','=',$data['position_id']]]);
+                $data['position'] = $position[0]['name'];
+            }
+            if($data['city_id']){
+                $city = AllTable('area',['id'=>$data['city_id']]);
+                $data['city'] = $city[0]['name'];
+            }
+            if($data['county_id']){
+                $county = AllTable('area',['id'=>$data['county_id']]);
+                $data['county'] = $county[0]['name'];
+            }
+            if($data['province_id']){
+                $area = AllTable('area',['id'=>$data['province_id']]);
+                $data['area'] = $area[0]['name'];
+            }
+            if($data['dept_id']){
+                $depart = AllTable('department',['id'=>$data['dept_id']]);
+                $data['depart'] = $depart[0]['name'];
+            }
+        }
         View::assign('data',$data);
         return view();
     }

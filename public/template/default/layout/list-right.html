@@ -3,7 +3,7 @@
         <section class="widget wow fadeInDown" id="divPrevious" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">最近发表</h3>
             <ul class="widget-box divPrevious">
-                {minicms:article num='6'}
+                {cymini:article num='6'}
                 <div class="side_new">
                     <div class="side_new_dot"></div>
                     <div class="side_new_inner">
@@ -16,13 +16,13 @@
                         </div>
                     </div>
                 </div>
-                {/minicms:article}
+                {/cymini:article}
             </ul>
         </section>
         <section class="widget wow fadeInDown" id="side_con" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">热门文章</h3>
             <ul class="widget-box side_con">
-                {minicms:article num='5' order='views'}
+                {cymini:article num='5' order='views'}
                 <li>
                     <div class="hotcom-img">
                         <a href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}">
@@ -40,13 +40,13 @@
                         </div>
                     </div>
                 </li>
-                {/minicms:article}
+                {/cymini:article}
             </ul>
         </section>
         <section class="widget wow fadeInDown" id="divComments" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">最新留言</h3>
             <ul class="widget-box divComments">
-                {minicms:feedback num='6'}
+                {cymini:feedback num='6'}
                 <li class="side-new-comments"> <strong></strong><b></b>
                     <div class="newComments-info">
                         <div class="newComments-deanxz">
@@ -63,13 +63,13 @@
                         </div>
                     </div>
                 </li>
-                {/minicms:feedback}
+                {/cymini:feedback}
             </ul>
         </section>
         <section class="widget wow fadeInDown" id="side_hot" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">热门推荐</h3>
             <ul class="widget-box side_hot">
-                {minicms:attrid aid='2' num='3'}
+                {cymini:attrid aid='2' num='3'}
                 <div class="list-media">
                     <a class="media-content" href="{$vo.temp_archives}?id={$vo.id}" title="{$vo.title}" target="{$vo.target}" style="background-image:url(/{$vo.articleThumbImg})"><span class="list-overlay"></span></a>
                     <div class="list-content">
@@ -79,17 +79,17 @@
                         </p>
                     </div>
                 </div>
-                {/minicms:attrid}
+                {/cymini:attrid}
             </ul>
         </section>
         <section class="widget wow fadeInDown" id="divTags" style="visibility: visible; animation-name: fadeInDown;">
             <h3 class="widget-title">标签列表</h3>
             <ul class="widget-box divTags">
-                {minicms:tags num='20'}
+                {cymini:tags num='20'}
                 <li class="divTags6">
                     <a title="{$vo.tag}" href="/index/tags?tag={$vo.tag}">{$vo.tag}<span class="tag-count"> ({$vo.count})</span></a>
                 </li>
-                {/minicms:tags}
+                {/cymini:tags}
             </ul>
         </section>
     </div>

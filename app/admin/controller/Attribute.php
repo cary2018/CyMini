@@ -63,9 +63,9 @@ class Attribute extends BaseController
             Db::name('attribute')->save(['id' => $id, $field => $val]);
             $attr = AllTable('attribute',[['status','=',1]],['orderSort','id'=>'desc']);
             SetCaChe('attribute',$attr);
-            $msg = array('code'=>200,'msg'=>'状态已更新!');
+            $msg = array('code'=>200,'msg'=>lang('update_status'));
         }else{
-            $msg = array('code'=>300,'msg'=>'数据出错啦!');
+            $msg = array('code'=>300,'msg'=>lang('data_error'));
         }
         echo json_encode($msg);
     }
@@ -91,9 +91,9 @@ class Attribute extends BaseController
             Db::name('attribute')->save(['id' => $data['id'], $field => $data['value']]);
             $attr = AllTable('attribute',[['status','=',1]],['orderSort','id'=>'desc']);
             SetCaChe('attribute',$attr);
-            $msg = array('code'=>200,'msg'=>'更新成功！');
+            $msg = array('code'=>200,'msg'=>lang('update_success'));
         }else{
-            $msg = array('code'=>300,'msg'=>'更新失败！');
+            $msg = array('code'=>300,'msg'=>lang('update_error'));
         }
         echo json_encode($msg);
     }

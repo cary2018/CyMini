@@ -32,6 +32,8 @@
             padding-right: 70px !important;text-overflow:ellipsis!important;overflow:hidden!important;white-space:nowrap!important;}
         .layuimini-notice-title {line-height:28px;font-size:14px;}
         .layuimini-notice-extra {position:absolute;top:50%;margin-top:-8px;right:16px;display:inline-block;height:16px;color:#999;}
+        .update{font-size:18px;color:#0c60ee;}
+        .update a{font-size:18px;color:#0c60ee;}
     </style>
 </head>
 <body>
@@ -39,10 +41,29 @@
     <div class="layuimini-main">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8">
+
+                <div class="layui-card">
+                    {eq name='update.code' value='200'}
+                    <div id="layerDemo" class="layui-card-body update">
+                        <a href="javascript:;" data-method="notice" >【{$update.online}】</a>
+                        <a href="{$update.github}" target="_blank">【{$update.download}】</a>
+                        <a href="{$update.gitee}" target="_blank">【{$update.download2}】</a>
+                    </div>
+                    {else/}
+                    <div class="layui-card-header update">{$update.msg}</div>
+                    {/eq}
+                    {eq name='update.code' value='200'}
+                    <div class="layui-card-body">
+                        <span class="layui-btn layui-btn-danger layui-btn-xs">{$update.version}</span><br>
+                        {$update.desc|raw}
+                    </div>
+                    {/eq}
+                </div>
+
                 <div class="layui-row layui-col-space15">
                     <div class="layui-col-md6">
                         <div class="layui-card">
-                            <div class="layui-card-header"><i class="fa fa-warning icon"></i>数据统计</div>
+                            <div class="layui-card-header"><i class="fa fa-warning icon"></i>{$Think.lang.data_count}</div>
                             <div class="layui-card-body">
                                 <div class="welcome-module">
                                     <div class="layui-row layui-col-space10">
@@ -50,12 +71,12 @@
                                             <div class="panel layui-bg-number">
                                                 <div class="panel-body">
                                                     <div class="panel-title">
-                                                        <span class="label pull-right layui-bg-blue">实时</span>
-                                                        <h5>文章统计</h5>
+                                                        <span class="label pull-right layui-bg-blue">{$Think.lang.data_real}</span>
+                                                        <h5>{$Think.lang.data_count_article}</h5>
                                                     </div>
                                                     <div class="panel-content">
                                                         <h1 class="no-margins">{$article}</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <small>{$Think.lang.data_cate_count}</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,12 +85,12 @@
                                             <div class="panel layui-bg-number">
                                                 <div class="panel-body">
                                                     <div class="panel-title">
-                                                        <span class="label pull-right layui-bg-cyan">实时</span>
-                                                        <h5>导航统计</h5>
+                                                        <span class="label pull-right layui-bg-cyan">{$Think.lang.data_real}</span>
+                                                        <h5>{$Think.lang.data_count_nav}</h5>
                                                     </div>
                                                     <div class="panel-content">
                                                         <h1 class="no-margins">{$nav}</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <small>{$Think.lang.data_cate_count}</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -78,12 +99,12 @@
                                             <div class="panel layui-bg-number">
                                                 <div class="panel-body">
                                                     <div class="panel-title">
-                                                        <span class="label pull-right layui-bg-orange">实时</span>
-                                                        <h5>访问总数 / 今日访问</h5>
+                                                        <span class="label pull-right layui-bg-orange">{$Think.lang.data_real}</span>
+                                                        <h5>{$Think.lang.data_count_today}</h5>
                                                     </div>
                                                     <div class="panel-content">
                                                         <h1 class="no-margins">{$views} / {$today}</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <small>{$Think.lang.data_cate_count}</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,12 +113,12 @@
                                             <div class="panel layui-bg-number">
                                                 <div class="panel-body">
                                                     <div class="panel-title">
-                                                        <span class="label pull-right layui-bg-green">实时</span>
-                                                        <h5>评论统计</h5>
+                                                        <span class="label pull-right layui-bg-green">{$Think.lang.data_real}</span>
+                                                        <h5>{$Think.lang.data_count_feed}</h5>
                                                     </div>
                                                     <div class="panel-content">
                                                         <h1 class="no-margins">{$feed}</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <small>{$Think.lang.data_cate_count}</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,56 +130,56 @@
                     </div>
                     <div class="layui-col-md6">
                         <div class="layui-card">
-                            <div class="layui-card-header"><i class="fa fa-credit-card icon icon-blue"></i>快捷入口</div>
+                            <div class="layui-card-header"><i class="fa fa-credit-card icon icon-blue"></i>{$Think.lang.data_quick}</div>
                             <div class="layui-card-body">
                                 <div class="welcome-module">
                                     <div class="layui-row layui-col-space10 layuimini-qiuck">
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="admin/menu" data-title="菜单管理" data-icon="fa fa-window-maximize">
+                                            <a href="javascript:;" layuimini-content-href="admin/menu" data-title="{$Think.lang.back_menu}" data-icon="fa fa-window-maximize">
                                                 <i class="fa fa-window-maximize"></i>
-                                                <cite>菜单管理</cite>
+                                                <cite>{$Think.lang.back_menu}</cite>
                                             </a>
                                         </div>
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="admin/system" data-title="系统设置" data-icon="fa fa-gears">
+                                            <a href="javascript:;" layuimini-content-href="admin/system" data-title="{$Think.lang.configuration}" data-icon="fa fa-gears">
                                                 <i class="fa fa-gears"></i>
-                                                <cite>系统设置</cite>
+                                                <cite>{$Think.lang.configuration}</cite>
                                             </a>
                                         </div>
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="admin/article" data-title="文档管理" data-icon="fa fa-file-text">
+                                            <a href="javascript:;" layuimini-content-href="admin/article" data-title="{$Think.lang.article_manage}" data-icon="fa fa-file-text">
                                                 <i class="fa fa-file-text"></i>
-                                                <cite>文档管理</cite>
+                                                <cite>{$Think.lang.article_manage}</cite>
                                             </a>
                                         </div>
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="/icon.html" data-title="图标列表" data-icon="fa fa-dot-circle-o">
+                                            <a href="javascript:;" layuimini-content-href="/icon.html" data-title="{$Think.lang.icon_list}" data-icon="fa fa-dot-circle-o">
                                                 <i class="fa fa-dot-circle-o"></i>
-                                                <cite>图标列表</cite>
+                                                <cite>{$Think.lang.icon_list}</cite>
                                             </a>
                                         </div>
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="admin/category" data-title="文章分类" data-icon="fa fa-calendar">
+                                            <a href="javascript:;" layuimini-content-href="admin/category" data-title="{$Think.lang.article_cate}" data-icon="fa fa-calendar">
                                                 <i class="fa fa-server"></i>
-                                                <cite>文章分类</cite>
+                                                <cite>{$Think.lang.article_cate}</cite>
                                             </a>
                                         </div>
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="admin/visit" data-title="访客记录" data-icon="fa fa-hourglass-end">
+                                            <a href="javascript:;" layuimini-content-href="admin/visit" data-title="{$Think.lang.visit_list}" data-icon="fa fa-hourglass-end">
                                                 <i class="fa fa-users"></i>
-                                                <cite>访客记录</cite>
+                                                <cite>{$Think.lang.visit_list}</cite>
                                             </a>
                                         </div>
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="admin/feedback" data-title="评论管理" data-icon="fa fa-snowflake-o">
+                                            <a href="javascript:;" layuimini-content-href="admin/feedback" data-title="{$Think.lang.feed_list}" data-icon="fa fa-snowflake-o">
                                                 <i class="fa fa-comments"></i>
-                                                <cite>评论管理</cite>
+                                                <cite>{$Think.lang.feed_list}</cite>
                                             </a>
                                         </div>
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a href="javascript:;" layuimini-content-href="admin/link" data-title="友情链接" data-icon="fa fa-search">
+                                            <a href="javascript:;" layuimini-content-href="admin/link" data-title="{$Think.lang.link_list}" data-icon="fa fa-search">
                                                 <i class="fa fa-link"></i>
-                                                <cite>友情链接</cite>
+                                                <cite>{$Think.lang.link_list}</cite>
                                             </a>
                                         </div>
                                     </div>
@@ -169,7 +190,7 @@
                     </div>
                     <div class="layui-col-md12">
                         <div class="layui-card">
-                            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>报表统计</div>
+                            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>{$Think.lang.report_count}</div>
                             <div class="layui-card-body">
                                 <div id="echarts-records" style="width: 100%;min-height:500px"></div>
                             </div>
@@ -179,12 +200,11 @@
             </div>
 
             <div class="layui-col-md4">
-
                 <div class="layui-card">
-                    <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>系统公告</div>
+                    <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>{$Think.lang.system_notice}</div>
                     <div class="layui-card-body layui-text">
                         <div class="layuimini-notice">
-                            <div class="layuimini-notice-title">权限控制</div>
+                            <div class="layuimini-notice-title">{$Think.lang.access_control}</div>
                             <div class="layuimini-notice-extra">2019-07-11 23:06</div>
                             <div class="layuimini-notice-content layui-hide">
                                 界面足够简洁清爽。<br>
@@ -193,7 +213,7 @@
                             </div>
                         </div>
                         <div class="layuimini-notice">
-                            <div class="layuimini-notice-title">文章管理</div>
+                            <div class="layuimini-notice-title">{$Think.lang.article_manage}</div>
                             <div class="layuimini-notice-extra">2019-07-11 12:57</div>
                             <div class="layuimini-notice-content layui-hide">
                                 界面足够简洁清爽。<br>
@@ -206,37 +226,75 @@
                 </div>
 
                 <div class="layui-card">
-                    <div class="layui-card-header"><i class="fa fa-fire icon"></i>版本信息</div>
+                    <div class="layui-card-header"><i class="fa fa-fire icon"></i>{$Think.lang.version_info}</div>
                     <div class="layui-card-body layui-text">
                         <table class="layui-table">
                             <colgroup>
-                                <col width="100">
+                                <col width="130">
                                 <col>
                             </colgroup>
                             <tbody>
                             <tr>
-                                <td>系统名称</td>
+                                <td>{$Think.lang.run_info}</td>
                                 <td>
-                                    MiniCms
+                                    {php}
+                                    echo PHP_OS.'（'.$_SERVER['SERVER_SOFTWARE'].'）';
+                                    {/php}
                                 </td>
                             </tr>
                             <tr>
-                                <td>当前版本</td>
-                                <td>v2.0.0</td>
+                                <td>{$Think.lang.service_port}</td>
+                                <td><?php echo $_SERVER['HTTP_HOST'] ?></td>
                             </tr>
                             <tr>
-                                <td>主要特色</td>
-                                <td>零门槛 / 响应式 / 清爽 / 极简</td>
+                                <td>{$Think.lang.upload_size_limit}</td>
+                                <td><?php echo get_cfg_var("file_uploads") ? get_cfg_var("upload_max_filesize") : '*'?></td>
                             </tr>
                             <tr>
-                                <td>演示地址</td>
+                                <td>{$Think.lang.system_name}</td>
                                 <td>
-                                    案例一：<a href="http://www.itmkk.com" target="_blank">点击查看</a><br>
-                                    案例二：<a href="http://www.9wdn.com" target="_blank">点击查看</a><br>
+                                    MiniCMS
                                 </td>
                             </tr>
                             <tr>
-                                <td>下载地址</td>
+                                <td>{$Think.lang.system_version}</td>
+                                <td>
+                                    <span class="layui-btn layui-btn-danger layui-btn-xs">{$Think.config.version.code}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{$Think.lang.php_version}</td>
+                                <td>
+                                    {php}
+                                    echo PHP_VERSION;
+                                    {/php}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{$Think.lang.thinkphp_version}</td>
+                                <td>{:app()->version()}</td>
+                            </tr>
+                            <tr>
+                                <td>{$Think.lang.mysql_version}</td>
+                                <td>
+                                    {php}
+                                    echo $mysql;
+                                    {/php}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{$Think.lang.main_features}</td>
+                                <td>{$Think.lang.intro_thres}</td>
+                            </tr>
+                            <tr>
+                                <td>{$Think.lang.demo_url}</td>
+                                <td>
+                                    案例一：<a href="https://www.itmkk.com" target="_blank">点击查看</a><br>
+                                    案例二：<a href="https://www.9wdn.com" target="_blank">点击查看</a><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{$Think.lang.down_url}</td>
                                 <td>
                                     <a href="https://gitee.com/cary10000/tp8admin" target="_blank">gitee</a><br>
                                 </td>
@@ -247,12 +305,11 @@
                 </div>
 
                 <div class="layui-card">
-                    <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>作者Cary（优）</div>
+                    <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>{$Think.lang.develop_author}</div>
                     <div class="layui-card-body layui-text layadmin-text">
-                        <p>本系统基于 Thinkphp8 + MySql + layuimini 进行开发：
+                        <p>
+                            {$Think.lang.system_desc}
                             <a class="layui-btn layui-btn-xs layui-btn-danger" target="_blank" href="https://gitee.com/cary10000/tp8admin">仓库地址</a>
-
-                            <script type="text/javascript" src="http://www.mac10.com/static/js/admin_common.js?2024.1000.4010"></script>
                         </p>
                     </div>
                 </div>
@@ -262,6 +319,7 @@
     </div>
 </div>
 {include file="public/file_js"}
+
 <script>
     layui.use(['layer', 'miniTab','echarts'], function () {
         var $ = layui.jquery,
@@ -270,7 +328,32 @@
             echarts = layui.echarts;
 
         miniTab.listen();
+        //触发事件
+        var active = {
+            notice: function(){
+                //示范一个公告层
+                layer.open({
+                    type: 2
+                    ,title: '系统更新中。。。' //不显示标题栏
+                    ,shade: 0.8
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,area:[$(window).width()*0.9+'px',$(window).height() - 50+'px']
+                    ,content: '{:url("update/step1")}'
+                    ,success: function(layero){
 
+                    }
+                    ,end:function(){
+                        //关闭弹窗，刷新页面
+                        window.location.reload();
+                    }
+                });
+            }
+        };
+
+        $('#layerDemo a').on('click', function(){
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
         /**
          * 查看公告信息
          **/

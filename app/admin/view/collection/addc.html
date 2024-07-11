@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{$Think.lang.admin}</title>
+    <title>{$Think.lang.collection_content}</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -19,29 +19,29 @@
     <form class="layui-form" id="DataForm" lay-filter="DataForm" method="post" onsubmit="return false">
         <div class="layui-tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">采集信息</li>
-                <li>采集内容</li>
+                <li class="layui-this">{$Think.lang.collection_info}</li>
+                <li>{$Think.lang.collection_content}</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show layuimini-form">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">标题</label>
+                        <label class="layui-form-label">{$Think.lang.variable_title}</label>
                         <div class="layui-input-inline" style="width:50%;">
                             <input type="hidden" name="id" value="" class="layui-input">
                             <input type="hidden" name="cid" value="{$id}" class="layui-input">
-                            <input type="text" name="title" value="" placeholder="留空则自动按规则匹配标题" class="layui-input">
+                            <input type="text" name="title" value="" placeholder="{$Think.lang.collection_title_auto}" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label required">采集地址</label>
+                        <label class="layui-form-label required">{$Think.lang.collection_address}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="url" lay-verify="required" value="" placeholder="如：http://www.domain.cn/sore/123.html" class="layui-input">
+                            <input type="text" name="url" lay-verify="required" value="" placeholder="{$Think.lang.collection_address_url}" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label"></label>
-                        <div class="layui-form-mid layui-word-aux">文章图片过多时，采集会比较耗时请耐心等待，（注：想提升采集速度，可在内容规则--下载图片选择：否）</div>
+                        <div class="layui-form-mid layui-word-aux">{$Think.lang.collection_down_tips}</div>
                     </div>
                 </div>
                 <div class="layui-tab-item">

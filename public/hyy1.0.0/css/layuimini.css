@@ -843,6 +843,9 @@
 
     .layui-layout-admin .layui-nav.layui-layout-right > li:not(.layuimini-setting) {
         width: 40px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .layui-layout-admin .layui-nav.layui-layout-right > li:not(.layuimini-setting) a {

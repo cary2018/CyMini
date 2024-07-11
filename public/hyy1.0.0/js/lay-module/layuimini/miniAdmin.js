@@ -75,6 +75,10 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                 }
             }).fail(function () {
                 miniAdmin.error('菜单接口有误');
+                setTimeout(function () {
+                    window.location.href = '/admin';
+                },3000);
+
             });
         },
 

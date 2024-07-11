@@ -12,7 +12,7 @@
 {:token()}
 
 //-----------------------导航菜单----------------------------
-{minicms:navmenu}
+{cymini:navmenu}
 {$vo.isUrl?$vo.outUrl:$vo.temp_list}
 {$vo.temp_list}         #列表模板
 {$vo.isUrl}             #是否启用外链
@@ -20,31 +20,31 @@
 {$vo.son}               #子菜单
 {$vo.id}                #菜单id
 {$vo.target}            #打开方式
-{/minicms:navmenu}
+{/cymini:navmenu}
 
 //------------------------banner 广告图片 num显示量---------------------
-{minicms:banner num='5'}
+{cymini:banner num='5'}
 {$vo.link}          #链接地址
 {$vo.img}           #图片地址
 {$vo.target}        #打开方式
 {$vo.title}         #banner标题
-{/minicms:banner}
+{/cymini:banner}
 
 //-----------------------------友情链接  num显示量-------------------------
-{minicms:link num='5'}
+{cymini:link num='5'}
 {$vo.link}          #友情链接
 {$vo.target}        #打开方式
 {$vo.title}         #友链名称
-{/minicms:link}
+{/cymini:link}
 
 //--------------------------------------Tag标签 start起始  num显示量---------------------------
-{minicms:tags num='5'}
+{cymini:tags num='5'}
 {$vo.tag}           #标签名
 {$vo.count}         #所属标签文章数
-{/minicms:tags}
+{/cymini:tags}
 
 //-----------------------------------指定文章属性 aid 文章属性 num 显示数量-------------------------
-{minicms:tag aid='5' num='5'}
+{cymini:tag aid='5' num='5'}
 {$vo.title}             #标题
 {$vo.description}       #描述
 {$__total__}            #文章总数
@@ -59,10 +59,10 @@
 {$vo.views}             #浏览量
 {$vo.feed}              #评论数
 {$vo.target}            #打开方式
-{/minicms:tag}
+{/cymini:tag}
 
 //------------------------------------------分类信息----------------------------------------
-{minicms:cate field='name'/}
+{cymini:cate field='name'/}
 id                  #分类ID
 pid                 #上级分类ID
 name                #分类名
@@ -77,7 +77,7 @@ aid                     #文章id
 cate                    #留言类型
 num                     #显示数量
 start                   #起始页
-{minicms:feedback}
+{cymini:feedback}
     {$vo.aid}                   #留言所属 文章id
     {$vo.msg}                   #留言信息
     {$vo.username}              #留言用户
@@ -86,21 +86,21 @@ start                   #起始页
     {$vo.target}                #target属性
     {$vo.temp_archives}         #文章模板
     {$vo.temp_list}             #列表模板
-{/minicms:feedback}
+{/cymini:feedback}
 
 //---------------------------面包屑导航---------------------------
 //文章详情页
-{minicms:breadcrumb aid='$__detail__["cid"]'}
+{cymini:breadcrumb aid='$__detail__["cid"]'}
 //分类页使用
 aid                 #分类id 默认：request()->param("id") 当前url参数中的id
-{minicms:breadcrumb aid='request()->param("id")'}
+{cymini:breadcrumb aid='request()->param("id")'}
 {$vo.id}                        #分类id
 {$vo.target}                    #target属性
 {$vo.name}                      #分类名
 {$vo.isUrl}                     #是否启用外链
 {$vo.outUrl}                    #外链地址
 {$vo.temp_list}                 #列表模板
-{/minicms:breadcrumb}
+{/cymini:breadcrumb}
 
 
 //-------------------------------文章列表标签-------------------------------
@@ -108,7 +108,7 @@ start='0'       #起始页    默认：0
 num='10'        #显示数量   默认：12
 order='id'      #排序方式   默认：id
 cid='5'         #所属分类id 默认：无
-{minicms:article start='0' num='10' order='id' cid='5'}
+{cymini:article start='0' num='10' order='id' cid='5'}
 {$vo.id}                    #文章id
 {$vo.articleThumbImg}       #缩略图
 {$vo.temp_archives}         #文章详情模板
@@ -126,16 +126,16 @@ cid='5'         #所属分类id 默认：无
 {$vo.day}                   #天
 {$vo.feed}                  #评论量
 {$vo.click}                 #点赞量
-{/minicms:article}
+{/cymini:article}
 
 //---------------------------分页标签---------------------------
-分页标签要配合 {minicms:article}{/minicms:article} 使用
+分页标签要配合 {cymini:article}{/cymini:article} 使用
 否则 $__total__  会报错
-{minicms:page total="$__total__"}
+{cymini:page total="$__total__"}
 
 //-----------------------------文章详情------------------------
 
-{minicms:detail field='title'/}
+{cymini:detail field='title'/}
 id                       #文章id
 cid                      #文章分类id
 aid                      #所有用户id
@@ -165,43 +165,43 @@ temp_list                #列表模板
 
 //------------------------------ 上一篇  下一篇 ----------------------
 // 上一篇
-{minicms:next cid='$__detail__["cid"]'}
+{cymini:next cid='$__detail__["cid"]'}
 {$vo.id}                #文章id
 {$vo.title}             #标题
 {$vo.temp_archives}     #文章模板
-{/minicms:next}
+{/cymini:next}
 // 下一篇
-{minicms:next cid='$__detail__["cid"]' pae='<' order='desc'}
+{cymini:next cid='$__detail__["cid"]' pae='<' order='desc'}
 {$vo.id}                #文章id
 {$vo.title}             #标题
 {$vo.temp_archives}     #文章模板
-{/minicms:next}
+{/cymini:next}
 
 //---------------------------- 统计数据表数据 ----------------
 
 // 统计发表的文章数量  table（表名--不用加前缀）  where（条件）
 table           #表名  默认：article
 where           #条件  默认：[["status","=",1]]
-{minicms:total}
+{cymini:total}
 // 统计文章评论的数量  table（表名--不用加前缀）  where（条件）
-{minicms:total table='feedback' where='[["status","=",1]]'}
+{cymini:total table='feedback' where='[["status","=",1]]'}
 
 //--------------------------- 获取数据表信息 ------------------
 table                   #表名
 where                   #条件
-{minicms:table table='category' where='["isShow","=",1],["id","=",2]'}
+{cymini:table table='category' where='["isShow","=",1],["id","=",2]'}
 {$vo.id}                #分类id
 {$vo.name}              #分类名
 {$vo.target}            #target属性
 {$vo.temp_archives}     #文章模板
 {$vo.temp_list}         #列表模板
-{/minicms:table}
+{/cymini:table}
 
 
 //------------------------ 属性文章 ----------------------
 aid              #文章属性id（具体可查看系统里的--》文章属性）
 num              #显示文章数量
-{minicms:attrid aid='2' num='3'}
+{cymini:attrid aid='2' num='3'}
 {$vo.id}                    #文章id
 {$vo.articleThumbImg}       #缩略图
 {$vo.temp_archives}         #文章详情模板
@@ -219,13 +219,13 @@ num              #显示文章数量
 {$vo.day}                   #天
 {$vo.feed}                  #评论量
 {$vo.click}                 #点赞量
-{/minicms:attrid}
+{/cymini:attrid}
 
 
 //--------------------------- 随机推荐 ---------------------------
 cid              #分类id
 num              #显示文章数量
-{minicms:rand num='6'}
+{cymini:rand num='6'}
 {$vo.id}                    #文章id
 {$vo.articleThumbImg}       #缩略图
 {$vo.temp_archives}         #文章详情模板
@@ -243,11 +243,11 @@ num              #显示文章数量
 {$vo.day}                   #天
 {$vo.feed}                  #评论量
 {$vo.click}                 #点赞量
-{/minicms:rand}
+{/cymini:rand}
 
 //------------------------------ 计算字段合计 -----------------
 table                       #表名 默认：article
 where                       #条件 默认：[["status","=",1]]
 field                       #要计算的字段名 默认： views
 //示例：  计算所有文章的浏览量
-{minicms:sum table='article' where='[["status","=",1]]' field='views'}
+{cymini:sum table='article' where='[["status","=",1]]' field='views'}

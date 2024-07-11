@@ -63,9 +63,9 @@ class Weblog extends BaseController
         $field = $data['field'];
         if($nar){
             Db::name('weblog')->save(['id' => $data['id'], $field => $data['value']]);
-            $msg = array('code'=>200,'msg'=>'更新成功！');
+            $msg = array('code'=>200,'msg'=>lang('update_success'));
         }else{
-            $msg = array('code'=>300,'msg'=>'更新失败！');
+            $msg = array('code'=>300,'msg'=>lang('update_failed'));
         }
         echo json_encode($msg);
     }

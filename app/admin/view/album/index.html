@@ -24,12 +24,12 @@
     <div class="layuimini-main">
 
         <fieldset style="display: none;" id="inputSearch" class="table-search-fieldset">
-            <legend>搜索信息</legend>
+            <legend>{$Think.lang.search_info}</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">标题</label>
+                            <label class="layui-form-label">{$Think.lang.variable_title}</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="title" autocomplete="off" class="layui-input">
                             </div>
@@ -44,7 +44,8 @@
                             </select>
                         </div>
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn layui-btn-primary" id="doSearch" lay-submit lay-filter="doSearch""><i class="layui-icon"></i>
+                            {$Think.lang.search}</button>
                         </div>
                     </div>
                 </form>
@@ -57,7 +58,7 @@
             <span id="SwitchUrl" alt="album/switchAt" style="display: none"></span>
             <span id="AddUrl" alt="album/add" style="display: none"></span>
             <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="adds"> {$Think.lang.add} </button>
-            <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+            <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> {$Think.lang.del} </button>
         </div>
         <!--数据-->
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
@@ -81,7 +82,7 @@
 
         table.render({
             elem: '#DataDemos',
-            url: '/admin/album/dataList',
+            url: '{:url("dataList")}',
             toolbar: '#toolbarDemo',
             method: 'get',
             page: true,  //开启分页

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{$Think.lang.admin}</title>
+    <title>{$Think.lang.file_manage}</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,21 +15,22 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <div id="toolDel" style="display:none;">
-            <a class="layui-btn layui-btn-sm" href="{:url('file/')}">根目录</a>
-            <a class="layui-btn layui-btn-sm" lay-event="create" action="{:url('file/create')}?path={$path}">新建文件</a>
-            <a class="layui-btn layui-btn-sm" lay-event="createDir" action="{:url('file/createdir')}?path={$path}">新建目录</a>
-            <button class="layui-btn layui-btn-sm layui-btn-danger" action="{:url('file/delAll')}" lay-event="del"> 批量删除 </button>
+            <a class="layui-btn layui-btn-sm" href="{:url('file/')}">{$Think.lang.root_director}</a>
+            <a class="layui-btn layui-btn-sm" lay-event="create" action="{:url('file/create')}?path={$path}">{$Think.lang.create_file}</a>
+            <a class="layui-btn layui-btn-sm" lay-event="createDir" action="{:url('file/createdir')}?path={$path}">{$Think.lang.create_director}</a>
+            <button class="layui-btn layui-btn-sm layui-btn-danger" action="{:url('file/delAll')}" lay-event="del">
+                {$Think.lang.batchDel} </button>
             <span style="margin-left:60px;">
                 <td colspan="3">
                     {if $path}
                     <a href="{:url('file/index')}?path={$url|urlencode}">
                         <img src="/static/img/dir2.gif">
-                        返回上一页
+                        {$Think.lang.return_page}
                     </a>
                     {/if}
                 </td>
                 <td colspan="4">
-                    当前目录：/{$path}
+                    {$Think.lang.current_dir}：/{$path}
                 </td>
             </span>
         </div>
@@ -37,10 +38,10 @@
             <thead>
             <tr>
                 <th lay-data="{field:'numbers',type:'checkbox', width:60}">-</th>
-                <th lay-data="{field:'filename'}">文件名</th>
-                <th lay-data="{field:'size',width:93}">文件大小</th>
-                <th lay-data="{field:'mtime',width:180}">修改时间</th>
-                <th lay-data="{field:'option',fixed:'right',width:220}">操作</th>
+                <th lay-data="{field:'filename'}">{$Think.lang.file_name}</th>
+                <th lay-data="{field:'size',width:100}">{$Think.lang.file_size}</th>
+                <th lay-data="{field:'mtime',width:180}">{$Think.lang.update_time}</th>
+                <th lay-data="{field:'option',fixed:'right',width:220}">{$Think.lang.operate}</th>
             </tr>
             </thead>
             <tbody>
@@ -73,13 +74,13 @@
                 <td>{$vo.mtime}</td>
                 <td>
                     {if $vo.mime_type == 'text'}
-                    <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+                    <button class="layui-btn layui-btn-xs" lay-event="edit">{$Think.lang.edit_file}</button>
                     {/if}
                     {if $vo.type == 'file'}
-                    <button class="layui-btn layui-btn-xs" lay-event="remove">移动</button>
+                    <button class="layui-btn layui-btn-xs" lay-event="remove">{$Think.lang.remove_file}</button>
                     {/if}
-                    <button class="layui-btn layui-btn-xs" lay-event="rename">改名</button>
-                    <button class="layui-btn-danger layui-btn layui-btn-xs" lay-event="del">删除</button>
+                    <button class="layui-btn layui-btn-xs" lay-event="rename">{$Think.lang.update_file_name}</button>
+                    <button class="layui-btn-danger layui-btn layui-btn-xs" lay-event="del">{$Think.lang.del}</button>
                 </td>
             </tr>
             {/volist}
@@ -114,7 +115,7 @@
             }
             let confirm = $(this).attr('title');
             if(!confirm){
-                confirm = '确定操作吗?';
+                confirm = '{$Think.lang.collection_confirm}';
             }
             let arr = new Array();
             switch (obj.event) {
@@ -152,7 +153,7 @@
                     ChangeData('{:url("file/remove")}?path={$path}/'+name);
                     break;
                 case 'del':
-                    layer.confirm('确认操作吗？', function(index){
+                    layer.confirm('{$Think.lang.collection_confirm}', function(index){
                         Del('{:url("file/delAll")}?path={$path}/'+name);
                         obj.del();
                         layer.close(index);
@@ -203,7 +204,7 @@
         if(val == '计算'){
             let index = layer.load(1,{shade:0.3});
             $.ajax({
-                url:"/admin/file/countSize",
+                url:"{:url('countSize')}",
                 type:"POST",
                 data:{key:path},
                 success:function(result){

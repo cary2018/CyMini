@@ -84,7 +84,7 @@ class Collection extends BaseController
         $cdata = FindTable('collection',['id'=>$data['cid']]);
         $title = replace_sg($cdata['title']);
         $content = replace_sg($cdata['content']);
-        $path = 'download_img/'.date('Ymd');
+        $path = '/download_img/'.date('Ymd');
         //开始采集数据
         if(!$data['title']){
             $data['title'] = cut_html($data['url'],$title[0],$title[1]);
@@ -185,14 +185,14 @@ class Collection extends BaseController
             output_buffer();
         }
         batchSave('collection_content',$arr);
-        echo '运行时间：'.showTime($sTime).' 秒！ 成功：'.count($arr).' 失败：'.$low.' 重复数据：'.$low;
+        echo lang('collection_run_time').showTime($sTime).lang('collection_msg').count($arr).lang('collection_error').$low.lang('collection_repeat').$low;
         unset($str,$proportion,$potion,$c,$lent,$arr,$new);
     }
     public function codata(){
         $id = request()->param('id');
         $data = FindTable('collection',['id'=>$id]);
         if(!$data){
-            die('数据出错啦！');
+            die(lang('data_error'));
         }
         View::assign('id',$id);
         return View();
@@ -213,7 +213,7 @@ class Collection extends BaseController
         $title = replace_sg($data['title']);
         $content = replace_sg($data['content']);
         if(!$data){
-            die('数据出错啦！');
+            die(lang('data_error'));
         }
         $imgArr = array();
         $cons = array();
@@ -222,11 +222,11 @@ class Collection extends BaseController
         $r = 0;
         $i = 1;
         if(!$html){
-            echo '暂无符合数据需要采集！';
+            echo lang('collection_data_error');
         }else{
             ProgressBar();
         }
-        $path = 'download_img/'.date('Ymd');
+        $path = '/download_img/'.date('Ymd');
         $cimg = 0;
         foreach ($html as $k=>$v){
             $proportion = $i/$lent;
@@ -249,7 +249,7 @@ class Collection extends BaseController
                     $newImg = DownloadFile($newUrl,$path,'',1);
                     $imgArr[$kk] = $newImg['save_path'];
                     $cimg++;
-                    echo sprintf($script, $potion, $potion, $i.'/'.$lent.' 成功采集数据+'.$r.' 采集图片：'.$cimg);
+                    echo sprintf($script, $potion, $potion, $i.'/'.$lent.lang('collection_success').$r.lang('collection_img').$cimg);
                     output_buffer();
                     sleep(1);//防止图片未采集完程序提前结束
                 }
@@ -264,13 +264,13 @@ class Collection extends BaseController
                 array_push($cons,$new);
                 $r++;
             }
-            echo sprintf($script, $potion, $potion, $i.'/'.$lent.' 成功采集数据+'.$r.' 采集图片：'.$cimg);
+            echo sprintf($script, $potion, $potion, $i.'/'.$lent.lang('collection_success').$r.lang('collection_img').$cimg);
             $i++;
             output_buffer();
         }
         $model = new Model();
         $model->saveAll($cons);
-        echo '数据采集耗时：'.showTime($sTime);
+        echo lang('collection_consume').showTime($sTime);
     }
     public function content(){
         $id = request()->param('id');
@@ -292,7 +292,7 @@ class Collection extends BaseController
         }
         $list = pageTable('collection_content',$start,$size,$where);
         $count = CountTable('collection_content',$where);
-        $str = ['待采集','已采集','已导入'];
+        $str = [lang('collection_to_be'),lang('collection_in_be'),lang('collection_in_pro')];
         foreach ($list as &$v){
             $v['status'] = $str[$v['status']];
         }
@@ -314,7 +314,7 @@ class Collection extends BaseController
     public function select(){
         $data = request()->param();
         if(!$data['ids']){
-            die('没有要导入的数据！');
+            die(lang('collection_no_data'));
         }
         $tree = GetMenu('category');
         foreach ($tree as $k=>$v){
@@ -339,7 +339,7 @@ class Collection extends BaseController
         $id = request()->param('id');
         $data = Db::name('collection_content')->where([['id', 'in', $id], ['status', '=', 1]])->select()->toArray();
         if (!$data) {
-            return '没有符合的数据要导入！';
+            return lang('collection_no_data_import');
         } else {
             ProgressBar();
         }
@@ -396,7 +396,7 @@ class Collection extends BaseController
         $get = request()->param();
         $data = Db::name('collection_content')->where([['cid','=',$get['id']],['status','=',1]])->select()->toArray();
         if(!$data){
-            return '没有符合的数据要导入！';
+            return lang('collection_no_data_import');
         }else{
             ProgressBar();
         }
@@ -428,6 +428,6 @@ class Collection extends BaseController
         Db::name('collection_content')->where([['cid','=',$get['id']]])->update(['status' => '2']);
         //批量添加文档数据
         batchSave('article',$arr);
-        echo '运行时间：'.showTime($s);
+        echo lang('collection_run_time').showTime($s);
     }
 }

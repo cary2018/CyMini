@@ -39,12 +39,12 @@ class Login extends BaseController
                 if(PasswordVerify($data['password'],$user['password'])){
                     //保存登录信息
                     SetSe('admin',$user);
-                    $msg = ['code'=>200,'msg'=>'登录成功','jump_url'=>'/admin'];
+                    $msg = ['code'=>200,'msg'=>lang('login_success'),'jump_url'=>'/admin'];
                 }else{
-                    $msg = ['code'=>300,'msg'=>'用户名或密码错误！！','token'=>$token];
+                    $msg = ['code'=>300,'msg'=>lang('login_error'),'token'=>$token];
                 }
             }else{
-                $msg = ['code'=>300,'msg'=>'用户名或密码错误！','token'=>$token];
+                $msg = ['code'=>300,'msg'=>lang('login_error'),'token'=>$token];
             }
         } catch (ValidateException $e) {
             //生成 token 防止验证失败 token 失效

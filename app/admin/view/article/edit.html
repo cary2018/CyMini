@@ -18,9 +18,9 @@
     <form class="layui-form" id="DataForm" lay-filter="DataForm" method="post" onsubmit="return false">
         <div class="layui-tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">常规</li>
-                <li>内容</li>
-                <li>附件</li>
+                <li class="layui-this">{$Think.lang.convention}</li>
+                <li>{$Think.lang.article_content}</li>
+                <li>{$Think.lang.article_annex}</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show layuimini-form">
@@ -94,10 +94,10 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">数据同步</label>
+                        <label class="layui-form-label">{$Think.lang.data_sync}</label>
                         <div class="layui-input-inline">
-                            <input type="radio" name="async" value="1" title="是" {if !$data.id} checked {/if}>
-                            <input type="radio" name="async" value="0" title="否" {if $data.id} checked {/if}>
+                            <input type="radio" name="async" value="1" title="{$Think.lang.yes}" {if !$data.id} checked {/if}>
+                            <input type="radio" name="async" value="0" title="{$Think.lang.no}" {if $data.id} checked {/if}>
                         </div>
                     </div>
                     <div class="layui-form-item">

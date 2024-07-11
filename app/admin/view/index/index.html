@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{$Think.config.web.sys_title}-后台管理系统</title>
+    <title>{$Think.config.web.sys_title}-{$Think.lang.back_system}</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="renderer" content="webkit">
@@ -32,7 +32,7 @@
 
         <div class="layuimini-header-content">
             <a>
-                <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
+                <div class="layuimini-tool"><i title="{$Think.lang.expand}" class="fa fa-outdent" data-side-fold="1"></i></div>
             </a>
 
             <!--电脑端头部菜单-->
@@ -42,7 +42,7 @@
             <!--手机端头部菜单-->
             <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
                 <li class="layui-nav-item">
-                    <a href="javascript:;"><i class="fa fa-list-ul"></i> 选择模块</a>
+                    <a href="javascript:;"><i class="fa fa-list-ul"></i> {$Think.lang.select_module}</a>
                     <dl class="layui-nav-child layuimini-menu-header-mobile">
                     </dl>
                 </li>
@@ -50,36 +50,36 @@
 
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="/" target="_blank">前台首页</a>
+                    <a href="/" target="_blank">{$Think.lang.front_home}</a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
+                    <a href="javascript:;" data-refresh="{$Think.lang.refresh}"><i class="fa fa-refresh"></i></a>
                 </li>
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
+                    <a href="javascript:;" data-clear="{$Think.lang.clear_cache}" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>
                 </li>
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;">admin</a>
+                    <a href="javascript:;">{$user.username}</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
+                            <a href="javascript:;" layuimini-content-href="{:url('/admin/admin/info')}?id={$user.id}" data-title="{$Think.lang.base_info}" data-icon="fa fa-gears">{$Think.lang.base_info}<span class="layui-badge-dot"></span></a>
                         </dd>
                         <dd>
-                            <a href="javascript:;" layuimini-content-href="page/user-password.html" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
+                            <a href="javascript:;" layuimini-content-href="{:url('/admin/admin/info')}?id={$user.id}" data-title="{$Think.lang.modify_password}" data-icon="fa fa-gears">{$Think.lang.modify_password}</a>
                         </dd>
                         <dd>
                             <hr>
                         </dd>
                         <dd>
-                            <a href="javascript:;" class="login-out">退出登录</a>
+                            <a href="javascript:;" class="login-out">{$Think.lang.logout_login}</a>
                         </dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
-                    <a href="javascript:;" data-bgcolor="配色方案"><i class="fa fa-ellipsis-v"></i></a>
+                    <a href="javascript:;" data-bgcolor="{$Think.lang.color_pro}"><i class="fa fa-ellipsis-v"></i></a>
                 </li>
             </ul>
         </div>
@@ -114,9 +114,9 @@
                         <li class="layui-nav-item">
                             <a href="javascript:;"><span class="layui-nav-more"></span></a>
                             <dl class="layui-nav-child">
-                                <dd><a href="javascript:;" layuimini-tab-close="current">关 闭 当 前</a></dd>
-                                <dd><a href="javascript:;" layuimini-tab-close="other">关 闭 其 他</a></dd>
-                                <dd><a href="javascript:;" layuimini-tab-close="all">关 闭 全 部</a></dd>
+                                <dd><a href="javascript:;" layuimini-tab-close="current">{$Think.lang.close_current}</a></dd>
+                                <dd><a href="javascript:;" layuimini-tab-close="other">{$Think.lang.close_other}</a></dd>
+                                <dd><a href="javascript:;" layuimini-tab-close="all">{$Think.lang.close_all}</a></dd>
                             </dl>
                         </li>
                     </ul>
@@ -138,7 +138,7 @@
             miniAdmin = layui.miniAdmin;
 
         var options = {
-            iniUrl: "admin/index/datalist",    // 初始化接口
+            iniUrl: "/admin/index/datalist",    // 初始化接口
             clearUrl: "/admin/cache/index", // 缓存清理接口
             urlHashLocation: true,      // 是否打开hash定位
             bgColorDefault: false,      // 主题默认配置

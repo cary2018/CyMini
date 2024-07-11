@@ -24,12 +24,12 @@
     <div class="layuimini-main">
 
         <fieldset style="display: none;" id="inputSearch" class="table-search-fieldset">
-            <legend>搜索信息</legend>
+            <legend>{$Think.lang.search_info}</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户姓名</label>
+                            <label class="layui-form-label">{$Think.lang.username}</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="username" autocomplete="off" class="layui-input">
                             </div>
@@ -71,7 +71,7 @@
 
         table.render({
             elem: '#DataDemos',
-            url: '/admin/admin/dataList',
+            url: '{:url("dataList")}',
             toolbar: '#toolbarDemo',
             method: 'get',
             page: true,  //开启分页
@@ -106,7 +106,7 @@
                         }
                     }, title: '{$Think.lang.status}'
                 },
-                {title: '操作', width: 120, toolbar: '#toolBar', align: "center"}
+                {title: '{$Think.lang.operate}', width: 120, toolbar: '#toolBar', align: "center"}
             ]],
         });
     });

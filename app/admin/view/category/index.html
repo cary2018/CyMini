@@ -64,7 +64,7 @@
                 treePidName: 'pid',
                 elem: '#DataDemos',
                 toolbar: '#toolbarDemo', //开启头部工具栏，并为其绑定左侧模板
-                url: '/admin/category/dataList',
+                url: "{:url('dataList')}",
                 defaultToolbar: ['filter', 'exports', 'print', {
                     title: '搜索',
                     layEvent: 'LAYTABLE_TIPS',
@@ -73,12 +73,12 @@
                 page: false,
                 cols: [[
                     {type: 'numbers'},
-                    {field: 'name', minWidth: 120, title: '{$Think.lang.CategoryName}'},
+                    {field: 'name', minWidth: 150, title: '{$Think.lang.CategoryName}'},
                     {field: 'iconfont', title: '{$Think.lang.iconfont}',edit:'true'},
                     {field: 'outUrl', title: '{$Think.lang.LinkAddress}',edit:'true'},
                     {field: 'temp_list',width:120, title: '{$Think.lang.templateList}',edit:'true'},
                     {field: 'temp_archives',width:120, title: '{$Think.lang.templateArticle}',edit:'true'},
-                    {field: 'target', width: 120, align: 'center',title: '{$Think.lang.TarGet}'},
+                    {field: 'target', width: 100, align: 'center',title: '{$Think.lang.TarGet}'},
                     {field: 'orderSort', width: 80, align: 'center',edit:true, title: '{$Think.lang.OrderSort}'},
                     {
                         field: 'isShow', width: 100, align: 'center', templet: function (d) {

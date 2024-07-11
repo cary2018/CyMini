@@ -82,9 +82,9 @@ class Menu extends BaseController
             //更新菜单缓存
             delCache('MenuList');
             caheMenu();
-            $msg = array('code'=>200,'msg'=>'状态已更新!');
+            $msg = array('code'=>200,'msg'=>lang('update_status'));
         }else{
-            $msg = array('code'=>300,'msg'=>'数据出错啦!');
+            $msg = array('code'=>300,'msg'=>lang('data_error'));
         }
         echo json_encode($msg);
     }
@@ -116,9 +116,9 @@ class Menu extends BaseController
             //更新菜单缓存
             delCache('MenuList');
             caheMenu();
-            $msg = array('code'=>200,'msg'=>'更新成功！');
+            $msg = array('code'=>200,'msg'=>lang('update_success'));
         }else{
-            $msg = array('code'=>300,'msg'=>'更新失败！');
+            $msg = array('code'=>300,'msg'=>lang('update_failed'));
         }
         echo json_encode($msg);
     }

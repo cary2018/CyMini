@@ -14,7 +14,7 @@
 namespace app\common\taglib;
 use think\template\TagLib;
 
-class Minicms extends TagLib
+class Cymini extends TagLib
 {
     /**
      * 定义标签列表

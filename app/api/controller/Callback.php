@@ -41,7 +41,7 @@ class Callback extends BaseController
                 'createTime'=>time(),
                 'updateTime'=>time(),
             ];*/
-            $path = 'download_img/'.date('Ymd');
+            $path = '/download_img/'.date('Ymd');
             $text = $data['content'];
             $imgArr = array();
             if($cdata['download']==1){

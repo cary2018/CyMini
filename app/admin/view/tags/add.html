@@ -17,7 +17,7 @@
 <div class="layui-form layuimini-form">
     <form class="layui-form" id="DataForm" lay-filter="DataForm" action="{:url('menu/ajax')}" method="post" onsubmit="return false">
         <div class="layui-form-item">
-            <label class="layui-form-label">绑定分类</label>
+            <label class="layui-form-label">{$Think.lang.bind_cate}</label>
             <input type="hidden" name="id" value="{$data.id}" >
             <div class="layui-input-block">
                 <select name="cid" lay-filter="cid" layui.formselect>
