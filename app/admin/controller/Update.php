@@ -41,7 +41,7 @@ class Update extends BaseController
         //解压覆盖目录
         $path = root_path();
         $savePath = $path.'app/data/update/';
-        $zip = $savePath.'app.zip';
+        $zip = $savePath.'update_cymini.zip';
         if(file_exists($zip)){
             echo lang('update_find_wrap');
             $res = DealZip($zip,$path);
