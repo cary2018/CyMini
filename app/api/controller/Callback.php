@@ -28,24 +28,12 @@ class Callback extends BaseController
             if($sign != $data_sign){
                 return '签名错误！';
             }
-            /*$pid = [1=>23,11=>15,2=>16,8=>17,9=>18,10=>5];
-            $arr = [
-                'cid'=>$data['ar_pid'],
-                'title'=>$data['ar_title'],
-                'keywords'=>$data['ar_keywords'],
-                'description'=>$data['ar_description'],
-                'content'=>$data['ar_content'],
-                'status'=>$data['ar_status'],
-                'orderSort'=>$data['ar_ordery'],
-                'downloadJur'=>$data['down_jurisdiction'],
-                'createTime'=>time(),
-                'updateTime'=>time(),
-            ];*/
+            //$pid = [1=>23,11=>15,2=>16,8=>17,9=>18,10=>5];
             $path = '/download_img/'.date('Ymd');
             $text = $data['content'];
             $imgArr = array();
-            if($cdata['download']==1){
-                $imgUrl = getImgList($text);
+            $imgUrl = getImgList($text);
+            if ($imgUrl[1]){
                 foreach ($imgUrl[1] as $kk=>$vv){
                     $newUrl = fileUrl($vv,$data['url']);
                     $newImg = DownloadFile($newUrl,$path,'',1);
@@ -67,7 +55,7 @@ class Callback extends BaseController
                 'createTime'=>time(),
                 'updateTime'=>time(),
             ];
-            $img = upload('file',1);
+            $img = UploadImg('file',1);
             if($img['code']==200){
                 if($img['ident'] != 1){
                     $arr['articleImg']=$img['result']['img'];

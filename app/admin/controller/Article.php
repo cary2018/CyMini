@@ -132,6 +132,7 @@ class Article extends BaseController
                 'url'=>$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'],
                 'cid'=>$data['cid'],
                 'title'=>$data['title'],
+                'tags'=>$data['tags'],
                 'keywords'=>$data['keywords'],
                 'description'=>$data['description'],
                 'content'=>$data['content'],
