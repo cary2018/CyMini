@@ -31,7 +31,7 @@ class VisitLog
             'from_url'=>$from,
             'to_url'=>$url,
             'region' => $region['region'],
-            'clientInfo'=>'操作系统：'.GetOs().'<br>'.GetBrowser().'<br>'.GetLang().'<br>HTTP_ACCEPT：'.$_SERVER['HTTP_ACCEPT'].'<br>HTTP_USER_AGENT：'.$_SERVER['HTTP_USER_AGENT'],
+            'clientInfo'=>lang('visit_system').GetOs().'<br>'.GetBrowser().'<br>'.GetLang().'<br>HTTP_ACCEPT：'.$_SERVER['HTTP_ACCEPT'].'<br>HTTP_USER_AGENT：'.$_SERVER['HTTP_USER_AGENT'],
             'createTime'=>time()
         );
         SaveAt('visit',$data);

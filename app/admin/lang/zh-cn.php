@@ -129,6 +129,7 @@ return [
     'login_error' => '用户名或密码错误！！',
     'decompression_error' => '解压失败！',
     'decompression_success' => '解压成功！',
+    'visit_system' => '操作系统：',
     'browser' => '浏览器为：',
     'browser_lang' => '浏览器语言：',
     'browser_error' => '获取浏览器信息失败！',
