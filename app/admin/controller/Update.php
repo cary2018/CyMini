@@ -22,7 +22,7 @@ class Update extends BaseController
     public function step1(){
         $path = root_path();
         $savePath = $path.'app/data/update/';
-        $downFile = GetConfig('version','domain').'/update_cymini.zip';
+        $downFile = GetConfig('version','domain').'/'.GetConfig('version','updateFile');
         $down = DownloadFile($downFile,$savePath,'',1);
         echo lang('update_down');
         ob_flush();flush();
@@ -41,7 +41,7 @@ class Update extends BaseController
         //解压覆盖目录
         $path = root_path();
         $savePath = $path.'app/data/update/';
-        $zip = $savePath.'update_cymini.zip';
+        $zip = $savePath.GetConfig('version','updateFile');
         if(file_exists($zip)){
             echo lang('update_find_wrap');
             $res = DealZip($zip,$path);
@@ -62,12 +62,12 @@ class Update extends BaseController
     public function step3(){
         $path = root_path();
         $savePath = $path.'app/data/update/';
-        $sqlfile = $savePath.'database.sql';
-        if(file_exists($sqlfile)){
+        $sqlFile = $savePath.GetConfig('version','updateSql');
+        if(file_exists($sqlFile)){
             echo lang('update_find_database');
             sleep(1);
-            $info = pathinfo($sqlfile);
-            $sql = $info['extension']=='sql'?file_get_contents($sqlfile):read_gz($sqlfile);
+            $info = pathinfo($sqlFile);
+            $sql = $info['extension']=='sql'?file_get_contents($sqlFile):read_gz($sqlFile);
             $sql_list = mini_parse_sql($sql,0,['cy_'=>GetConfig('database','connections.mysql.prefix')]);
             echo lang('update_handle_database');
             sleep(1);
@@ -84,7 +84,7 @@ class Update extends BaseController
                 }
             }
             echo lang('update_handle_complete');
-            @unlink($sqlfile);
+            @unlink($sqlFile);
             ob_flush();flush();
             sleep(1);
         }

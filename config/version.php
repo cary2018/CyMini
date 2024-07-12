@@ -11,7 +11,10 @@
  */
 return [
     'domain'=>'http://update.itmkk.com',
-    'name'=>'MiniCMS内容管理系统',
+    'host'=>$_SERVER['HTTP_HOST'],
+    'updateFile'=>'update_cymini.zip',
+    'updateSql'=>'database.sql',
+    'name'=>'CyMini内容管理系统',
     'code'=>'20240708',
     'copyright' => 'CyMini',
 ];

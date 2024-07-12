@@ -34,6 +34,8 @@ class Welcome extends BaseController
         $mysql = $version[0]['version'];
         $arr = [
             'v'=>GetConfig('version','code'),
+            'h'=>GetConfig('version','host'),
+            'ip'=>get_client_ip(),
         ];
         $update = FCurl_post(GetConfig('version','domain'),$arr);
         if($update['response_code'] == 200){
