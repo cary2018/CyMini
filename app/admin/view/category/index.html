@@ -25,8 +25,8 @@
             </div>
             <!--头部工具栏-->
             <div id="toolbarDemo" style="display: none;background: #fff;">
-                <span id="SwitchUrl" alt="category/switchAt" style="display: none"></span>
-                <span id="AddUrl" alt="category/add" style="display: none"></span>
+                <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+                <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
                 <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="adds">
                     <i class="fa fa-plus"></i> {$Think.lang.add}
                 </button>
@@ -38,10 +38,10 @@
 </div>
 <!-- 操作列 -->
 <script type="text/html" id="toolBar">
-    <span id="ActionUrl" alt="category/edit" style="display: none"></span>
-    <span id="DelUrl" alt="category/delAll" style="display: none"></span>
-    <span id="FieldUrl" alt="category/updateField" style="display: none"></span>
-    <span id="JumpUrl" alt="category/add" style="display: none"></span>
+    <span id="ActionUrl" alt="{:url('edit')}" style="display: none"></span>
+    <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+    <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+    <span id="JumpUrl" alt="{:url('add')}" style="display: none"></span>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="product">{$Think.lang.AddSub}</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.edit}</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>
@@ -66,7 +66,7 @@
                 toolbar: '#toolbarDemo', //开启头部工具栏，并为其绑定左侧模板
                 url: "{:url('dataList')}",
                 defaultToolbar: ['filter', 'exports', 'print', {
-                    title: '搜索',
+                    title: '{$Think.lang.search}',
                     layEvent: 'LAYTABLE_TIPS',
                     icon: 'layui-icon layui-icon-search'
                 }],

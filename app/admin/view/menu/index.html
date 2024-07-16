@@ -25,8 +25,8 @@
             </div>
             <!--头部工具栏-->
             <div id="toolbarDemo" style="display: none;background: #fff;">
-                <span id="SwitchUrl" alt="menu/switchAt" style="display: none"></span>
-                <span id="AddUrl" alt="menu/add" style="display: none"></span>
+                <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+                <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
                 <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="adds">
                     <i class="fa fa-plus"></i> {$Think.lang.add}
                 </button>
@@ -38,10 +38,10 @@
 </div>
 <!-- 操作列 -->
 <script type="text/html" id="toolBar">
-    <span id="ActionUrl" alt="menu/edit" style="display: none"></span>
-    <span id="DelUrl" alt="menu/delAll" style="display: none"></span>
-    <span id="FieldUrl" alt="menu/updateField" style="display: none"></span>
-    <span id="JumpUrl" alt="menu/add" style="display: none"></span>
+    <span id="ActionUrl" alt="{:url('edit')}" style="display: none"></span>
+    <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+    <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+    <span id="JumpUrl" alt="{:url('add')}" style="display: none"></span>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="product">{$Think.lang.AddSub}</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.edit}</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>

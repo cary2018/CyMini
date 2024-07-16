@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="layui-form">
-    <span id="ActionUrl" alt="/admin/collection/saveAts"></span>
+    <span id="ActionUrl" alt="{:url('saveAts')}"></span>
     <form class="layui-form" id="DataForm" lay-filter="DataForm" method="post" onsubmit="return false">
         <div class="layui-tab">
             <ul class="layui-tab-title">
@@ -25,11 +25,11 @@
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show layuimini-form">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">标题</label>
+                        <label class="layui-form-label">{$Think.lang.variable_title}</label>
                         <div class="layui-input-inline" style="width:50%;">
                             <input type="hidden" name="id" value="{$data.id}" class="layui-input">
                             <input type="hidden" name="cid" value="{$data.id?$data['cid']:$id}" class="layui-input">
-                            <input type="text" name="title" value="{$data.title}" placeholder="留空则自动按规则匹配标题" class="layui-input">
+                            <input type="text" name="title" value="{$data.title}" placeholder="{$Think.lang.collection_title_auto}" class="layui-input">
                         </div>
                     </div>
 

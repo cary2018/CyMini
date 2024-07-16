@@ -44,9 +44,9 @@
 
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
-            <span id="FieldUrl" alt="collection/updateField" style="display: none"></span>
-            <span id="SwitchUrl" alt="collection/switchAt" style="display: none"></span>
-            <span id="AddUrl" alt="/admin/collection/add" style="display: none"></span>
+            <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+            <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+            <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="adds"> {$Think.lang.add} </button>
             <!--<button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>-->
         </div>
@@ -54,8 +54,8 @@
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
         <!--操作-->
         <script type="text/html" id="toolBar">
-            <span id="DelUrl" alt="collection/delAll" style="display: none"></span>
-            <span id="ActionUrl" alt="/admin/collection/edit" style="display: none"></span>
+            <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+            <span id="ActionUrl" alt="{:url('edit')}" style="display: none"></span>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.edit}</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>
         </script>
@@ -85,9 +85,9 @@
                 {field: 'id', align:"center", width: 80, title: 'ID', sort: true},
                 {field: 'name', align: 'center',edit:true,title: '{$Think.lang.collection_name}'},
                 {field: '', align: 'center',title: '{$Think.lang.collection_content_operate}',templet:function (d) {
-                        let html = '<a href="/admin/collection/courl?id='+d.id+'">【{$Think.lang.collection_address}】</a>';
-                        html += '<a href="/admin/collection/codata?id='+d.id+'">【{$Think.lang.collection_content}】</a>';
-                        html += '<a href="/admin/collection/content?id='+d.id+'">【{$Think.lang.collection_content_release}】</a>';
+                        let html = '<a href="{:url("courl")}?id='+d.id+'">【{$Think.lang.collection_address}】</a>';
+                        html += '<a href="{:url("codata")}?id='+d.id+'">【{$Think.lang.collection_content}】</a>';
+                        html += '<a href="{:url("content")}?id='+d.id+'">【{$Think.lang.collection_content_release}】</a>';
                         return html;
                     }},
                 {field: 'createTime',width:160, align: 'center',title: '{$Think.lang.createTime}'},

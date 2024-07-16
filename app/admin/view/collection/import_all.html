@@ -41,7 +41,7 @@
                         </div>
                         <button class="layui-btn layui-btn-normal" lay-submit lay-filter="importData">{$Think.lang.collection_start_import}</button>
                         <input type="hidden" id="coid" value="{$id}">
-                        <a class="layui-btn" href="/admin/collection/content?id={$id}">{$Think.lang.collection_return_content}</a>
+                        <a class="layui-btn" href="{:url('content')}?id={$id}">{$Think.lang.collection_return_content}</a>
                     </div>
                 </div>
             </form>

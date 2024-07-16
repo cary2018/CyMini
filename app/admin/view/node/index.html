@@ -29,8 +29,8 @@
             </div>
             <!--头部工具栏-->
             <div id="toolbarDemo" style="display: none;background: #fff;">
-                <span id="SwitchUrl" alt="/admin/node/switchAt" style="display: none"></span>
-                <span id="AddUrl" alt="/admin/node/add" style="display: none"></span>
+                <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+                <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             </div>
             <!--数据表格-->
             <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
@@ -39,7 +39,7 @@
 </div>
 <!-- 操作列 -->
 <script type="text/html" id="toolBar">
-    <span id="ActionUrl" alt="/admin/node/add" style="display: none"></span>
+    <span id="ActionUrl" alt="{:url('add')}" style="display: none"></span>
 </script>
 
 {include file="public/file_js"}
@@ -99,7 +99,7 @@
         $('#updateMenu').click(function () {
             layer.confirm('确定更新系统节点吗？',function (index) {
                 table.reload('DataDemos', {
-                    url: '/admin/node/updateNode',
+                    url: '{:url("updateNode")}',
                     done:function (res) {
                         //console.log(res.code);
                         if(res.code == 200){

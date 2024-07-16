@@ -20,7 +20,7 @@
 <div class="layuimini-container">
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
         <legend>
-            <a href="#" class="layui-btn " id="adds" alt="{:url('/admin/system/add')}">
+            <a href="#" class="layui-btn " id="adds" alt="{:url('add')}">
                 <i class="fa fa-edit"></i> {$Think.lang.add}
             </a>
         </legend>
@@ -38,7 +38,7 @@
         </ul>
         <div class="layui-tab-content">
 
-                <span id="ActionUrl" alt="{:url('system/batchSave')}"></span>
+                <span id="ActionUrl" alt="{:url('batchSave')}"></span>
                 {volist name="data" id="item" key="k"}
                     {if $k==1}
                         <div class="layui-tab-item layui-show">
@@ -63,7 +63,7 @@
                                             </td>
                                             <td>{$v.sys_remark}</td>
                                             <td>
-                                                <a class="layui-btn layui-btn-normal layui-btn-sm" alt="{:url('/admin/system/edit')}?id={$v.id}" lay-submit lay-filter="save">{$Think.lang.edit}</a>
+                                                <a class="layui-btn layui-btn-normal layui-btn-sm" alt="{:url('edit')}?id={$v.id}" lay-submit lay-filter="save">{$Think.lang.edit}</a>
                                             </td>
                                         </tr>
                                     {/volist}
@@ -98,7 +98,7 @@
                                             </td>
                                             <td>{$v.sys_remark}</td>
                                             <td>
-                                                <a class="layui-btn layui-btn-normal layui-btn-sm" alt="{:url('/admin/system/edit')}?id={$v.id}" lay-submit lay-filter="save">{$Think.lang.edit}</a>
+                                                <a class="layui-btn layui-btn-normal layui-btn-sm" alt="{:url('edit')}?id={$v.id}" lay-submit lay-filter="save">{$Think.lang.edit}</a>
                                             </td>
                                         </tr>
                                     {/volist}
@@ -130,11 +130,12 @@
             if(JumpUrls == ''){
                 JumpUrls = 'add';
             }
-            layer.open({
+            parent.layer.open({
                 type:2,
                 title:'信息',
                 content:JumpUrls,
                 shadeClose: true,
+                maxmin:true,
                 area:[$(window).width()*0.9+'px',$(window).height() - 50+'px']
             });
         });

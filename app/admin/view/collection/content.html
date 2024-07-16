@@ -45,10 +45,10 @@
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
             <input type="hidden" id="cid" value="{$id}">
-            <span id="FieldUrl" alt="collection/updateField" style="display: none"></span>
-            <span id="SwitchUrl" alt="collection/switchAt" style="display: none"></span>
-            <span id="JumpUrl" alt="/admin/collection/select" style="display: none"></span>
-            <span id="AddUrl" alt="/admin/collection/addc?cid={$id}" style="display: none"></span>
+            <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+            <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+            <span id="JumpUrl" alt="{:url('select')}" style="display: none"></span>
+            <span id="AddUrl" alt="{:url('addc')}?cid={$id}" style="display: none"></span>
             <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="adds"> {$Think.lang.add} </button>
             <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"> {$Think.lang.batchDel} </button>
             <button class="layui-btn layui-btn-sm layui-btn-normal" type="button" lay-event="importSelect">
@@ -63,8 +63,8 @@
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
         <!--操作-->
         <script type="text/html" id="toolBar">
-            <span id="DelUrl" alt="/admin/collection/delAll" style="display: none"></span>
-            <span id="ActionUrl" alt="/admin/collection/edits" style="display: none"></span>
+            <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+            <span id="ActionUrl" alt="{:url('edits')}" style="display: none"></span>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.edit}</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>
         </script>

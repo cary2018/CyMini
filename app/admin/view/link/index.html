@@ -24,7 +24,7 @@
     <div class="layuimini-main">
 
         <fieldset style="display: none;" id="inputSearch" class="table-search-fieldset">
-            <legend>搜索信息</legend>
+            <legend>{$Think.lang.search_info}</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
@@ -44,9 +44,9 @@
 
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
-            <span id="FieldUrl" alt="link/updateField" style="display: none"></span>
-            <span id="SwitchUrl" alt="link/switchAt" style="display: none"></span>
-            <span id="AddUrl" alt="link/add" style="display: none"></span>
+            <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+            <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+            <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="adds"> {$Think.lang.add} </button>
             <!--<button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>-->
         </div>
@@ -54,8 +54,8 @@
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
         <!--操作-->
         <script type="text/html" id="toolBar">
-            <span id="DelUrl" alt="link/delAll" style="display: none"></span>
-            <span id="ActionUrl" alt="link/edit" style="display: none"></span>
+            <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+            <span id="ActionUrl" alt="{:url('edit')}" style="display: none"></span>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.edit}</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>
         </script>

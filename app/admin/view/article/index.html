@@ -62,9 +62,9 @@
 
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
-            <span id="FieldUrl" alt="article/updateField" style="display: none"></span>
-            <span id="SwitchUrl" alt="article/switchAt" style="display: none"></span>
-            <span id="AddUrl" alt="article/add" style="display: none"></span>
+            <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+            <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+            <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="adds"> {$Think.lang.add} </button>
             <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> {$Think.lang.batchDel} </button>
         </div>

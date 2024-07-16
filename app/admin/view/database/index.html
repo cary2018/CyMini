@@ -26,11 +26,11 @@
                 <div class="layui-tab-item layui-show">
                     <!--头部工具栏-->
                     <div id="toolbarDemo" style="display: none;background: #fff;">
-                        <button class="layui-btn layui-btn-normal layui-btn-sm" field="Name" action="database/export" lay-event="ChangeData">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" field="Name" action="{:url('export')}" lay-event="ChangeData">
                             {$Think.lang.database_back_data} </button>
-                        <button class="layui-btn layui-btn-sm" field="Name" action="database/optimize" lay-event="ChangeData">
+                        <button class="layui-btn layui-btn-sm" field="Name" action="{:url('optimize')}" lay-event="ChangeData">
                             {$Think.lang.database_optimize_data} </button>
-                        <button class="layui-btn layui-btn-sm" action="database/repair" field="Name" lay-event="ChangeData">
+                        <button class="layui-btn layui-btn-sm" action="{:url('repair')}" field="Name" lay-event="ChangeData">
                             {$Think.lang.database_repair_data} </button>
                     </div>
                     <!--数据-->
@@ -38,13 +38,13 @@
                     <!--工具条操作-->
                     <script type="text/html" id="toolBar">
                         <span id="FieldName" alt="Name" style="display: none"></span>
-                        <a class="layui-btn layui-btn-normal layui-btn-xs" field="Name" action="database/optimize" id="optimize" lay-event="optimize">{$Think.lang.database_optimize_data}</a>
-                        <a class="layui-btn layui-btn-danger layui-btn-xs" field="Name" action="database/repair" id="repair" lay-event="repair">{$Think.lang.database_repair_data}</a>
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" field="Name" action="{:url('optimize')}" id="optimize" lay-event="optimize">{$Think.lang.database_optimize_data}</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" field="Name" action="{:url('repair')}" id="repair" lay-event="repair">{$Think.lang.database_repair_data}</a>
                     </script>
                 </div>
                 <div class="layui-tab-item">
                     <div id="toolDel" style="display:none;">
-                        <button class="layui-btn layui-btn-sm layui-btn-danger" action="database/delAll" field="filename" lay-event="ChangeData">
+                        <button class="layui-btn layui-btn-sm layui-btn-danger" action="{:url('delAll')}" field="filename" lay-event="ChangeData">
                             {$Think.lang.batchDel} </button>
                     </div>
                     <table lay-filter="backup">
@@ -154,13 +154,13 @@
             switch (layEvent) {
                 case 'restore':
                     layer.confirm(confirm, function(index){
-                        ChangeData(data['filename'],'database/restore');
+                        ChangeData(data['filename'],'{:url("restore")}');
                         layer.close(index);
                     });
                     break;
                 case 'del':
                     layer.confirm(confirm, function(index){
-                        ChangeData(data['filename'],'database/delAll',obj);
+                        ChangeData(data['filename'],'{:url("delAll")}',obj);
                         layer.close(index);
                     });
                     break;

@@ -46,17 +46,17 @@
         </div>
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
-            <span id="FieldUrl" alt="admin/updateField" style="display: none"></span>
-            <span id="SwitchUrl" alt="admin/switchAt" style="display: none"></span>
-            <span id="AddUrl" alt="admin/add" style="display: none"></span>
+            <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+            <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+            <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> {$Think.lang.batchDel} </button>
         </div>
         <!--数据-->
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
         <!--操作-->
         <script type="text/html" id="toolBar">
-            <span id="DelUrl" alt="weblog/delAll" style="display: none"></span>
-            <span id="ActionUrl" alt="admin/add" style="display: none"></span>
+            <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+            <span id="ActionUrl" alt="{:url('add')}" style="display: none"></span>
             <!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.edit}</a>-->
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>
         </script>
@@ -94,7 +94,7 @@
                 {field: 'path', align: 'center',title: '{$Think.lang.path}'},
                 {field: 'remark', align: 'center',edit:true,title: '{$Think.lang.remark}'},
                 {field: 'createTime', align: 'center',title: '{$Think.lang.createTime}'},
-                {fixed:'right',title: '操作', width: 80, toolbar: '#toolBar', align: "center"}
+                {fixed:'right',title: '{$Think.lang.search}', width: 80, toolbar: '#toolBar', align: "center"}
             ]],
         });
         //清空数据表

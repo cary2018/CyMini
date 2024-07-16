@@ -19,7 +19,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <fieldset style="display: none;" id="inputSearch" class="table-search-fieldset">
-            <legend>搜索信息</legend>
+            <legend>{$Think.lang.search_info}</legend>
             <div style="margin: 10px 10px 10px 10px">
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane">
                     <div class="layui-form-item">
@@ -38,8 +38,8 @@
         </fieldset>
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
-            <span id="SwitchUrl" alt="liar/switchAt" style="display: none"></span>
-            <span id="AddUrl" alt="liar/add" style="display: none"></span>
+            <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+            <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             <!--<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="adds">
                 <i class="fa fa-plus"></i> {$Think.lang.add}
             </button>-->
@@ -49,9 +49,9 @@
 
         <!-- 操作列 -->
         <script type="text/html" id="toolBar">
-            <span id="ActionUrl" alt="liar/add" title="{$Think.lang.view}" style="display: none"></span>
-            <span id="DelUrl" alt="liar/delAll" style="display: none"></span>
-            <span id="FieldUrl" alt="liar/updateField" style="display: none"></span>
+            <span id="ActionUrl" alt="{:url('add')}" title="{$Think.lang.view}" style="display: none"></span>
+            <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+            <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
             <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.view}</button>
             <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</button>
         </script>

@@ -163,9 +163,10 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 	var url='saveAt';
 	//打开添加页面（弹出当前元素）
 	function openAdd(){
-		layer.open({
+		parent.layer.open({
 			type:1,
 			title:'添加',
+			maxmin:true,
 			shadeClose: true,
 			content:$('#saveOrUpdate'),
 			area:[$(window).width()*0.9+'px',$(window).height() - 50+'px'],
@@ -189,10 +190,11 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 		if(!AddUrl){
 			AddUrl = 'add';
 		}
-		layer.open($.extend(commonObj,{
+		parent.layer.open($.extend(commonObj,{
 			type:2,
 			title:'添加',
 			shadeClose: true,
+			maxmin:true,
 			content:AddUrl,
 			area:[$(window).width()*0.9+'px',$(window).height() - 50+'px'],
 			end : function() {
@@ -204,10 +206,11 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 	}
 	//打开修改页面
 	function openEdit(data){
-		layer.open({
+		parent.layer.open({
 			type:1,
 			title:'编辑',
 			shadeClose: true,
+			maxmin:true,
 			content:$('#saveOrUpdate'),
 			area:[$(window).width()*0.9+'px',$(window).height() - 50+'px'],
 			success:function(index){
@@ -232,9 +235,10 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 	//添加/编辑
 	form.on('submit(save)',function(obj){
 		let url = obj.elem.attributes.alt.nodeValue;
-		layer.open({
+		parent.layer.open({
 			type:2,
 			title:'信息',
+			maxmin:true,
 			content:url,
 			shadeClose: true,
 			area:[$(window).width()*0.9+'px',$(window).height() - 50+'px']
@@ -380,7 +384,7 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 				title = '编辑'
 			}
 			let ids=data[FieldName];
-			layer.open({
+			parent.layer.open({
 				type: 2,
 				title: title,
 				fix: false, //不固定
@@ -408,7 +412,7 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 				JumpUrl = 'product';
 			}
 			let ids=data[FieldName];
-			layer.open({
+			parent.layer.open({
 				type: 2,
 				title: title,
 				fix: false, //不固定

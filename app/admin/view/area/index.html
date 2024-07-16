@@ -63,7 +63,7 @@
         treeTable.on('tool(DataDemos)', function (obj) {
             var event = obj.event;
             var id = obj.data.id;
-            let url = '/admin/area/'+event+'?id='+id;
+            let url = '{:url("area")}'+event+'?id='+id;
             let wait = 1000;
             if (event == 'delAll'){
                 $.ajax({

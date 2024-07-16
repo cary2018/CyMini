@@ -44,9 +44,9 @@
 
         <!--头部工具栏-->
         <div id="toolbarDemo" style="display: none;background: #fff;">
-            <span id="FieldUrl" alt="admin/updateField" style="display: none"></span>
-            <span id="SwitchUrl" alt="admin/switchAt" style="display: none"></span>
-            <span id="AddUrl" alt="admin/add" style="display: none"></span>
+            <span id="FieldUrl" alt="{:url('updateField')}" style="display: none"></span>
+            <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
+            <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="adds"> {$Think.lang.add} </button>
             <!--<button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>-->
         </div>
@@ -54,8 +54,8 @@
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
         <!--操作-->
         <script type="text/html" id="toolBar">
-            <span id="DelUrl" alt="admin/delAll" style="display: none"></span>
-            <span id="ActionUrl" alt="admin/edit" style="display: none"></span>
+            <span id="DelUrl" alt="{:url('delAll')}" style="display: none"></span>
+            <span id="ActionUrl" alt="{:url('edit')}" style="display: none"></span>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edits">{$Think.lang.edit}</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{$Think.lang.del}</a>
         </script>
@@ -77,7 +77,7 @@
             page: true,  //开启分页
             limit: 10,  //默认10条
             defaultToolbar: ['filter', 'exports', 'print', {
-                title: '搜索',
+                title: '{$Think.lang.search}',
                 layEvent: 'laySearch',
                 icon: 'layui-icon layui-icon-search'
             }],

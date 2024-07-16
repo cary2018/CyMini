@@ -18,7 +18,7 @@
 <body>
 <div class="layui-form layuimini-form">
     <form class="layui-form layuimini-form" id="DataForm" lay-filter="DataForm" method="post" onsubmit="return false">
-        <span id="ActionUrl" alt="/admin/album/editSave"></span>
+        <span id="ActionUrl" alt="{:url('editSave')}"></span>
         <div class="layui-form-item">
             <input type="text" name="id" value="{$data.id}" style="display: none;">
             <label for="thumb_img" class="layui-form-label">{$Think.lang.articleImg}</label>
@@ -27,7 +27,7 @@
                     {if $data.thumbImg}
                     <img src="/{$data.thumbImg}" id="show_img" class="add_img">
                     {else}
-                    <img src="/images/all1.png" id="show_img" class="add_img">
+                    <img src="/images/all.png" id="show_img" class="add_img">
                     {/if}
                     <input type="file" class="up_file" id="thumb_img" name="thumbImg" onchange="PreviewImg('thumb_img','show_img')" accept="image/*">
                 </div>
