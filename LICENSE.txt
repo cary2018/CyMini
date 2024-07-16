@@ -1,3 +1,3 @@
-MiniCms 由Thinkphp8+MySql+layuimini 进行开发，没有特定的开发方向。
+CyMini 由 Thinkphp6.1.4+MySql+layuimini 进行开发。
 系统不定时更新增加功能模块，修复已知bug，代码调优。
 本系统仅供学习交流使用
