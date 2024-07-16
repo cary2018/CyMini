@@ -116,7 +116,10 @@
                                     <header class="entry-header">
                                         <h3>
                                             <a title="{{item.title}}" href="{{item.temp_archives}}?id={{item.id}}" target="{{item.target}}">
-                                                <span class="badge arc_v4">热文</span>{{item.title}}
+                                                {{#  layui.each(item.attr, function(index, item){ }}
+                                                <span class="badge arc_v4">{{item.remarks}}</span>
+                                                {{#  }); }}
+                                                {{item.title}}
                                             </a>
                                         </h3>
                                     </header>

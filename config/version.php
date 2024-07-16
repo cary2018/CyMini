@@ -9,6 +9,7 @@
  * email: 373889161@qq.com
  * WeChat: 18319021313
  */
+
 return [
     'domain'=>'http://update.itmkk.com',
     'host'=>$_SERVER['HTTP_HOST'],

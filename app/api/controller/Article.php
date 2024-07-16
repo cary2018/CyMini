@@ -28,13 +28,14 @@ class Article extends BaseController
         if($sort){
             $where[] = ['a.cid','=',$sort];
         }
-        $field = 'a.id,a.cid,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
+        $field = 'a.id,a.cid,a.title,a.author,a.attrId,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
         $list = Db::name('article')->alias('a')->join('category'.' b ','b.id= a.cid')->leftJoin('feedback'.' c ','c.aid=a.id')->field($field)->where($where)->group('a.id, a.title, b.name')->order(['a.id'=>'desc'])->page($start,$size)->select()->toArray();
         $count = CountTable('article',$where,'a');
         foreach ($list as &$v){
             if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
                 $v['articleThumbImg'] = 'images/default.jpg';
             }
+            $v['attr'] = AllTable('attribute',[['id','in',$v['attrId']]]);
             $v['month'] = date('m',$v['createTime']);
             $v['day'] = date('d',$v['createTime']);
             $v['createTime'] = date('Y-m-d',$v['createTime']);

@@ -463,12 +463,13 @@ function AttrId($size=10,$aid=''){
     $prefix = Config::get('database.connections.mysql.prefix');
     $table = $prefix.'article';
     $table2 = $prefix.'category';
-    $sql = "SELECT a.id,a.cid,a.title,a.description,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id DESC LIMIT $size";
+    $sql = "SELECT a.id,a.cid,a.title,a.author,a.attrId,a.description,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id DESC LIMIT $size";
     $list = Db::query($sql);
     foreach ($list as &$v){
         if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
             $v['articleThumbImg'] = 'images/default.jpg';
         }
+        $v['attr'] = AllTable('attribute',[['id','in',$v['attrId']]]);
         $v['month'] = date('m',$v['createTime']);
         $v['day'] = date('d',$v['createTime']);
         $v['createTime'] = date('Y-m-d',$v['createTime']);
@@ -485,7 +486,7 @@ function Article($id='',$order='id',$size=12,$start=0){
     if($id){
         $where[] = ['a.cid','=',$id];
     }
-    $field = 'a.id,a.cid,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
+    $field = 'a.id,a.cid,a.title,a.author,a.attrId,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
     $list['data'] = Db::name('article')->alias('a')->join('category'.' b ','b.id= a.cid')->leftJoin('feedback'.' c ','c.aid=a.id')->field($field)->where($where)->group('a.id, a.title, b.name')->order(['a.'.$order=>'desc'])->page($start,$size)->select()->toArray();
     if($list){
         $list['__total__'] = CountTable('article',$where,'a');
@@ -494,6 +495,7 @@ function Article($id='',$order='id',$size=12,$start=0){
         if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
             $v['articleThumbImg'] = 'images/default.jpg';
         }
+        $v['attr'] = AllTable('attribute',[['id','in',$v['attrId']]]);
         $v['month'] = date('m',$v['createTime']);
         $v['day'] = date('d',$v['createTime']);
         $v['createTime'] = date('Y-m-d',$v['createTime']);
@@ -561,7 +563,7 @@ function RandRow($id='',$size=12,$start=0){
     if($id){
         $where[] = ['a.cid','=',$id];
     }
-    $field = 'a.id,a.cid,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
+    $field = 'a.id,a.cid,a.title,a.author,a.attrId,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.description,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives,count(c.id) as feed';
     $list['data'] = Db::name('article')->alias('a')->join('category'.' b ','b.id= a.cid')->leftJoin('feedback'.' c ','c.aid=a.id')->field($field)->where($where)->group('a.id, a.title, b.name')->orderRand()->page($start,$size)->select()->toArray();
     if($list){
         $list['__total__'] = CountTable('article',$where,'a');
@@ -570,6 +572,7 @@ function RandRow($id='',$size=12,$start=0){
         if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
             $v['articleThumbImg'] = 'images/default.jpg';
         }
+        $v['attr'] = AllTable('attribute',[['id','in',$v['attrId']]]);
         $v['month'] = date('m',$v['createTime']);
         $v['day'] = date('d',$v['createTime']);
         $v['createTime'] = date('Y-m-d',$v['createTime']);
