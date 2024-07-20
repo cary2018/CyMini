@@ -149,6 +149,8 @@ return [
     'update_success' => '更新成功',
     'update_failed' => '更新失败',
     'update_detection_failed' => '更新检测失败',
+    'update_sql_failed' => '检测不到sql文件',
+    'update_sql_success' => '检测到数据库脚本，点击更新',
     'wipeData' => '数据已清空',
     'error_column_message' => '删除错误',
     'fail_message' => '数据已删除',

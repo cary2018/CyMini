@@ -619,7 +619,6 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 					//关闭弹出层
 					layer.closeAll();
 					table.reload("DataDemos");  //重载数据表格
-					form.render();
 					layer.msg(obj.msg,{icon:1,time:wait,shade:0.3});
 					setTimeout(function(){
 						if(obj.jump_url){

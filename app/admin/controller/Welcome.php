@@ -43,6 +43,13 @@ class Welcome extends BaseController
         }else{
             $update = ['code'=>'400','msg'=>lang('update_detection_failed')];
         }
+        $path = root_path();
+        $savePath = $path.'app/data/update/';
+        $sqlFile = $savePath.GetConfig('version','updateSql');
+        $updateSql = ['code'=>'300','msg'=>lang('update_sql_failed')];
+        if(file_exists($sqlFile)){
+            $updateSql = ['code'=>'200','msg'=>lang('update_sql_success')];
+        }
         View::assign('today',$todayCount);
         View::assign('views',$views);
         View::assign('article',$article);
@@ -50,6 +57,7 @@ class Welcome extends BaseController
         View::assign('feed',$feed);
         View::assign('mysql',$mysql);
         View::assign('update',$update);
+        View::assign('updatesql',$updateSql);
         return View();
     }
 }

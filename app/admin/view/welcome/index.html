@@ -43,9 +43,14 @@
             <div class="layui-col-md8">
 
                 <div class="layui-card">
+                    {eq name='updatesql.code' value='200'}
+                    <div id="layerDemo" class="layui-card-header update">
+                        <a href="javascript:;" data-method="UpdateSql" >【{$updatesql.msg}】</a>
+                    </div>
+                    {/eq}
                     {eq name='update.code' value='200'}
                     <div id="layerDemo" class="layui-card-body update">
-                        <a href="javascript:;" data-method="notice" >【{$update.online}】</a>
+                        <a href="javascript:;" data-method="OnlineUpdate" >【{$update.online}】</a>
                         <a href="{$update.github}" target="_blank">【{$update.download}】</a>
                         <a href="{$update.gitee}" target="_blank">【{$update.download2}】</a>
                     </div>
@@ -330,7 +335,7 @@
         miniTab.listen();
         //触发事件
         var active = {
-            notice: function(){
+            OnlineUpdate: function(){
                 //示范一个公告层
                 layer.open({
                     type: 2
@@ -347,7 +352,25 @@
                         window.location.reload();
                     }
                 });
-            }
+            },
+            UpdateSql: function(){
+                //示范一个公告层
+                layer.open({
+                    type: 2
+                    ,title: '数据库更新中。。。' //不显示标题栏
+                    ,shade: 0.8
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,area:[$(window).width()*0.9+'px',$(window).height() - 50+'px']
+                    ,content: '{:url("update/step3")}'
+                    ,success: function(layero){
+
+                    }
+                    ,end:function(){
+                        //关闭弹窗，刷新页面
+                        window.location.reload();
+                    }
+                });
+            },
         };
 
         $('#layerDemo a').on('click', function(){
