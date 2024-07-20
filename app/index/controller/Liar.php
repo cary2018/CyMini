@@ -22,7 +22,7 @@ class Liar extends BaseController
         if($id == ''){
             return redirect('/');
         }
-        return View();
+        return ViewHtml();
     }
 
     public function saveAt(){
@@ -77,14 +77,5 @@ class Liar extends BaseController
         $subject = '验证码：'.$code;
         $content = '你的验证码：'.$code;
         SendEmail($email,$nickname,$subject,$content);
-    }
-
-    public function upfile(){
-        $file = request()->file('image');
-        if ($file){
-            echo '<pre>';
-            print_r($file);
-        }
-        return View();
     }
 }

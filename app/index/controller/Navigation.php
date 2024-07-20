@@ -20,14 +20,18 @@ class Navigation extends BaseController
 {
     public function index(){
         $pass = request()->param('pass');
+        //DelSe('access_navigation');
         if($pass == '123..'){
             SetSe('access_navigation',$pass);
+            $acc =  GetSe('access_navigation');
+            View::assign('pass',$acc);
+            return ViewHtml(1);
         }else{
             $data = array();
             $msg = ['code'=>300,'message'=>'访问密码错误！','data'=>$data,'acc'=>$pass];
         }
         $acc =  GetSe('access_navigation');
         View::assign('pass',$acc);
-        return View();
+        return ViewHtml();
     }
 }

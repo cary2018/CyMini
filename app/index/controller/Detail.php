@@ -27,6 +27,6 @@ class Detail extends BaseController
         }
         //更新阅读量
         Db::name('article')->where('id', $id)->inc('views')->update();
-        return View();
+        return ViewHtml();
     }
 }

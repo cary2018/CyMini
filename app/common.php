@@ -2182,7 +2182,86 @@ function DealZip($file,$path = ''){
     return $msg;
 }
 
+/**
+ * @param $url
+ * @param int $sec
+ * 跳转
+ */
 function mini_jump($url,$sec=0)
 {
     echo '<script>setTimeout(function (){location.href="'.$url.'";},'.($sec*1000).');</script><br>';
+}
+
+/**
+ * @param array $param
+ * @return string
+ * 生成 HTML 文件
+ */
+function buildHtml($param = []){
+    if(empty($param)){
+        $param = request()->get();
+    }
+    //生成静态
+    $staticHtmlDir = "html/" . \think\facade\Request::controller();
+    //目录不存在，则创建
+    if(!file_exists($staticHtmlDir)){
+        mkdir($staticHtmlDir,0755,true);
+    }
+    //参数md5
+    $param = md5(json_encode($param));
+    return $staticHtmlDir .'/'.\think\facade\Request::action() . '_'. $param .'.html';
+}
+
+/**
+ * @param array $param
+ * @return string
+ * 判断 HTML 是否存在静态
+ */
+function beforeBuild($param = []){
+    $staticHtmlFile = buildHtml($param);
+    //静态文件存在,并且没有过期
+    if(file_exists($staticHtmlFile) && filectime($staticHtmlFile)>=time()-60*60*24*5) {
+        include_once $staticHtmlFile;
+        exit();
+    }
+}
+
+
+/**
+ * @param $html
+ * @param array $param
+ * @return string
+ * 开始生成 HTML 静态文件
+ */
+function afterBuild($html, array $param=[]){
+    $staticHtmlFile = buildHtml($param);
+    if (!empty($staticHtmlFile) && !empty($html)) {
+        if (file_exists($staticHtmlFile)) {
+            \unlink($staticHtmlFile);
+        }
+        if (file_put_contents($staticHtmlFile, $html)) {
+            include_once $staticHtmlFile;
+            exit();
+        }
+    }
+}
+
+/**
+ * @param int $star
+ * @param array $param
+ * @return \think\response\View
+ * 控制视图是否生成 HTML
+ */
+function ViewHtml($star=0,$param=[]){
+    $html = \think\facade\View::fetch();
+    $open = Cfg('open_html');
+    if($open){
+        if($star){
+            //重新生成html
+            afterBuild($html,$param);
+        }
+        beforeBuild($param);
+        afterBuild($html,$param);
+    }
+    return View();
 }

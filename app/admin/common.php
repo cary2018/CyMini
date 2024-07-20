@@ -23,15 +23,11 @@ function EmptyCache(){
     $root = root_path().'runtime/';
     delDirectory($root.'admin/log/');
     delDirectory($root.'admin/temp/');
-    delDirectory($root.'api/api/');
     delDirectory($root.'api/log/');
-    delDirectory($root.'cache/');
-    delDirectory($root.'index/index/');
     delDirectory($root.'index/log/');
     delDirectory($root.'index/temp/');
-    delDirectory($root.'installs/log/');
-    delDirectory($root.'installs/temp/');
     delDirectory($root.'log/');
+    delDirectory('html/');
     //删除缓存
     delCache('Menu');
     //删除菜单列表缓存
