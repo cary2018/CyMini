@@ -2263,5 +2263,5 @@ function ViewHtml($star=0,$param=[]){
         beforeBuild($param);
         afterBuild($html,$param);
     }
-    return View();
+    return $html;
 }

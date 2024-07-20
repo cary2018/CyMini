@@ -277,9 +277,8 @@ class Cymini extends TagLib
         }
         $parse = '<?php ';
         $parse .= '$__Breadcrumb__ = Breadcrumb('.$tag['aid'].');';
-        $parse .= '$__LIST__ = $__Breadcrumb__;';
         $parse .= ' ?>';
-        $parse .= '{volist name="__LIST__" id="' . $tag['id'] . '" key="'.$tag['key'].'"';
+        $parse .= '{volist name="__Breadcrumb__" id="' . $tag['id'] . '" key="'.$tag['key'].'"';
         if(!empty($tag['aid'])){
             $parse .= ' aid="'.$tag['aid'].'"';
         }
