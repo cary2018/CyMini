@@ -53,6 +53,7 @@ abstract class BaseController
         View::config(['view_path' =>$directory ]);
 
         //echo Cfg('view_path');
+        View::assign('view_path',$directory);
         // 控制器初始化
         $this->initialize();
     }

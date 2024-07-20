@@ -6,6 +6,8 @@
 {$Think.config.web.web_key}
 //网站描述
 {$Think.config.web.web_desc}
+//当前模板目录
+{$view_path}
 //验证码
 {:captcha_src()}
 // token  name='__token__' 表单令牌

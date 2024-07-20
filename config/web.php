@@ -8,7 +8,7 @@ return array (
   'web_Copy' => 'Copyright<i class="fa fa-copyright"></i>                                2015-2019<a href="/">站长自主搭建</a>                                版权所有. 基于<a href="http://www.889mi.com/" rel="nofollow" title="889mi" target="_blank">889mi</a>                                搭建 安全运行<span id="iday">5518</span>天',
   'sign_key' => '$2y$10$ct781CSlSvYjwkk/rWP52ui8UfuMBKLH2Kbh4M3g6oU7A5B6vTSVC',
   'async_url' => 'http://www.yi.com/ApiData,http://www.tp6.com/api/Callback',
-  'view_path' => 'default',
+  'view_path' => 'itmkk',
   'sys_logo' => 'uploads/images/202406/666042237a547.jpg',
   'open_html' => '0',
   'web_title' => '暗影',
