@@ -10,7 +10,7 @@ return array (
   'async_url' => 'http://www.yi.com/ApiData,http://www.tp6.com/api/Callback',
   'view_path' => 'default',
   'sys_logo' => 'uploads/images/202406/666042237a547.jpg',
-  'open_html' => '1',
+  'open_html' => '0',
   'web_title' => '暗影',
   'web_footer_title' => '从黑暗中感觉到， 在无助的时候， 在夜里是谁对我说， 别心灰想得太多 全因你的一颗心，  在藏着的承诺， 现实里时常对我说， 你定会冲破一切， 全赖你给我一双手臂， 就算在北风中，  你也总没逃避， 全赖你给我一双手臂， 来为我奉上是最真挚的心， 似风呼应',
   'sys_title' => 'CyMini',
