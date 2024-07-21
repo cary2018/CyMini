@@ -24,8 +24,6 @@ class Article extends BaseController
         if(!$data){
             return redirect('/');
         }
-
         return ViewHtml();
-        //return View();
     }
 }

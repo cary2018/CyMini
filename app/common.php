@@ -12,7 +12,7 @@ function AllMethods(){
     //获取应用名称 tp版本：6.1.4
     $app = app('http')->getName();
     //拼接目录地址
-    $dir = base_path() . $app . '\controller';
+    $dir = base_path() . $app . '/controller';
     //列出目录中的文件和目录
     $files = scandir($dir);
     $methods = [];
