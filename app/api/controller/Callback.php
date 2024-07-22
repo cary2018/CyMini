@@ -37,7 +37,7 @@ class Callback extends BaseController
                 foreach ($imgUrl[1] as $kk=>$vv){
                     $newUrl = fileUrl($vv,$data['url']);
                     $newImg = DownloadFile($newUrl,$path,'',1);
-                    $imgArr[$kk] = $newImg['save_path'];
+                    $imgArr[$kk] = '/'.$newImg['save_path'];
                     sleep(1);//防止图片未采集完程序提前结束
                 }
                 $text = str_replace($imgUrl[1],$imgArr,$text);

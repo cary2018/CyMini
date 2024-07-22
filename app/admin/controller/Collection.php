@@ -84,7 +84,7 @@ class Collection extends BaseController
         $cdata = FindTable('collection',['id'=>$data['cid']]);
         $title = replace_sg($cdata['title']);
         $content = replace_sg($cdata['content']);
-        $path = '/download_img/'.date('Ymd');
+        $path = 'download_img/'.date('Ymd');
         //开始采集数据
         if(!$data['title']){
             $data['title'] = cut_html($data['url'],$title[0],$title[1]);
@@ -100,8 +100,9 @@ class Collection extends BaseController
                 $imgUrl = getImgList($text);
                 foreach ($imgUrl[1] as $kk=>$vv){
                     $newUrl = fileUrl($vv,$data['url']);
-                    $newImg = DownloadFile($newUrl,$path,'',1);
-                    $imgArr[$kk] = $newImg['save_path'];
+                    $newImg = DownloadFile($newUrl,$path,'',0);
+                    $imgArr[$kk] = '/'.$newImg['save_path'];
+                    ob_flush();flush();
                     sleep(1);//防止图片未采集完程序提前结束
                 }
                 $text = str_replace($imgUrl[1],$imgArr,$text);
@@ -226,7 +227,7 @@ class Collection extends BaseController
         }else{
             ProgressBar();
         }
-        $path = '/download_img/'.date('Ymd');
+        $path = 'download_img/'.date('Ymd');
         $cimg = 0;
         foreach ($html as $k=>$v){
             $proportion = $i/$lent;
@@ -247,7 +248,7 @@ class Collection extends BaseController
                     }
                     $newUrl = fileUrl($vv,$data['url']);
                     $newImg = DownloadFile($newUrl,$path,'',1);
-                    $imgArr[$kk] = $newImg['save_path'];
+                    $imgArr[$kk] = '/'.$newImg['save_path'];
                     $cimg++;
                     echo sprintf($script, $potion, $potion, $i.'/'.$lent.lang('collection_success').$r.lang('collection_img').$cimg);
                     output_buffer();

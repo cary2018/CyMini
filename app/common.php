@@ -887,12 +887,12 @@ function DownloadFile($url, $save_dir = '', $filename = '', $type = 0) {
     if (trim($url) == '') {
         return false;
     }
-    /*if (trim($save_dir) == '') {
+    if (trim($save_dir) == '') {
         $save_dir = './';
     }
     if (0 !== strrpos($save_dir, '/')) {
         $save_dir.= '/';
-    }*/
+    }
     //创建保存目录
     if (!file_exists($save_dir) && !mkdir($save_dir, 0777, true)) {
         return false;
