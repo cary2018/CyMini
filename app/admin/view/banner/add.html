@@ -21,9 +21,12 @@
         </div>
         <div class="layui-form-item">
             <label for="thumb_img" class="layui-form-label">{$Think.lang.logo}</label>
-            <div class="z_file fl">
+            <div class="z_file fl" style="margin-right:5px;">
                 <img src="/images/all.png" id="show_img" class="add_img">
                 <input type="file" class="up_file" id="thumb_img" name="thumbImg" onchange="PreviewImg('thumb_img','show_img')" accept="image/*">
+            </div>
+            <div class="layui-input-inline" style="margin-top:25px;width:70%;">
+                <input type="text" name="img" value="" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">

@@ -29,9 +29,15 @@
                 <form id="searchData" lay-filter="searchData" onsubmit="return false;" class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">{$Think.lang.username}</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
+                                <input type="text" name="username" placeholder="{$Think.lang.username}" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline">
+                                <select name="group_id">
+                                    <option value="">【{$Think.lang.DownSelect}】</option>
+                                    <option value="0" >{$Think.lang.admin}</option>
+                                    <option value="1" >{$Think.lang.private}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -85,6 +91,13 @@
                 /*{type: "checkbox", width: 50},*/
                 {field: 'id', align:"center", width: 80, title: 'ID', sort: true},
                 {field: 'username', align: 'center',title: '{$Think.lang.username}'},
+                {field: 'group_id', align: 'center',title: '{$Think.lang.group_id}',templet:function (d) {
+                        if(d.group_id == 1){
+                            return '{$Think.lang.private}';
+                        }else{
+                            return '{$Think.lang.admin}';
+                        }
+                    }},
                 {field: 'realname', align: 'center',edit:true,title: '{$Think.lang.realname}'},
                 {field: 'depart', align: 'center',title: '{$Think.lang.departName}'},
                 {field: 'position', align: 'center',title: '{$Think.lang.PositionName}'},

@@ -3,9 +3,29 @@ return array (
   'web_config' => '',
   'web_key' => '站点关键字',
   'web_desc' => '站点描述',
-  'web_logo' => 'uploads/images/202406/666041e214b87.png',
-  'web_Copyright' => '<a class="ico-ico" href="http://beian.miit.gov.cn/" rel="nofollow" target="_blank" title="桂ICP备2021006345号">                                    <img src="/images/beian.png" alt="桂ICP备2021006345号">桂ICP备2021006345号                                </a>                                <span class="rt-times">运行时长：0.052秒</span>                                <span class="rt-sql">查询信息：15 次</span>',
-  'web_Copy' => 'Copyright<i class="fa fa-copyright"></i>                                2015-2019<a href="/">站长自主搭建</a>                                版权所有. 基于<a href="http://www.889mi.com/" rel="nofollow" title="889mi" target="_blank">889mi</a>                                搭建 安全运行<span id="iday">5518</span>天',
+  'web_logo' => 'uploads/images/202408/66ae27b967013.png',
+  'web_Copyright' => '<a class="ico-ico" href="http://beian.miit.gov.cn/" rel="nofollow" target="_blank" title="桂ICP备2021006345号">                                    <img src="/images/beian.png" alt="桂ICP备2021006345号">桂ICP备2021006345号                                </a>                                <span class="rt-times">运行时长：0.052秒</span>                                ',
+  'web_Copy' => 'Copyright<i class="fa fa-copyright"></i>                                2015-2019<a href="/">站长自主搭建</a>                                版权所有. 基于<a href="http://www.889mi.com/" rel="nofollow" title="889mi" target="_blank">889mi</a>                                搭建 安全运行<span id="iday">5518</span>天
+<p id="RunTime"></p>
+<script>
+var myVar=setInterval(function(){myTimer()},1000);
+function myTimer(){
+	var d=new Date();
+	var t=d.toLocaleTimeString();
+	var dangqian = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() ;
+	document.getElementById("RunTime").innerHTML="已经勉强运行："+ DateDiff("2024-08-1",dangqian) +" 天:" + t;
+}
+/* 计算运行天数的封装函数 */
+function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2002-12-18格式  
+  var  aDate,  oDate1,  oDate2,  iDays  
+  aDate  =  sDate1.split("-")  
+  oDate1  =  new  Date(aDate[1]  +  \'-\'  +  aDate[2]  +  \'-\'  +  aDate[0])    //转换为12-18-2002格式  
+  aDate  =  sDate2.split("-")  
+  oDate2  =  new  Date(aDate[1]  +  \'-\'  +  aDate[2]  +  \'-\'  +  aDate[0])  
+  iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数  
+  return  iDays  
+}
+</script>',
   'sign_key' => '$2y$10$ct781CSlSvYjwkk/rWP52ui8UfuMBKLH2Kbh4M3g6oU7A5B6vTSVC',
   'async_url' => 'http://www.yi.com/ApiData,http://www.tp6.com/api/Callback',
   'view_path' => 'itmkk',

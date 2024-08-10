@@ -39,6 +39,8 @@ class Banner extends BaseController
         foreach ($list as $k=>$v){
             $list[$k]['createTime'] = date('Y-m-d H:i:s',$v['createTime']);
             $list[$k]['updateTime'] = date('Y-m-d H:i:s',$v['updateTime']);
+            $list[$k]['img'] = ImgPath($v['img']);
+            $list[$k]['thumbImg'] = ImgPath($v['thumbImg']);
         }
         $arr = array('code'=>0,'msg'=>'ok','count'=>$count,'limit'=>$where,'data'=>$list);
         echo json_encode($arr);
@@ -57,6 +59,7 @@ class Banner extends BaseController
     public function saveAt(){
         $data = request()->param();
         $res = UploadImg('thumbImg',1);
+        $data['thumbImg'] = $data['img'];
         if($res['code']==200){
             if($res['ident'] == 1){
                 $res['code'] = 300;

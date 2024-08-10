@@ -31,7 +31,11 @@ class Admin extends BaseController
         $where = [];
         if(array_key_exists('data',$data)){
             foreach ($data['data'] as $k=>$v){
-                $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                if($v['name'] == 'group_id'){
+                    $where[] = [$v['name'],'=',$v['value']];
+                }else{
+                    $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                }
             }
         }
         $list = pageTable('admin',$start,$size,$where);

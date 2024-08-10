@@ -1038,10 +1038,11 @@ function ImgCompress($src,$percent=1){
     /**-----------------------------------------------------------------------------------------------------*/
     // 处理透明背景图片变成黑色的问题
     if(strtolower($typearr[$type - 1])=='png'){
-        imageantialias($image_thump, true);
-        $color = imagecolorallocate($image_thump, 255, 255, 255);
+        //imageantialias($image_thump, true);
+        $color = imagecolorallocatealpha($image_thump, 0, 0, 0, 127);
         imagecolortransparent($image_thump, $color);
         imagefill($image_thump, 0, 0, $color);
+        imagesavealpha($image_thump,true);
     }
     /**----------------------------------------------------------------------------------------------------*/
     //图像处理
@@ -1808,6 +1809,21 @@ function fileUrl($path,$url){
     if(!isset($urls['scheme']) && !isset($urls['host'])){
         $nurl = parse_url($url);
         $imgUrl = $nurl['scheme'].'://'.$nurl['host'].$path;
+    }else{
+        $imgUrl = $path;
+    }
+    return $imgUrl;
+}
+
+/**
+ * @param $path
+ * @return string
+ * 返回图片路径（判断图片是否为远程路径，返回对应图片地址）
+ */
+function ImgPath($path){
+    $urls = parse_url($path);
+    if(!isset($urls['scheme']) && !isset($urls['host'])){
+        $imgUrl = '/'.$path;
     }else{
         $imgUrl = $path;
     }

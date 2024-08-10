@@ -63,6 +63,7 @@ alter table cy_admin add county_id int not null default 0 COMMENT'县区' after 
 alter table cy_admin add address varchar(100) not null default '' COMMENT'详细地址' after county_id;
 alter table cy_admin add entry_date int not null default 0 COMMENT'入职时间' after address;
 alter table cy_admin add depart_date int not null default 0 COMMENT'离职时间' after entry_date;
+alter table cy_admin add group_id tinyint(1) not null default 0 COMMENT'用户分组' after path;
 
 //行政区域
 create table cy_area(
@@ -166,7 +167,7 @@ create table cy_visit(
     count int not null default 0 comment'统计短时间内访问次数',
     createTime int not null default 0 comment'访问时间'
 )engine=MyIsam charset=utf8;
-alter table cy_visit add clientInfo varchar(100) not null default '' comment'客户端设备信息' after region;
+alter table cy_visit add clientInfo varchar(500) not null default '' comment'客户端设备信息' after region;
 alter table cy_visit add clientType varchar(30) not null default '' comment'客户类型' after clientInfo;
 //文章
 create table cy_article(

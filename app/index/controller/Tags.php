@@ -19,6 +19,10 @@ use app\index\BaseController;
 class Tags extends BaseController
 {
     public function index(){
+        $tag = request()->param('tag');
+        if(!$tag){
+            return redirect('/');
+        }
         return View();
     }
 }

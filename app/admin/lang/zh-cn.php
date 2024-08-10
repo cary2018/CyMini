@@ -212,6 +212,7 @@ return [
     //管理员
     'admin' => '管理员',
     'username' => '用户名',
+    'group_id' => '分组',
     'errorName' => '用户名已存在',
     'nickname' => '用户昵称',
     'roleName' => '角色权限',
@@ -296,7 +297,7 @@ return [
     //广告横幅
     'banner_title'=>'广告名称',
     'banner_ident'=>'标识',
-    'logo'=>'logo图片',
+    'logo'=>'图片',
     'link'=>'logo',
     //友情链接
     'link_title'=>'友链名称',

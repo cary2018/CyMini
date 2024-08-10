@@ -92,7 +92,7 @@
                 {field: 'target',width:100, align: 'center',title: '{$Think.lang.TarGet}'},
                 {field: 'thumbImg', align: 'center',width:100,title: '{$Think.lang.logo}',templet:function (d) {
                         if(d.thumbImg){
-                            return '<img id="imgAmplify" title="'+d.title+'" layer-src="/'+d.img+'" src="/'+d.thumbImg+'"/>';
+                            return '<img id="imgAmplify" title="'+d.title+'" layer-src="'+d.img+'" src="'+d.thumbImg+'"/>';
                         }else{
                             return '';
                         }

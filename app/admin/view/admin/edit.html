@@ -35,9 +35,15 @@
             <div class="layui-input-inline">
                 <input type="text" name="username" lay-verify="required" lay-reqtext="{$Think.lang.MenuNotEmpty}" value="{$data.username}" class="layui-input">
             </div>
-            <label class="layui-form-label">{$Think.lang.nickname}</label>
             <div class="layui-input-inline">
-                <input type="text" name="nickname" value="{$data.nickname}" class="layui-input">
+                <input type="text" name="nickname" value="{$data.nickname}" placeholder="{$Think.lang.nickname}" class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                <select name="group_id">
+                    <option value="">【{$Think.lang.DownSelect}】</option>
+                    <option value="0" {if $data.group_id == 0}selected{/if} >{$Think.lang.admin}</option>
+                    <option value="1" {if $data.group_id == 1}selected{/if}>{$Think.lang.private}</option>
+                </select>
             </div>
         </div>
 
