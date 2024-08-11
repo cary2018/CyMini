@@ -13,7 +13,7 @@ function myTimer(){
 	var d=new Date();
 	var t=d.toLocaleTimeString();
 	var dangqian = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() ;
-	document.getElementById("RunTime").innerHTML="已经勉强运行："+ DateDiff("2024-08-1",dangqian) +" 天:" + t;
+	document.getElementById("RunTime").innerHTML="已经勉强运行："+ DateDiff("2010-08-1",dangqian) +" 天:" + t;
 }
 /* 计算运行天数的封装函数 */
 function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2002-12-18格式  
