@@ -73,7 +73,7 @@ class Liar extends BaseController
         SetSe('validaCode',$code);
         SetSe('validaEmail',$data['email']);
         $email = $data['email'];
-        $nickname = '6666';
+        $nickname = '方外人';
         $subject = '验证码：'.$code;
         $content = '你的验证码：'.$code;
         SendEmail($email,$nickname,$subject,$content);

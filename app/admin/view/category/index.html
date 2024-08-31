@@ -98,6 +98,15 @@
                             }
                         }, title: '{$Think.lang.isUrl}'
                     },
+                    {
+                        field: 'share', width: 100, align: 'center', templet: function (d) {
+                            if (d.share == 1) {
+                                return '<input type="checkbox" name="share" value="'+d.id+'" lay-skin="switch" lay-filter="switchTest" lay-text="{$Think.lang.Enable}|{$Think.lang.close}" checked> ';
+                            } else {
+                                return '<input type="checkbox" name="share" value="'+d.id+'" lay-skin="switch" lay-filter="switchTest" lay-text="{$Think.lang.Enable}|{$Think.lang.close}"> ';
+                            }
+                        }, title: '{$Think.lang.memberShare}'
+                    },
                     {templet: '#toolBar', width: 190, align: 'center', title: '{$Think.lang.operate}'}
                 ]],
                 done: function () {

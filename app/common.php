@@ -61,7 +61,7 @@ function SendEmail($mailto, $nickname, $subject, $content,$addAttachment='')
         $mail->Port       = Cfg('email_port');         // 服务器端口 25 或者465 具体要看邮箱服务器支持
 
         //Recipients
-        $mail->setFrom(Cfg('email_account'), 'Mailer');//发件人
+        $mail->setFrom(Cfg('email_account'), $nickname);//发件人
         $mail->addAddress($mailto, $nickname);//收件人
         //$mail->addAddress('ellen@example.com');               // 可添加多个收件人
         $mail->addReplyTo('info@example.com', 'Information');//回复的时候回复给哪个邮箱 建议和发件人一致
@@ -463,7 +463,7 @@ function AttrId($size=10,$aid=''){
     $prefix = Config::get('database.connections.mysql.prefix');
     $table = $prefix.'article';
     $table2 = $prefix.'category';
-    $sql = "SELECT a.id,a.cid,a.title,a.author,a.attrId,a.description,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id DESC LIMIT $size";
+    $sql = "SELECT a.id,a.cid,a.title,a.author,a.attrId,a.description,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.name,b.temp_archives,b.temp_list,.b.target FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 and a.recycle = 0 ORDER BY a.id DESC LIMIT $size";
     $list = Db::query($sql);
     foreach ($list as &$v){
         if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
@@ -482,7 +482,7 @@ function AttrId($size=10,$aid=''){
 function Article($id='',$order='id',$size=12,$start=0){
     $size = request()->param('limit')?request()->param('limit'):$size;
     $start = request()->param('page')?request()->param('page'):$start;
-    $where = [['a.status','=',1]];
+    $where = [['a.status','=',1],['a.recycle','=',0]];
     if($id){
         $where[] = ['a.cid','=',$id];
     }
@@ -537,7 +537,7 @@ function Breadcrumb($id=''){
 }
 
 function Detail($id){
-    $info = FindTable('article',[['id','=',$id],['status','=',1]]);
+    $info = FindTable('article',[['id','=',$id],['status','=',1],['recycle','=',0]]);
     if($info){
         $cate = FindTable('category',[['id','=',$info['cid']]]);
         if($cate){
@@ -559,7 +559,7 @@ function Detail($id){
 function RandRow($id='',$size=12,$start=0){
     $size = request()->param('limit')?request()->param('limit'):$size;
     $start = request()->param('page')?request()->param('page'):$start;
-    $where = [['a.status','=',1]];
+    $where = [['a.status','=',1],['a.recycle','=',0]];
     if($id){
         $where[] = ['a.cid','=',$id];
     }

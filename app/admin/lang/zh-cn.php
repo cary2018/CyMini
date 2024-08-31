@@ -83,6 +83,8 @@ return [
     'Disable' => '禁用',
     'Remark' => '备注',
     'type' => '类型',
+    'batchRecycle' => '批量还原',
+    'recycle' => '还原',
     'bind_cate' => '绑定分类',
     'visit_total' => '访问总数',
     'today_total' => '今日访问',
@@ -144,6 +146,8 @@ return [
     'requireEmpty' => '必填项不能为空',
     'success_message' => '保存成功',
     'delete_message' => '删除成功',
+    'recycle_message' => '还原成功',
+    'recycle_fail' => '还原失败',
     'error_menu' => '上级菜单错误',
     'cacheData' => '缓存更新成功',
     'update_success' => '更新成功',
@@ -153,7 +157,7 @@ return [
     'update_sql_success' => '检测到数据库脚本，点击更新',
     'wipeData' => '数据已清空',
     'error_column_message' => '删除错误',
-    'fail_message' => '数据已删除',
+    'fail_message' => '数据删除失败',
     'allExpand' => '全部展开',
     'allFold' => '全部折叠',
     'createTime'=>'创建时间',
@@ -174,6 +178,7 @@ return [
     'data_cate_count'=>'当前分类总记录数',
     'data_count_article'=>'文章统计',
     'data_count_nav'=>'导航统计',
+    'data_list'=>'导航列表',
     'data_count_today'=>'访问总数 / 今日访问',
     'data_count_feed'=>'评论统计',
     'data_quick'=>'快捷入口',
@@ -199,6 +204,7 @@ return [
     'mysql_version'=>'MySql版本',
     'drag_album'=>'或将照片拖到这里，单次最多可选30张',
     'start_upload'=>'开始上传',
+    'memberShare'=>'会员共享',
     //系统节点
     'select'=>'选中',
     'NSelect'=>'未选中',
@@ -297,7 +303,7 @@ return [
     //广告横幅
     'banner_title'=>'广告名称',
     'banner_ident'=>'标识',
-    'logo'=>'图片',
+    'logo'=>'logo图片',
     'link'=>'logo',
     //友情链接
     'link_title'=>'友链名称',
@@ -389,7 +395,7 @@ return [
                 <p>5.清空数据ID重新从1开始 TRUNCATE cy_visit</p>
                 <p>6.添加字段：alter table cy_visit add clientType varchar(30) not null default \'\' comment\'客户类型\' after clientInfo;</p>
                 <p>7.删除字段：alter table 表名 drop 字段名</p>
-                <p>8.修改字段名：alter table 表名 change 旧名(要修改字段名) 新名</p>',
+                <p>8.修改字段名：alter table 表名 change 旧名(要修改字段名) 新名 INT(11) NOT NULL DEFAULT \'0\' COMMENT \'所属用户\'</p>',
     //文件管理
     'file_manage'=>'文件管理',
     'current_dir'=>'当前目录',

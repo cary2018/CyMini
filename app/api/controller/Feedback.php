@@ -79,6 +79,19 @@ class Feedback extends BaseController
     }
     public function saveAt(){
         $post = request()->param();
+        $member = GetSe('MemberCenter');
+        if($member){
+            $post['username'] = $member['username'];
+            if($member['nickname']){
+                $post['username'] = $member['nickname'];
+            }
+            $post['email'] = $member['email'];
+        }
+        $article = FindTable('article',[['id','=',$post['aid'],['status','=',1]]]);
+        if(!$article){
+            $arr = ['code'=>300,'message'=>'文章错误！'];
+            return json_encode($arr,JSON_UNESCAPED_UNICODE);
+        }
         // 检测输入的验证码是否正确
         if(!captcha_check($post['captcha'])){
             // 验证失败
@@ -94,6 +107,9 @@ class Feedback extends BaseController
         }else{
             unset($post['__token__']);
             unset($post['captcha']);
+            $post['cid'] = $article['cid'];
+            $post['uid'] = $article['uid'];
+            $post['article'] = $article['title'];
             $post['ip'] = get_client_ip();
             $post['createTime'] = time();
             $post['msg'] = ubb($post['msg']);

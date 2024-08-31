@@ -42,10 +42,16 @@ class Article extends BaseController
         $data = request()->param();
         $size = $data['limit']?$data['limit']:10;
         $start = $data['page']?$data['page']:0;
-        $where = [];
+        $where = [['recycle','=',0]];
         if(array_key_exists('data',$data)){
             foreach ($data['data'] as $k=>$v){
-                $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                if($v['value'] !=='' ){
+                    if($v['name'] == 'title'){
+                        $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                    }else{
+                        $where[] = [$v['name'],'=',$v['value']];
+                    }
+                }
             }
         }
         $count = CountTable('article',$where);
@@ -164,19 +170,10 @@ class Article extends BaseController
     }
     public function delAll(){
         $id = request()->param('data');
-        $data = $data = Db::name('article')->where('id','in',$id)->select()->toArray();
+        $data = Db::name('article')->where('id','in',$id)->select()->toArray();
         if($data){
             foreach ($data as $v){
-                Db::name('article')->delete($v['id']);
-                if(file_exists($v['articleImg'])){
-                    unlink($v['articleImg']);
-                }
-                if(file_exists($v['articleThumbImg'])){
-                    unlink($v['articleThumbImg']);
-                }
-                if(file_exists($v['annex'])){
-                    unlink($v['annex']);
-                }
+                Db::name('article')->where('id',$v['id'])->update(['recycle'=>1]);
             }
             $msg = ['code'=>200,'msg'=>lang('delete_message')];
         }else{
@@ -198,6 +195,89 @@ class Article extends BaseController
     public function updateField(){
         $data = request()->param();
         $msg = FieldUpdate('article',$data);
+        echo json_encode($msg);
+    }
+
+    public function recycle(){
+        $tree = GetMenu('category');
+        $read = GetCache('readArticle');
+        $attr = GetCache('attribute');
+        foreach ($tree as $k=>$v){
+            $level = $v['level']-1;
+            if( $level > 1){
+                $tree[$k]['p'] = str_repeat("&nbsp;&nbsp;&nbsp;",$level).'|--';
+            }else{
+                $tree[$k]['p']='';
+            }
+        }
+        View::assign('read',$read);
+        View::assign('attr',$attr);
+        View::assign('tree',$tree);
+        return View();
+    }
+    public function recList(){
+        $data = request()->param();
+        $size = $data['limit']?$data['limit']:10;
+        $start = $data['page']?$data['page']:0;
+        $where = [['recycle','=',1]];
+        if(array_key_exists('data',$data)){
+            foreach ($data['data'] as $k=>$v){
+                if($v['value'] !=='' ){
+                    if($v['name'] == 'title'){
+                        $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                    }else{
+                        $where[] = [$v['name'],'=',$v['value']];
+                    }
+                }
+            }
+        }
+        $count = CountTable('article',$where);
+        $list = joinTable('article','category',$start,$size,$where);
+        $str = GetCache('readArticle');
+        foreach ($list as &$v){
+            $v['status1'] = $str[0];
+            $v['status2'] = $str[1];
+            $v['createTime'] = date('Y-m-d H:i:s',$v['createTime']);
+            $v['updateTime'] = date('Y-m-d H:i:s',$v['updateTime']);
+        }
+        $arr = array('code'=>0,'msg'=>'ok','count'=>$count,'data'=>$list);
+        echo json_encode($arr);
+    }
+    public function delRecycle(){
+        $id = request()->param('data');
+        $data = Db::name('article')->where('id','in',$id)->select()->toArray();
+        if($data){
+            foreach ($data as $v){
+                Db::name('article')->delete($v['id']);
+                if(file_exists($v['articleImg'])){
+                    unlink($v['articleImg']);
+                }
+                if(file_exists($v['articleThumbImg'])){
+                    unlink($v['articleThumbImg']);
+                }
+                if(file_exists($v['annex'])){
+                    unlink($v['annex']);
+                }
+                Db::name('software')->where('aid',$v['id'])->delete();
+            }
+            $msg = ['code'=>200,'msg'=>lang('delete_message')];
+        }else{
+            $msg = ['code'=>300,'msg'=>lang('fail_message'),'data'=>$id];
+        }
+        echo json_encode($msg);
+    }
+
+    public function revert(){
+        $id = request()->param('data');
+        $data = Db::name('article')->where('id','in',$id)->select()->toArray();
+        if($data){
+            foreach ($data as $v){
+                Db::name('article')->where('id',$v['id'])->update(['recycle'=>0]);
+            }
+            $msg = ['code'=>200,'msg'=>lang('recycle_message')];
+        }else{
+            $msg = ['code'=>300,'msg'=>lang('recycle_fail'),'data'=>$id];
+        }
         echo json_encode($msg);
     }
 

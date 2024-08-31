@@ -26,13 +26,15 @@ class Login extends BaseController
         if($session){
             return redirect((string)url('/admin'));
         }
+        $host = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/api/bing';
+        view::assign('host',$host);
         return View();
     }
     public function check(){
         $data = request()->param();
         try {
             validate(LoginValidate::class)->check($data);
-            $user = FindTable('admin',[['username','=',$data['username']],['status','=',1]]);
+            $user = FindTable('admin',[['username','=',$data['username']],['status','=',1],['group_id','=',0]]);
             //生成 token 防止验证失败 token 失效
             $token = request()->buildToken('__token__', 'sha1');
             if($user){

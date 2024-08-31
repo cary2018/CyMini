@@ -234,8 +234,10 @@ function getCer($cer){
 function getAct($action){
     $arr = [
         'index'=>'列表',
+        'recycle'=>'回收站',
         'list'=>'配置项',
         'datalist'=>'数据',
+        'reclist'=>'回收站数据',
         'add'=>'添加',
         'edit'=>'编辑',
         'city'=>'行政区域',
@@ -244,6 +246,8 @@ function getAct($action){
         'switchat'=>'状态开关',
         'del'=>'删除',
         'delall'=>'删除',
+        'revert'=>'回收站还原数据',
+        'delRecycle'=>'删除回收站数据',
         'logout'=>'退出',
         'updatefield'=>'更新字段',
         'updatenode'=>'更新系统节点',

@@ -193,8 +193,9 @@ create table cy_article(
     createTime int not null default 0 comment'创建时间',
     updateTime int not null default 0 comment'更新时间'
 )engine=MyIsam charset=utf8;
-alter table cy_article add aid int not null default 0 comment'所属用户' after cid;
+alter table cy_article add uid int not null default 0 comment'所属用户' after cid;
 alter table cy_article add tags varchar(100) not null default '' comment'tag标签' after title;
+alter table cy_article add recycle tinyint(1) not null default 0 comment'回收站' after status;
 //采集规则
 CREATE TABLE `cy_collection` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -275,6 +276,7 @@ alter table cy_category add remark varchar(300) not null comment'备注';
 alter table cy_category add keywords varchar(300) not null comment'关键字';
 alter table cy_category add description varchar(300) not null comment'描述';
 alter table cy_category add iconfont varchar(30) not null default '' comment'icon图标' after keywords;
+alter table cy_category add share tinyint(1) not null default 0 comment'会员共享' after isShow;
 //文章属性
 CREATE TABLE `cy_attribute` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -63,8 +63,19 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 				for(let i = 0;i<data.length;i++){
 					arr_id.push(data[i][fileName]); //ar_id 是数据表唯一id
 				}
+				console.log(obj);
 				layer.confirm('确定删除吗?', function(index){
 					DelData(arr_id);  //执行批量删除
+					layer.close(index);
+				});
+				break;
+			case 'batchRecycle':
+				for(let i = 0;i<data.length;i++){
+					arr_id.push(data[i][fileName]); //ar_id 是数据表唯一id
+				}
+				let recycleUrl = $('#recycleUrl').attr('alt');
+				layer.confirm('确定删除吗?', function(index){
+					DelData(arr_id,recycleUrl);  //执行批量删除
 					layer.close(index);
 				});
 				break;
@@ -339,6 +350,16 @@ layui.use(['jquery','layer','iconPickerFa','form','table','laydate'], function (
 					fileName = 'id';
 				}
 				DelData(data[fileName]); //执行删除操作
+				layer.close(index);
+			});
+		} else if(layEvent === 'recycle'){ //还原
+			layer.confirm('确定操作吗?', function(index){
+				let fileName = $('#FieldName').attr('alt');
+				if(!fileName){
+					fileName = 'id';
+				}
+				let recycleUrl = $('#recycleUrl').attr('alt');
+				DelData(data[fileName],recycleUrl); //执行还原操作
 				layer.close(index);
 			});
 		} else if(layEvent === 'optimize'){ //优化

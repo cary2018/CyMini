@@ -15,4 +15,6 @@ return [
     'browser_lang' => '浏览器语言：',
     'browser_error' => '获取浏览器信息失败！',
     'browser_lang_error' => '获取浏览器语言失败！',
+    'email_send' => '邮件已发送',
+    'email_error' => '邮件发送失败',
 ];

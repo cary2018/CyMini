@@ -20,6 +20,7 @@ class Article extends Model
 {
     public function dataSave($data){
         $data['updateTime'] = time();
+        $user = GetSe('admin');
         $soft = ['name'=>$data['name'],'url'=>$data['url'],'code'=>$data['code'],'sort'=>$data['sort']];
         unset($data['name']);
         unset($data['url']);
@@ -33,14 +34,20 @@ class Article extends Model
         if($data['id'] == ''){
             $data['createTime'] = time();
             unset($data['id']);
-            $userInfo = GetSe('admin');
-            $data['aid'] = $userInfo['id'];
+            $data['uid'] = $user['id'];
             $uid = saveId('article',$data);
             $soft['aid'] = $uid;
             //保存下载地址
             $this->batchDown($soft);
             $this->addTags(['tag'=>$data['tags'],'cid'=>$data['cid']]);
         }else{
+            if($user['isAdmin'] !=1){
+                $article = FindTable('article',[['id','=',$data['id']],['uid','=',$user['id']]]);
+                if(!$article){
+                    $msg = ['code'=>300,'msg'=>lang('edit_fail'),'data'=>$data];
+                    return json_encode($msg,JSON_UNESCAPED_UNICODE);
+                }
+            }
             if(array_key_exists('articleImg',$data)){
                 $img = FindTable('article',[['id','=',$data['id']]]);
                 if(file_exists($img['articleImg'])){

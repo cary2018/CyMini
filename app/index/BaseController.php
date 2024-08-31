@@ -55,6 +55,13 @@ abstract class BaseController
         //echo Cfg('view_path');
         $templateDir = '/'.$directory;
         View::assign('view_path',$templateDir);
+        $member = GetSe('MemberCenter');
+        if($member){
+            if(!$member['thumbImg']){
+                $member['thumbImg'] = 'images/default.jpg';
+            }
+        }
+        View::assign('member',$member);
         // 控制器初始化
         $this->initialize();
     }

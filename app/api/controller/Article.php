@@ -24,7 +24,7 @@ class Article extends BaseController
         $size = request()->param('limit')?request()->param('limit'):12;
         $start = request()->param('page')?request()->param('page'):0;
         $sort = request()->param('id')?request()->param('id'):'';
-        $where = [['a.status','=',1]];
+        $where = [['a.status','=',1],['a.recycle','=',0]];
         if($sort){
             $where[] = ['a.cid','=',$sort];
         }
@@ -53,7 +53,7 @@ class Article extends BaseController
             $where[] = ['id','=',$sortId];
         }
         $list = FindTable('category',$where);
-        $list['list'] = pageTable('article',$start,$size,[['status','=',1],['cid','=',$list['id']]]);
+        $list['list'] = pageTable('article',$start,$size,[['status','=',1],['recycle','=',0],['cid','=',$list['id']]]);
         foreach ($list['list'] as &$v){
             if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
                 $v['articleThumbImg'] = 'images/default.jpg';
@@ -68,7 +68,7 @@ class Article extends BaseController
     public function top(){
         $size = request()->param('limit')?request()->param('limit'):12;
         $start = request()->param('page')?request()->param('page'):0;
-        $where = [['a.status','=',1]];
+        $where = [['a.status','=',1],['a.recycle','=',0]];
         $field = 'a.id,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,a.click,b.name,b.target,b.temp_list,b.temp_archives';
         $list = Db::name('article')->alias('a')->leftJoin('category'.' b','b.id=a.cid')->field($field)->where($where)->order(['a.views'=>'desc'])->page($start,$size)->select()->toArray();
         foreach ($list as &$v){
@@ -85,7 +85,7 @@ class Article extends BaseController
         $size = request()->param('limit')?request()->param('limit'):12;
         $start = request()->param('page')?request()->param('page'):0;
         $key = request()->param('q')?request()->param('q'):0;
-        $where = [['a.status','=',1]];
+        $where = [['a.status','=',1],['a.recycle','=',0]];
         if($key){
             $where[] = ['a.title','like','%'.trim($key).'%'];
         }
@@ -108,7 +108,7 @@ class Article extends BaseController
         $size = request()->param('limit')?request()->param('limit'):12;
         $start = request()->param('page')?request()->param('page'):0;
         $key = request()->param('tag')?request()->param('tag'):'';
-        $where = [['a.status','=',1]];
+        $where = [['a.status','=',1],['a.recycle','=',0]];
         if($key){
             $where[] = ['a.tags','like','%'.$key.'%'];
         }
@@ -143,7 +143,7 @@ class Article extends BaseController
         $prefix = Config::get('database.connections.mysql.prefix');
         $table = $prefix.'article';
         $table2 = $prefix.'category';
-        $sql = "SELECT a.id,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.temp_archives FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE a.id >= (SELECT FLOOR(RAND() * (SELECT MAX(id) FROM `$table`))) and a.status = 1 ORDER BY a.id LIMIT $size";
+        $sql = "SELECT a.id,a.title,a.author,a.articleThumbImg,a.createTime,a.updateTime,a.keywords,a.views,b.temp_archives FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE a.id >= (SELECT FLOOR(RAND() * (SELECT MAX(id) FROM `$table`))) and a.status = 1 and a.recycle = 0 ORDER BY a.id LIMIT $size";
         $list = Db::query($sql);
         foreach ($list as &$v){
             if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
@@ -163,7 +163,7 @@ class Article extends BaseController
         $prefix = Config::get('database.connections.mysql.prefix');
         $table = $prefix.'article';
         $table2 = $prefix.'category';
-        $sql = "SELECT a.id,a.cid,a.title,a.author,a.articleThumbImg,a.updateTime,a.keywords,a.views,b.name,b.temp_archives FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 ORDER BY a.id LIMIT $size";
+        $sql = "SELECT a.id,a.cid,a.title,a.author,a.articleThumbImg,a.updateTime,a.keywords,a.views,b.name,b.temp_archives FROM `$table` as a left join `$table2` as b on a.cid = b.id WHERE FIND_IN_SET($aid,attrId) > 0 and a.status = 1 and a.recycle = 0 ORDER BY a.id LIMIT $size";
         $list = Db::query($sql);
         foreach ($list as &$v){
             if(!$v['articleThumbImg'] || !file_exists($v['articleThumbImg'])){
