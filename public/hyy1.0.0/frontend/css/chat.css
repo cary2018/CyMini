@@ -43,13 +43,12 @@ body {
     position: relative;
     left: 50%;
     width: var(--wrapper);
-    height: 800px;
+    height: 690px;
     -webkit-transform: translate(-50%, 0);
     transform: translate(-50%, 0);
 }
 
 .photo-emo{
-    width: 202px;
     height: 160px;
     background: #ffffff;
     position: absolute;
@@ -203,6 +202,7 @@ body {
     float: left;
     width: 62.4%;
     height: 100%;
+    background:#fff;
 }
 .container .right .top {
     width: 100%;
@@ -223,11 +223,11 @@ body {
     position: relative;
     display: none;
     overflow: hidden;
-    padding: 0 35px 70px;
+    padding: 0 35px 10px;
     border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: var(--light);
-    height: calc(100% - 110px);
+    height: calc(100% - 200px);
     justify-content: center;
     flex-direction: column;
 }
@@ -280,19 +280,19 @@ body {
 }
 .container .right .write {
     position: absolute;
-    bottom: 29px;
-    left: 30px;
-    height: 42px;
+    bottom: 0px;
+    /* left: 30px; */
+    /* height: 42px; */
     padding-left: 8px;
-    border: 1px solid var(--light);
+    /* border: 1px solid var(--light); */
     background-color: #eceff1;
-    width: calc(100% - 58px);
+    width: calc(100% - 0px);
     border-radius: 5px;
 }
 .container .right .write input {
     font-size: 16px;
     float: left;
-    width: 320px;
+    width: 0px;
     height: 40px;
     padding: 0 10px;
     color: var(--dark);

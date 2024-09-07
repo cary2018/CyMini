@@ -33,7 +33,7 @@ layui.use(['form', 'jquery'], function() {
                 if(key !== uid){
                     if(nid !== key){
                         let html = '<li lay-submit lay-filter="tabEach" alt="'+key+'" class="person" id="'+key+'">';
-                        html +='<img src="/imgs/thomas.jpg" alt="">';
+                        html +='<img src="/images/6.jpg" alt="">';
                         html +='<span class="name">'+msg[key].username+'</span>';
                         html +='<span class="time"></span>';
                         html +='<span style="display: none;" class="group">'+msg[key].uid+'</span>';
@@ -131,10 +131,12 @@ layui.use(['form', 'jquery'], function() {
     $(window).on('keyup',function(e){
         if(e.keyCode==13){
             // 填敲击键盘enter键后实现的事件
-            var msg = $("#message").val();
-            var group = $("#group").val();
+            let msg = $("#message").val();
+            let group = $("#group").val();
+            //同时去掉空格和换行
+            let str = msg.replace(/[ ]|[\r\n]/g,"");
             // 触发服务端的chat message事件
-            if(msg){
+            if(str){
                 let data = {
                     'uid':uid,
                     'group':group,
@@ -156,9 +158,10 @@ layui.use(['form', 'jquery'], function() {
     });
     $(document).on('click', '#inputEmoji', function(data){
         let img = data.target.attributes.src.value;
-        let msg = '<img src="'+img+'" style="width:45px">';
+        let msg = '<img src="'+img+'" style="width:28px">';
         let group = $("#group").val();
-        // 触发服务端的chat message事件
+        //$("#message").append('<img src="'+img+'" style="width:28px">');
+        // 触发服务端的 chat message 事件
         let content = {
             'uid':uid,
             'group':group,
