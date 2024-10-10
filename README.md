@@ -1,5 +1,15 @@
 ## 系统安装
 
+github仓库： https://github.com/cary2018/CyMini
+
+压缩包下载地址：https://github.com/cary2018/update_cymini
+
+gitee仓库：  https://gitee.com/cary10000/CyMini
+
+压缩包下载地址：https://gitee.com/cary10000/update_cymini
+
+
+
 网站根目录指向 public 下
 
 **如果需要重新安装：**
