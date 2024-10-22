@@ -46,15 +46,6 @@ abstract class BaseController
     {
         $this->app     = $app;
         $this->request = $this->app->request;
-
-        // 指定要读取的目录
-        $directory = 'template/'.Cfg('view_path').'/';
-        // 配置模板路径
-        View::config(['view_path' =>$directory ]);
-
-        //echo Cfg('view_path');
-        $templateDir = '/'.$directory;
-        View::assign('view_path',$templateDir);
         $member = GetSe('MemberCenter');
         if($member){
             if(!$member['thumbImg']){

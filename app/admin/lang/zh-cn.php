@@ -413,4 +413,12 @@ return [
     'new_file_name'=>'新名',
     'update_file_name'=>'改名',
     'remove_form_file'=>'被移动文件',
+    //站群配置
+    'web_logo'=>'网站logo',
+    'web_domain'=>'网站域名',
+    'web_title'=>'网站标题',
+    'view_path'=>'网站模板',
+    'web_Copyright'=>'备案信息',
+    'web_Copy'=>'版权信息',
+    'web_footer_title'=>'底部标语|其他',
 ];

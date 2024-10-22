@@ -17,7 +17,9 @@ return [
     // 多语言加载
     // \think\middleware\LoadLangPack::class,
     // Session初始化
-    \think\middleware\SessionInit::class,
+    // \think\middleware\SessionInit::class,
     //加载自定义中间件
     \app\index\middleware\VisitLog::class,
+    //加载站群配置
+    \app\index\middleware\Domain::class,
 ];
