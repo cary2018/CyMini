@@ -82,6 +82,21 @@ function delDirectory($dirname){
 }
 
 /**
+ * @return array|false
+ * 读取网站模板
+ */
+function RedTemplate(){
+    // 使用 scandir() 函数读取目录
+    $dir = 'template/';
+    if(!file_exists($dir)){
+        mkdir($dir,0755);
+    }
+    $contents = scandir($dir);
+    return array_filter($contents, function ($item) {
+        return $item !== '.' && $item !== '..';
+    });
+}
+/**
  * @param $arr
  * @return mixed
  */
@@ -90,15 +105,7 @@ function TmHtml($arr){
         switch ($v['sys_type']){
             case 'input':
                 if($v['sys_variable'] == 'view_path'){
-                    // 使用 scandir() 函数读取目录
-                    $dir = 'template/';
-                    if(!file_exists($dir)){
-                        mkdir($dir,0755);
-                    }
-                    $contents = scandir($dir);
-                    $filteredItems = array_filter($contents, function ($item) {
-                        return $item !== '.' && $item !== '..';
-                    });
+                    $filteredItems = RedTemplate();
                     $path = Cfg('view_path');
                     $arr[$k]['sys_html'] = '<select name="content[]">';
                     foreach ($filteredItems as $item){
