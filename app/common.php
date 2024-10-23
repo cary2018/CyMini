@@ -1027,7 +1027,6 @@ function ImgCompress($src,$percent=1){
     list($width, $height, $type, $attr) = getimagesize($src);		//获取图片信息
     /**-----------------------------------------------------------------------------------------------------*/
     //对imagecreatefrom 系列函数进行拼接从文件或 URL 载入一幅图像，成功返回图像资源，失败则返回一个空字符串
-
     $func = "imagecreatefrom" . $typearr[$type - 1];
     $image = @$func($src);
     /**-----------------------------------------------------------------------------------------------------*/
@@ -1335,18 +1334,38 @@ function AreaList(){
 }
 
 /**
+ * @param string $dir
  * @throws \think\db\exception\DataNotFoundException
  * @throws \think\db\exception\DbException
  * @throws \think\db\exception\ModelNotFoundException
  * 更新配置文件
  */
-function putFile(){
+function putFile($dir = 'web.php'){
     $data = GetMenu('config');
     $arr = [];
     foreach($data as $v){
         $arr[$v['sys_variable']] = $v['sys_content'];
     }
-    $path = config_path().'web.php';
+    $path = config_path().$dir;
+    $str = "<?php \r\n".'return '.var_export($arr,true).';';
+    file_put_contents($path,$str);
+}
+/**
+ * @param string $dir
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\DbException
+ * @throws \think\db\exception\ModelNotFoundException
+ * 生成站群配置文件
+ */
+function putDomain($dir = 'domain.php'){
+    $data = AllTable('domain');
+    $arr = [];
+    foreach ($data as $item){
+        $domain = $item['web_domain'];
+        unset($item['web_domain']);
+        $arr[$domain] = $item;
+    }
+    $path = config_path().$dir;
     $str = "<?php \r\n".'return '.var_export($arr,true).';';
     file_put_contents($path,$str);
 }
@@ -1442,7 +1461,9 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
                 $saveName[$k]['code'] = 200;
                 $saveName[$k]['msg'] = lang('upload_success');
                 //压缩图片
-                ImgCompress($saveName[$k]['img'],1);
+                if($ext != 'ico'){
+                    ImgCompress($saveName[$k]['img'],1);
+                }
                 //生成缩略图
                 if($thumb){
                     $saveName[$k]['thumb'] = imgZip($saveName[$k]['img'],$path,$newWid,$newHei);
@@ -1470,8 +1491,34 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
             $files = request()->file($name);
             $saveName['img'] = \think\facade\Filesystem::disk('public')->putFile( $paths, $files,'uniqid');
             $saveName['img'] = 'uploads/'.$saveName['img'];
+            //获取文件后缀
+            $ext = $files->extension();
+            //判断文件上传类型
+            if(!in_array($ext,$imgArr)){
+                $msg = [
+                    'code'=>200,
+                    'ident'=>1,
+                    'msg'=>lang('upload_type_error').$fileType,
+                    'result'=>'',
+                ];
+                return $msg;
+            }
+            //获取文件大小
+            $Size = $files->getSize();
+            //判断文件上传大小
+            if($Size > $fileSize){
+                $msg = [
+                    'code'=>200,
+                    'ident'=>1,
+                    'msg'=>lang('upload_size_error').$fileSize,
+                    'result'=>'',
+                ];
+                return $msg;
+            }
             //压缩图片
-            ImgCompress($saveName['img'],1);
+            if($ext != 'ico'){
+                ImgCompress($saveName['img'],1);
+            }
             //生成缩略图
             if($thumb){
                 $saveName['thumb'] = imgZip($saveName['img'],$path,$newWid,$newHei);
