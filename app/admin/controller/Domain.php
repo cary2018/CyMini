@@ -58,6 +58,7 @@ class Domain extends BaseController
     public function saveAt(){
         $data = request()->param();
         $res = UploadImg('web_logo',0);
+        $ico = UploadImg('web_ico',0);
         if($res['code']==200){
             if($res['ident'] == 1){
                 $res['code'] = 300;
@@ -65,6 +66,15 @@ class Domain extends BaseController
                 die;
             }else{
                 $data['web_logo']=$res['result']['img'];
+            }
+        }
+        if($ico['code']==200){
+            if($ico['ident'] == 1){
+                $ico['code'] = 300;
+                echo json_encode($ico,JSON_UNESCAPED_UNICODE);
+                die;
+            }else{
+                $data['web_ico']=$ico['result']['img'];
             }
         }
         $model = new Model();

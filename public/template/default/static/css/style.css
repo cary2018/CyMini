@@ -79,6 +79,9 @@ body.home {background:url(images/bl.png) no-repeat fixed bottom left,url(images/
 100% {left:130%;}
 }
 /*注册登录样式*/
+.layadmin-user-jump-change {
+    float: right;
+}
 .layadmin-user-login-box {
     padding: 20px;
 }
