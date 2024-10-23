@@ -80,6 +80,9 @@ class Domain extends BaseController
             if(file_exists($data['web_logo'])) {
                 unlink($data['web_logo']);
             }
+            if(file_exists($data['web_ico'])) {
+                unlink($data['web_ico']);
+            }
             $msg = ['code'=>200,'msg'=>lang('delete_message')];
         }else{
             $msg = ['code'=>300,'msg'=>lang('fail_message'),'data'=>$id];

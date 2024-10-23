@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50562
 File Encoding         : 65001
 
-Date: 2024-10-23 13:59:05
+Date: 2024-10-23 14:43:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4228,7 +4228,7 @@ INSERT INTO `cy_config` VALUES ('7', '1', '--1', '系统名称', 'sys_title', 'C
 INSERT INTO `cy_config` VALUES ('5', '1', '--1', '底部标语', 'web_footer_title', '从黑暗中感觉到， 在无助的时候， 在夜里是谁对我说， 别心灰想得太多 全因你的一颗心，  在藏着的承诺， 现实里时常对我说， 你定会冲破一切， 全赖你给我一双手臂， 就算在北风中，  你也总没逃避， 全赖你给我一双手臂， 来为我奉上是最真挚的心， 似风呼应', '100', '模板调用{$Think.config.web.web_footer_title}', 'textarea');
 INSERT INTO `cy_config` VALUES ('8', '2', '--2', 'SMTP服务器', 'email_smtp', 'smtp.163.com', '100', 'SMTP服务器', 'input');
 INSERT INTO `cy_config` VALUES ('9', '2', '--2', '邮箱的用户名', 'email_account', 'kkyhyy@163.com', '100', 'SMTP 用户名  即邮箱的用户名', 'input');
-INSERT INTO `cy_config` VALUES ('10', '2', '--2', '邮箱授权码', 'email_password', 'PUQJJKOHMBILRCCO', '100', 'SMTP 密码  部分邮箱的授权码(例如163邮箱)', 'input');
+INSERT INTO `cy_config` VALUES ('10', '2', '--2', '邮箱授权码', 'email_password', '', '100', 'SMTP 密码  部分邮箱的授权码(例如163邮箱)', 'input');
 INSERT INTO `cy_config` VALUES ('11', '2', '--2', '服务器端口', 'email_port', '465', '100', '服务器端口 25 或者465 具体要看邮箱服务器支持', 'number');
 INSERT INTO `cy_config` VALUES ('12', '1', '--1', '站点关键字', 'web_key', '站点关键字', '100', '模板{$Think.config.web.web_key}', 'input');
 INSERT INTO `cy_config` VALUES ('13', '1', '--1', '站点描述', 'web_desc', '站点描述', '100', '模板调用{$Think.config.web.web_desc}', 'input');
@@ -4286,18 +4286,19 @@ CREATE TABLE `cy_domain` (
   `web_title` varchar(60) NOT NULL COMMENT '标题',
   `web_key` varchar(100) NOT NULL COMMENT '关键字',
   `web_desc` varchar(200) NOT NULL COMMENT '描述',
-  `web_Copyright` varchar(350) NOT NULL COMMENT '备案信息',
-  `web_Copy` varchar(350) NOT NULL COMMENT '版权信息',
+  `web_Copyright` text NOT NULL COMMENT '备案信息',
+  `web_Copy` text NOT NULL COMMENT '版权信息',
   `web_footer_title` varchar(350) NOT NULL COMMENT '底部标语|其他',
   `view_path` varchar(50) NOT NULL COMMENT '网站模板',
   `createTime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updateTime` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='站群配置表';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='站群配置表';
 
 -- ----------------------------
 -- Records of cy_domain
 -- ----------------------------
+INSERT INTO `cy_domain` VALUES ('1', 'www.9wdn.com', '', '', '夜九优', '', '', '', '', '', 'ckey', '1729664394', '1729664394');
 
 -- ----------------------------
 -- Table structure for cy_feedback
@@ -5173,7 +5174,7 @@ CREATE TABLE `cy_weblog` (
   `remark` varchar(30) NOT NULL DEFAULT '' COMMENT '描述',
   `createTime` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cy_weblog
@@ -5189,3 +5190,5 @@ INSERT INTO `cy_weblog` VALUES ('8', 'admin', '127.0.0.1', '0|0|0|内网IP|内�
 INSERT INTO `cy_weblog` VALUES ('9', 'admin', '127.0.0.1', '0|0|0|内网IP|内网IP', 'admin/collection/delAll', '采集管理 / 删除', '1729663013');
 INSERT INTO `cy_weblog` VALUES ('10', 'admin', '127.0.0.1', '0|0|0|内网IP|内网IP', 'admin/collection/delAll', '采集管理 / 删除', '1729663022');
 INSERT INTO `cy_weblog` VALUES ('11', 'admin', '127.0.0.1', '0|0|0|内网IP|内网IP', 'admin/collection/delAll', '采集管理 / 删除', '1729663029');
+INSERT INTO `cy_weblog` VALUES ('12', 'admin', '127.0.0.1', '0|0|0|内网IP|内网IP', 'admin/domain/saveAt', '未定义 / 保存', '1729664394');
+INSERT INTO `cy_weblog` VALUES ('13', 'admin', '127.0.0.1', '0|0|0|内网IP|内网IP', 'admin/system/batchSave', '系统配置 / 批量保存', '1729665783');
