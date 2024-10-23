@@ -415,6 +415,7 @@ return [
     'remove_form_file'=>'被移动文件',
     //站群配置
     'web_logo'=>'网站logo',
+    'web_ico'=>'ico图标',
     'web_domain'=>'网站域名',
     'web_title'=>'网站标题',
     'view_path'=>'网站模板',

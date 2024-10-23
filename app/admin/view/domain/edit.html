@@ -24,7 +24,7 @@
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show layuimini-form">
                     <div class="layui-form-item">
-                        <label for="thumb_img" class="layui-form-label">{$Think.lang.web_logo}</label>
+                        <label class="layui-form-label" style="top:10px;">{$Think.lang.web_logo}</label>
                         <div class="z_file fl">
                             {if $data.web_logo}
                             <img src="{$data.web_logo|ImgPath}" id="show_img" class="add_img">
@@ -33,10 +33,21 @@
                             {/if}
                             <input type="file" class="up_file" id="thumb_img" name="web_logo" onchange="PreviewImg('thumb_img','show_img')" accept="image/*">
                         </div>
-
-                        <div class="layui-input-inline" style="margin-top:25px;width:70%;">
+                        <div class="layui-input-inline" style="margin-top:15px;width:20%;">
                             <input type="text" name="web_logo" value="{$data.web_logo}" class="layui-input">
                             <input type="hidden" name="id" value="{$data.id}" class="layui-input">
+                        </div>
+                        <label class="layui-form-label" style="top:10px;">{$Think.lang.web_ico}</label>
+                        <div class="z_file fl">
+                            {if $data.web_logo}
+                            <img src="{$data.web_ico|ImgPath}" id="shows_img" class="add_img">
+                            {else}
+                            <img src="/images/all.png" id="shows_img" class="add_img">
+                            {/if}
+                            <input type="file" class="up_file" id="thumbs_img" name="web_ico" onchange="PreviewImg('thumbs_img','shows_img')" accept="image/*">
+                        </div>
+                        <div class="layui-input-inline" style="margin-top:15px;width:20%;">
+                            <input type="text" name="web_ico" value="" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -56,7 +67,7 @@
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">{$Think.lang.web_title}</label>
-                        <div class="layui-input-inline">
+                        <div class="layui-input-block">
                             <input type="text" name="web_title" lay-verify="required" lay-reqtext="{$Think.lang.requireEmpty}" value="{$data.web_title}" class="layui-input">
                         </div>
                     </div>

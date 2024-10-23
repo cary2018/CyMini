@@ -28,6 +28,9 @@ class Domain extends Model
                 if(file_exists($img['web_logo']) && $data['web_logo']!=$img['web_logo']){
                     unlink($img['web_logo']);
                 }
+                if(file_exists($img['web_ico']) && $data['web_ico']!=$img['web_ico']){
+                    unlink($img['web_ico']);
+                }
             }
         }
         SaveAt('domain',$data);
