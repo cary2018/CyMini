@@ -2,6 +2,7 @@
 // 应用公共文件
 use think\facade\Cache;
 use think\facade\Session;
+use think\facade\Cookie;
 use think\facade\Config;
 use think\facade\Db;
 use PHPMailer\PHPMailer\Exception;
@@ -178,6 +179,31 @@ function GetSe($name){
  */
 function DelSe($name){
     Session::delete($name);
+}
+
+/**
+ * @param string $name cookie名
+ * @param string $value  cookie值
+ * @param int $expire 过期时间
+ * 设置cookie
+ */
+function SetCk($name,$value,$expire=3600){
+    Cookie::set($name,$value,$expire);
+}
+
+/**
+ * @param string $name
+ * 获取cookie
+ */
+function GetCk($name){
+    return Cookie::get($name,'');
+}
+/**
+ * @param string $name
+ * 删除cookie
+ */
+function DelCk($name){
+    Cookie::delete($name);
 }
 
 /**
@@ -365,11 +391,12 @@ function FindTable($table,$where = [],$order=['id'=>'desc']){
  * @param $table
  * @param array $where
  * @param string $alias
+ * @param string $group
  * @return int
  * 返回表总数据数
  */
-function CountTable($table, $where=[],$alias=''){
-    return Db::name($table)->alias($alias)->where($where)->count();
+function CountTable($table, $where=[],$alias='',$group=''){
+    return Db::name($table)->alias($alias)->where($where)->group($group)->count();
 }
 
 /**
@@ -405,13 +432,14 @@ function getNav(){
  * @param int $size   显示数量
  * @param array $where  条件
  * @param string[] $order  排序
+ * @param string $group  分组
  * @throws \think\db\exception\DataNotFoundException
  * @throws \think\db\exception\DbException
  * @throws \think\db\exception\ModelNotFoundException
  *
  */
-function pageTable($table,$start=0,$size=10,$where=[],$order=['id'=>'desc']){
-    return Db::name($table)->where($where)->order($order)->page($start,$size)->select()->toArray();
+function pageTable($table,$start=0,$size=10,$where=[],$order=['id'=>'desc'],$group=''){
+    return Db::name($table)->where($where)->group($group)->order($order)->page($start,$size)->select()->toArray();
 }
 
 function joinTable($table,$table2,$start=0,$size=10,$where=[],$order=['id'=>'desc']){
@@ -1484,7 +1512,6 @@ function UploadImg($name,$thumb = 1,$path='',$newWid=350, $newHei=350){
             ];
             return $msg;
         }
-
     } else {
         if(isset($_FILES[$name]) && $_FILES[$name]['error'] === UPLOAD_ERR_OK) {
             // 获取上传文件

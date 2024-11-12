@@ -16,6 +16,6 @@ return [
     'updateFile'=>'update_cymini.zip',
     'updateSql'=>'database.sql',
     'name'=>'CyMini内容管理系统',
-    'code'=>'202410230209',
+    'code'=>'2024.1113.0107',
     'copyright' => 'CyMini',
 ];

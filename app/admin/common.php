@@ -384,6 +384,7 @@ function WebLog(){
         'repcon',
         'rep',
         'sql',
+        'check',
     ];
     $bool = inArr($path,$skip);
     if(!$bool){

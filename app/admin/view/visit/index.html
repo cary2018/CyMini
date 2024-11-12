@@ -43,6 +43,13 @@
                                 <input type="text" name="region" placeholder="{$Think.lang.region}" autocomplete="off" class="layui-input">
                             </div>
                         </div>
+                        <div class="layui-inline">
+                            <select name="guv" layui.formselect>
+                                <option value="">{$Think.lang.pv_count}</option>
+                                <option value="guv" >{$Think.lang.uv_count}</option>
+                                <option value="ip" >{$Think.lang.ip_count}</option>
+                            </select>
+                        </div>
                         <div class="layui-inline" id="">
                             <div class="layui-input-inline" style="width:300px">
                                 <input type="text" autocomplete="off" placeholder="yyyy-m-d H:i:s ~ yyyy-m-d H:i:s" name="range" id="laydate-range" class="layui-input">
@@ -65,9 +72,6 @@
             <span id="SwitchUrl" alt="{:url('switchAt')}" style="display: none"></span>
             <span id="AddUrl" alt="{:url('add')}" style="display: none"></span>
             <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> {$Think.lang.batchDel} </button>
-			<span class="layui-btn layui-btn-sm layui-btn-radius layui-btn-primary">
-                {$Think.lang.visit_total}：{$views}--{$Think.lang.today_total}：{$today}
-            </span>
         </div>
         <!--数据-->
         <table class="layui-hide" id="DataDemos" lay-filter="DataDemos"></table>
