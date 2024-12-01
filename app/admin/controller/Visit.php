@@ -39,6 +39,9 @@ class Visit extends BaseController
         $group = '';
         if(array_key_exists('data',$data)){
             foreach ($data['data'] as $k=>$v){
+                if(!$v['value']){
+                    continue;
+                }
                 if($v['name'] == 'range'){
                     if($v['value']){
                         $atime = explode(' ~ ',$v['value']);
@@ -46,14 +49,13 @@ class Visit extends BaseController
                         $et = strtotime($atime[1]);
                         $where[] = ['createTime','between',[$st,$et]];
                     }
-                }else{
-                    if($v['name'] == 'guv'){
-                        if($v['value']){
-                            $group = $v['value'];
-                        }
-                    }else{
-                        $where[] = [$v['name'],'like','%'.$v['value'].'%'];
+                }
+                if($v['name'] == 'guv'){
+                    if($v['value']){
+                        $group = $v['value'];
                     }
+                }else{
+                    $where[] = [$v['name'],'like','%'.$v['value'].'%'];
                 }
             }
         }
