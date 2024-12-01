@@ -29,7 +29,9 @@ class VisitLog
         $uv = md5($day.uniqid().time());
         if(GetSe('clientExpTime') != $day || GetCk('guvs') == ''){
             SetSe('clientExpTime',$day);
-            SetCk('guvs',$uv,86400);
+            if(GetCk('guvs') == ''){
+                SetCk('guvs',$uv,86400);
+            }
         }
         $guv = GetCk('guvs');
         if(!$guv){
