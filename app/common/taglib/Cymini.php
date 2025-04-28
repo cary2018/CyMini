@@ -31,6 +31,7 @@ class Cymini extends TagLib
         'detail'              => ['attr' => '','expression'=>1,'close'=>0],
         'page'                => ['attr' => '','close'=>0],
         'total'               => ['attr' => '','close'=>0],
+        'totalcount'          => ['attr' => '','close'=>0],
         'feedback'            => ['attr' => 'aid,num,start','expression'=>1,'close'=>1],
         'breadcrumb'          => ['attr' => 'aid','expression'=>1,'close'=>1],
         'next'                => ['attr' => 'cid','expression'=>1,'close'=>1],
@@ -107,7 +108,7 @@ class Cymini extends TagLib
             $tag['num'] = 10;
         }
         $parse = '<?php ';
-        $parse .= '$__link__ = pageTable(\'link\',0,' . intval($tag['num']) . ',[\'enable\'=>1]);';
+        $parse .= '$__link__ = pageTable(\'link\',0,' . intval($tag['num']) . ',[\'enable\'=>1]' .',[\'orderSort\'=>\'desc\']);';
         $parse .= '$__LIST__ = $__link__;';
         $parse .= ' ?>';
         $parse .= '{volist name="__LIST__" id="' . $tag['id'] . '" key="'.$tag['key'].'"';
@@ -380,7 +381,7 @@ class Cymini extends TagLib
     }
 
     /**
-     * 友情链接标签
+     * 统计
      */
     public function tagTotal($tag)
     {
@@ -389,6 +390,23 @@ class Cymini extends TagLib
         }
         if(empty($tag['where'])){
             $tag['where'] = '[["status","=",1]]';
+        }
+        $parse = '<?php ';
+        $parse .= '$__totals__ = CountTable("'.$tag['table'].'",'.$tag['where'].');';
+        $parse .= 'echo $__totals__;';
+        $parse .= ' ?>';
+        return $parse;
+    }
+
+    public function tagTotalCount($tag)
+    {
+        if(empty($tag['table'])){
+            $tag['table'] = 'article';
+        }
+        $today_start=mktime(0,0,0,date('m'),date('d'),date('Y'));
+        $today_end=mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1;
+        if(empty($tag['where'])){
+            $tag['where'] = "[['createTime','between',[$today_start,$today_end]]]";
         }
         $parse = '<?php ';
         $parse .= '$__totals__ = CountTable("'.$tag['table'].'",'.$tag['where'].');';
